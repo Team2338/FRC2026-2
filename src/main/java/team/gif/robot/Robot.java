@@ -29,13 +29,13 @@ public class Robot extends TimedRobot {
 
     public static Pigeon2_0 pigeon;
 
-    public static SwerveConfiguration swerveConfig;
-    public static SwerveDrivetrain swerveDrive;
+  /*  public static SwerveConfiguration swerveConfig;
+    public static SwerveDrivetrain swerveDrive;*/
 
     public static UI ui;
 
-    public static final boolean enableSwerveDebug = true;
-    public static final boolean fullDashboard = true;
+   // public static final boolean enableSwerveDebug = true;
+  //  public static final boolean fullDashboard = true;
 
 
     /**
@@ -49,12 +49,12 @@ public class Robot extends TimedRobot {
 
         pigeon = new Pigeon2_0(RobotMap.PIGEON_ID);
 
-        swerveConfig = new SwerveConfiguration(new RobotMap.Mk4Map(), new Constants.Mk4Constants(), TalonFXDriveMotor::new, TalonFXTurnMotor::new, CANCoderEncoder::new);
-//        swerveConfig = new SwerveConfiguration(new RobotMap.Mk3Map(), new Constants.Mk3Constants(), SparkMaxDriveMotor::new, TalonSRXTurnMotorEncoder::new, null);
+       /* swerveConfig = new SwerveConfiguration(new RobotMap.Mk4Map(), new Constants.Mk4Constants(), TalonFXDriveMotor::new, TalonFXTurnMotor::new, CANCoderEncoder::new);
+        swerveConfig = new SwerveConfiguration(new RobotMap.Mk3Map(), new Constants.Mk3Constants(), SparkMaxDriveMotor::new, TalonSRXTurnMotorEncoder::new, null);
         swerveDrive = new SwerveDrivetrain(swerveConfig);
         swerveDrive.setDefaultCommand(new DriveSwerve());
         swerveDrive.enableDebugMode();
-//        swerveDrive.addLimelight("limelight-front");
+        swerveDrive.addLimelight("limelight-front");*/
 
         //These should be at or near the bottom
         oi = new OI();
