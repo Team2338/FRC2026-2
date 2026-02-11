@@ -1,7 +1,5 @@
 package team.gif.lib;
 
-import team.gif.robot.Robot;
-
 //public enum drivePace {
    // COAST_FR(Robot.swerveConfig.constants.COAST_SPEED_METERS_PER_SECOND, true),
     //COAST_RR(Robot.swerveConfig.constants.COAST_SPEED_METERS_PER_SECOND, false),

@@ -11,4 +11,8 @@ public abstract class RobotMap {
 
 
     public static final int PIGEON_ID = 9;
+    public static final int REAR_LEFT_CIM = 0;
+    public static final int REAR_RIGHT_CIM = 0;
+    public static final int FRONT_LEFT_CIM = 0;
+    public static final int FRONT_RIGHT_CIM = 0;
 }
