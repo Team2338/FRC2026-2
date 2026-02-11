@@ -18,11 +18,16 @@ import edu.wpi.first.math.system.plant.DCMotor;
  */
 public final class Constants {
     public static final double DEBOUNCE_DEFAULT = 0.020;
+    public static final double TURRET_P = .035;
+    public static final double TURRET_I = 0;
+    public static final double TURRET_D = 0;
+    public static final double SINER_SPPED  = .5;
 
     //These constants should be referenced via Robot.swerveDrive.getConstants();
 
 
     public static final class Joystick {
         public static final double DEADBAND = 0.1;
+
     }
 }

@@ -8,6 +8,10 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
+import team.gif.lib.LimelightHelpers;
+import team.gif.robot.subsystems.SpinDexer;
+import team.gif.robot.subsystems.Turret;
+import team.gif.robot.subsystems.drivers.Limelight;
 import team.gif.robot.subsystems.drivers.Pigeon2_0;
 
 
@@ -22,10 +26,12 @@ public class Robot extends TimedRobot {
     private static Command autonomousCommand;
     private RobotContainer robotContainer;
     public static OI oi;
+    public static Limelight limelight;
 
     public static Pigeon2_0 pigeon;
-
-  /*  public static SwerveConfiguration swerveConfig;
+    public static Turret turret;
+    public static SpinDexer spinDexer;
+    /*  public static SwerveConfiguration swerveConfig;
     public static SwerveDrivetrain swerveDrive;*/
 
     public static UI ui;
@@ -53,6 +59,9 @@ public class Robot extends TimedRobot {
         swerveDrive.addLimelight("limelight-front");*/
 
         //These should be at or near the bottom
+        spinDexer = new SpinDexer();
+        limelight = new Limelight();
+        turret = new Turret();
         oi = new OI();
         ui = new UI();
 
@@ -106,6 +115,7 @@ public class Robot extends TimedRobot {
     /** This function is called periodically during operator control. */
     @Override
     public void teleopPeriodic() {}
+
 
     @Override
     public void testInit() {

@@ -3,6 +3,9 @@ package team.gif.robot;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import team.gif.robot.commands.SpinerSpin;
+import team.gif.robot.commands.TurretTurn;
+
 public class OI {
     /*
      * Instantiate all joysticks/controllers and their buttons here
@@ -70,6 +73,8 @@ public class OI {
 
     public OI() {
         DriverStation.silenceJoystickConnectionWarning(true);
+        dA.whileTrue(new TurretTurn());
+        dB.whileTrue(new SpinerSpin());
 
         /*
          *
@@ -92,4 +97,5 @@ public class OI {
 
 
     }
+
 }
