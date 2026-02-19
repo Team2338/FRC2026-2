@@ -25,8 +25,11 @@ private final PIDController alignPID;
     @Override
     public void execute() {
         double targetingAngularVelocity = alignPID.calculate(Robot.limelight.getXOffset(),0);
-        targetingAngularVelocity *= -1.0;
+        targetingAngularVelocity *= -1;
         Robot.turret.turn(targetingAngularVelocity);
+        System.out.println(Robot.limelight.getXOffset());
+        System.out.println("voltage");
+        System.out.println(targetingAngularVelocity);
     }
 
     // Return true when the command should end, false if it should continue. Runs every ~20ms.
@@ -34,10 +37,10 @@ private final PIDController alignPID;
     public boolean isFinished() {
             return false;
     }
-
+//hello world
     // Called when the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
-
+        Robot.turret.turn(0);
     }
 }

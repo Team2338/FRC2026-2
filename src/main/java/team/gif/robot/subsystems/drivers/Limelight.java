@@ -36,7 +36,7 @@ public class Limelight {
      * Create a new limelight object with default key.
      */
     public Limelight() {
-        this("limelight");
+        this("limelight-turret");
     }
 
     /**
