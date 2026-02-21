@@ -26,7 +26,7 @@ private final PIDController alignPID;
     public void execute() {
         double targetingAngularVelocity = alignPID.calculate(Robot.limelight.getXOffset(),0);
         targetingAngularVelocity *= 1;
-        Robot.turret.setRPM(targetingAngularVelocity*300);
+        Robot.turret.setRPM(targetingAngularVelocity*350);
         System.out.println(Robot.limelight.getXOffset());
         System.out.println("voltage");
         System.out.println(targetingAngularVelocity);
