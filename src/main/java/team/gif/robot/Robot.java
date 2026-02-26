@@ -48,8 +48,9 @@ public class Robot extends TimedRobot {
         // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
         // autonomous chooser on the dashboard.
         robotContainer = new RobotContainer();
-
+        limelight = new Limelight("limelight-turret");
         pigeon = new Pigeon2_0(RobotMap.PIGEON_ID);
+        Robot.limelight.setDistanceEstimatorParams(Constants.turret.limelightMountAngleDegrees,Constants.turret.limelightLensHeightInches,Constants.turret.goalHeightInches,0);
 
        /* swerveConfig = new SwerveConfiguration(new RobotMap.Mk4Map(), new Constants.Mk4Constants(), TalonFXDriveMotor::new, TalonFXTurnMotor::new, CANCoderEncoder::new);
         swerveConfig = new SwerveConfiguration(new RobotMap.Mk3Map(), new Constants.Mk3Constants(), SparkMaxDriveMotor::new, TalonSRXTurnMotorEncoder::new, null);
@@ -60,7 +61,7 @@ public class Robot extends TimedRobot {
 
         //These should be at or near the bottom
         spinDexer = new SpinDexer();
-        limelight = new Limelight();
+
         turret = new Turret();
         oi = new OI();
         ui = new UI();

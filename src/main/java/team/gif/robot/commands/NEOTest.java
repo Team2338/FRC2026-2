@@ -19,7 +19,8 @@ public class NEOTest extends Command {
     // Called every time the scheduler runs (~20ms) while the command is scheduled
     @Override
     public void execute() {
-        Robot.turret.turn(7);
+        Robot.turret.turn(11);
+        System.out.println("moving");
     }
 
     // Return true when the command should end, false if it should continue. Runs every ~20ms.

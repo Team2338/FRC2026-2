@@ -1,10 +1,14 @@
 package team.gif.robot.commands;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj2.command.Command;
 import team.gif.lib.LimelightHelpers;
 import team.gif.robot.Constants;
 import team.gif.robot.Robot;
+import team.gif.robot.subsystems.drivers.Limelight;
 
 public class TurretTurn extends Command {
 private final PIDController alignPID;
@@ -25,11 +29,15 @@ private final PIDController alignPID;
     @Override
     public void execute() {
         double targetingAngularVelocity = alignPID.calculate(Robot.limelight.getXOffset(),0);
-        targetingAngularVelocity *= 1;
+        targetingAngularVelocity *= -1;
         Robot.turret.setRPM(targetingAngularVelocity*350);
         System.out.println(Robot.limelight.getXOffset());
         System.out.println("voltage");
         System.out.println(targetingAngularVelocity);
+        Robot.limelight.getDistance();
+        System.out.println(Robot.limelight.getDistance());
+
+
     }
 
     // Return true when the command should end, false if it should continue. Runs every ~20ms.

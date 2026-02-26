@@ -22,6 +22,15 @@ public final class Constants {
     public static final double TURRET_I = 0;
     public static final double TURRET_D = 0;
     public static final double SINER_SPPED  = 2;
+    public static final class turret{
+        public static final double limelightMountAngleDegrees = 27.83;
+                //15.73469965;
+        public static final double limelightLensHeightInches = 43;
+        public static final double goalHeightInches =79.75;
+                //17.25;
+                //14.125;
+    }
+
 
     //These constants should be referenced via Robot.swerveDrive.getConstants();
 
