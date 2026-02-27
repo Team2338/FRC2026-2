@@ -29,5 +29,8 @@ public class SpinerSpin extends Command {
 
     // Called when the command ends or is interrupted.
     @Override
-    public void end(boolean interrupted) {}
+    public void end(boolean interrupted) {
+        Robot.spinDexer.spin(0);
+
+    }
 }

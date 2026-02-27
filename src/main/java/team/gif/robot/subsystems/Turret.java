@@ -16,6 +16,7 @@ import com.revrobotics.spark.config.SparkFlexConfig;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import edu.wpi.first.units.measure.Velocity;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import org.w3c.dom.ls.LSOutput;
 import team.gif.robot.RobotMap;
 
 public class Turret extends SubsystemBase {
@@ -39,8 +40,13 @@ public class Turret extends SubsystemBase {
 
         turretConfig.idleMode(SparkMaxConfig.IdleMode.kBrake); //or replace kBrake with kCoast
         turretConfig.inverted(true); //true or false
+        turretConfig.softLimit.forwardSoftLimit(.5);
+        turretConfig.softLimit.forwardSoftLimitEnabled(true);
+        turretConfig.softLimit.reverseSoftLimit(.5);
+        turretConfig.softLimit.reverseSoftLimitEnabled(true);
 
         turret.configure(turretConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+
     }
 
 
