@@ -9,6 +9,10 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 import team.gif.lib.LimelightHelpers;
+import team.gif.robot.commands.TurretTurn;
+import team.gif.robot.subsystems.IndexerWheels;
+import team.gif.robot.subsystems.NeoSpinDexer;
+import team.gif.robot.subsystems.Shooter;
 import team.gif.robot.subsystems.SpinDexer;
 import team.gif.robot.subsystems.Turret;
 import team.gif.robot.subsystems.drivers.Limelight;
@@ -27,7 +31,9 @@ public class Robot extends TimedRobot {
     private RobotContainer robotContainer;
     public static OI oi;
     public static Limelight limelight;
-
+    public static IndexerWheels indexerWheels;
+    public static NeoSpinDexer neoSpinDexer;
+    public static Shooter shooter;
     public static Pigeon2_0 pigeon;
     public static Turret turret;
     public static SpinDexer spinDexer;
@@ -50,19 +56,25 @@ public class Robot extends TimedRobot {
         robotContainer = new RobotContainer();
         limelight = new Limelight("limelight-turret");
         pigeon = new Pigeon2_0(RobotMap.PIGEON_ID);
+        turret = new Turret();
+        spinDexer = new SpinDexer();
+        neoSpinDexer = new NeoSpinDexer();
+        shooter = new Shooter();
+        indexerWheels = new IndexerWheels();
         Robot.limelight.setDistanceEstimatorParams(Constants.turret.limelightMountAngleDegrees,Constants.turret.limelightLensHeightInches,Constants.turret.goalHeightInches,0);
-
+        Robot.turret.setDefaultCommand(new TurretTurn());
        /* swerveConfig = new SwerveConfiguration(new RobotMap.Mk4Map(), new Constants.Mk4Constants(), TalonFXDriveMotor::new, TalonFXTurnMotor::new, CANCoderEncoder::new);
         swerveConfig = new SwerveConfiguration(new RobotMap.Mk3Map(), new Constants.Mk3Constants(), SparkMaxDriveMotor::new, TalonSRXTurnMotorEncoder::new, null);
         swerveDrive = new SwerveDrivetrain(swerveConfig);
         swerveDrive.setDefaultCommand(new DriveSwerve());
+
         swerveDrive.enableDebugMode();
         swerveDrive.addLimelight("limelight-front");*/
 
         //These should be at or near the bottom
-        spinDexer = new SpinDexer();
 
-        turret = new Turret();
+
+
         oi = new OI();
         ui = new UI();
 

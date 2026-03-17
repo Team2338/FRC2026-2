@@ -7,8 +7,10 @@ public abstract class RobotMap {
     public static final int DRIVER_CONTROLLER_ID = 0;
     public static final int AUX_CONTROLLER_ID = 1;
     public static final int TEST_CONTROLLER_ID = 2;
-    public static final int TURRET_MOTOR_ID = 4;
+    public static final int TURRET_MOTOR_ID = 20;
     public static final int SPIN_DEXER_MOTOR_ID = 202;
+    public static final int INDEX_MOTER_ID = 303;
+    public static final int SHOOT_MOTOR_ID = 16;
 
 
 

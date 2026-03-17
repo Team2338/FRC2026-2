@@ -1,14 +1,9 @@
 package team.gif.robot.commands;
 
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.networktables.NetworkTable;
-import edu.wpi.first.networktables.NetworkTableEntry;
-import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj2.command.Command;
-import team.gif.lib.LimelightHelpers;
 import team.gif.robot.Constants;
 import team.gif.robot.Robot;
-import team.gif.robot.subsystems.drivers.Limelight;
 
 public class TurretTurn extends Command {
 private final PIDController alignPID;
@@ -31,12 +26,20 @@ private final PIDController alignPID;
     public void execute() {
         double targetingAngularVelocity = alignPID.calculate(Robot.limelight.getXOffset(),0);
         targetingAngularVelocity *= -1;
-        Robot.turret.setRPM(targetingAngularVelocity*350);
+        Robot.turret.turn(targetingAngularVelocity*700);
         System.out.println(Robot.limelight.getXOffset());
         System.out.println("voltage");
         System.out.println(targetingAngularVelocity);
         Robot.limelight.getDistance();
         System.out.println(Robot.limelight.getDistance());
+        System.out.println(Robot.limelight.getXOffset());
+//        if (Robot.limelight.getXOffset()<.5){
+//            Robot.shooter.setRPM(Constants.SHOOTER_RPM);
+//            if(Robot.shooter.getRPM()>2500){
+//                Robot.neoSpinDexer.turn(Constants.SPINNER_SPEED_PER);
+//                Robot.indexerWheels.turn(Constants.INDEX_WHEELS_SPEED_PER);
+//            }
+//        }
 
 
     }
@@ -51,5 +54,8 @@ private final PIDController alignPID;
     @Override
     public void end(boolean interrupted) {
         Robot.turret.turn(0);
+        Robot.neoSpinDexer.turn(0);
+        Robot.shooter.setRPM(0);
+        Robot.indexerWheels.turn(0);
     }
 }

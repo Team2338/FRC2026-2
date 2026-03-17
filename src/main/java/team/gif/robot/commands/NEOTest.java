@@ -19,7 +19,7 @@ public class NEOTest extends Command {
     // Called every time the scheduler runs (~20ms) while the command is scheduled
     @Override
     public void execute() {
-        Robot.turret.turn(11);
+        Robot.turret.turn(3);
         System.out.println("moving");
     }
 

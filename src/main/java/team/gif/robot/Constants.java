@@ -4,9 +4,6 @@
 
 package team.gif.robot;
 
-import edu.wpi.first.math.controller.SimpleMotorFeedforward;
-import edu.wpi.first.math.system.plant.DCMotor;
-
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -18,15 +15,19 @@ import edu.wpi.first.math.system.plant.DCMotor;
  */
 public final class Constants {
     public static final double DEBOUNCE_DEFAULT = 0.020;
-    public static final double TURRET_P = .02;
-    public static final double TURRET_I = 0;
+    public static final double TURRET_P = .00003;//.00003 good
+            //0.02;
+    public static final double TURRET_I = 0.00003;//0.00003;//.000015
     public static final double TURRET_D = 0;
-    public static final double SINER_SPPED  = 2;
+    public static final double SINER_SPPED_VOLT = 2;
+    public static final double SPINNER_SPEED_PER = .5;
+    public static final double INDEX_WHEELS_SPEED_PER = .5;
+    public static final double SHOOTER_RPM = 3000;
     public static final class turret{
         public static final double limelightMountAngleDegrees = 27.83;
                 //15.73469965;
-        public static final double limelightLensHeightInches = 43;
-        public static final double goalHeightInches =79.75;
+        public static final double limelightLensHeightInches = 23;
+        public static final double goalHeightInches =44.125;
                 //17.25;
                 //14.125;
     }
