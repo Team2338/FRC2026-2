@@ -24,15 +24,23 @@ private final PIDController alignPID;
     // Called every time the scheduler runs (~20ms) while the command is scheduled
     @Override
     public void execute() {
-        double targetingAngularVelocity = alignPID.calculate(Robot.limelight.getXOffset(),0);
-        targetingAngularVelocity *= -1;
-        Robot.turret.turn(targetingAngularVelocity*700);
-        System.out.println(Robot.limelight.getXOffset());
-        System.out.println("voltage");
-        System.out.println(targetingAngularVelocity);
-        Robot.limelight.getDistance();
-        System.out.println(Robot.limelight.getDistance());
-        System.out.println(Robot.limelight.getXOffset());
+        if (!Robot.manualMode) {
+            double targetingAngularVelocity = alignPID.calculate(Robot.limelight.getXOffset(), 0);
+            targetingAngularVelocity *= -1;
+            Robot.turret.turn(targetingAngularVelocity * 800);
+            System.out.println(Robot.limelight.getXOffset());
+            System.out.println("voltage");
+            System.out.println(targetingAngularVelocity);
+            Robot.limelight.getDistance();
+            System.out.println(Robot.limelight.getDistance());
+            System.out.println(Robot.limelight.getXOffset());
+        }
+        else {
+            double speed = Robot.oi.driver.getRightX();
+            Robot.turret.PerTurn(speed*.05);
+        }
+        Robot.manualMode = Math.abs(Robot.oi.driver.getRightX()) > .05;
+
 //        if (Robot.limelight.getXOffset()<.5){
 //            Robot.shooter.setRPM(Constants.SHOOTER_RPM);
 //            if(Robot.shooter.getRPM()>2500){
@@ -54,8 +62,7 @@ private final PIDController alignPID;
     @Override
     public void end(boolean interrupted) {
         Robot.turret.turn(0);
-        Robot.neoSpinDexer.turn(0);
-        Robot.shooter.setRPM(0);
-        Robot.indexerWheels.turn(0);
     }
+
+
 }

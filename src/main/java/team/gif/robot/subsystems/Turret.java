@@ -54,6 +54,9 @@ public class Turret extends SubsystemBase {
     public void turn(double voltage) {
         turret.setVoltage(voltage);
     }
+    public void PerTurn(double percent){
+        turret.set(percent);
+    }
 
     public void setRPM(double rpm) {
         neoPID.setSetpoint(rpm, SparkBase.ControlType.kVelocity);

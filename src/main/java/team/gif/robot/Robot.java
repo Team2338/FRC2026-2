@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 import team.gif.lib.LimelightHelpers;
+import team.gif.robot.commands.ManualTurn;
 import team.gif.robot.commands.TurretTurn;
 import team.gif.robot.subsystems.IndexerWheels;
 import team.gif.robot.subsystems.NeoSpinDexer;
@@ -45,6 +46,8 @@ public class Robot extends TimedRobot {
    // public static final boolean enableSwerveDebug = true;
   //  public static final boolean fullDashboard = true;
 
+    public static boolean manualMode = false;
+
 
     /**
      * This function is run when the robot is first started up and should be used for any
@@ -61,6 +64,7 @@ public class Robot extends TimedRobot {
         neoSpinDexer = new NeoSpinDexer();
         shooter = new Shooter();
         indexerWheels = new IndexerWheels();
+        //turret.setDefaultCommand(new ManualTurn());
         Robot.limelight.setDistanceEstimatorParams(Constants.turret.limelightMountAngleDegrees,Constants.turret.limelightLensHeightInches,Constants.turret.goalHeightInches,0);
         Robot.turret.setDefaultCommand(new TurretTurn());
        /* swerveConfig = new SwerveConfiguration(new RobotMap.Mk4Map(), new Constants.Mk4Constants(), TalonFXDriveMotor::new, TalonFXTurnMotor::new, CANCoderEncoder::new);
@@ -147,4 +151,8 @@ public class Robot extends TimedRobot {
     /** This function is called periodically whilst in simulation. */
     @Override
     public void simulationPeriodic() {}
+
+    public void setManualMode(boolean isManualMode) {
+        manualMode = isManualMode;
+    }
 }
