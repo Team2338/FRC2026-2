@@ -14,9 +14,11 @@ import com.revrobotics.spark.*;
 import com.revrobotics.spark.config.EncoderConfig;
 import com.revrobotics.spark.config.SparkFlexConfig;
 import com.revrobotics.spark.config.SparkMaxConfig;
+import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.units.measure.Velocity;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import org.w3c.dom.ls.LSOutput;
+import team.gif.lib.LimelightHelpers;
 import team.gif.robot.RobotMap;
 
 public class Turret extends SubsystemBase {
@@ -25,9 +27,9 @@ public class Turret extends SubsystemBase {
     public SparkClosedLoopController neoPID;
     public RelativeEncoder turretEncoder;
     public SparkMaxConfig turretConfig;
-    double Kp =0;
+    double Kp = 0.05;
         //0.00025;
-    double Ki = 0;
+    double Ki = 0.001;
     double Kd = 0;
     public Turret() {
         turret = new SparkMax(RobotMap.TURRET_MOTOR_ID, SparkLowLevel.MotorType.kBrushless);
@@ -48,6 +50,7 @@ public class Turret extends SubsystemBase {
 
         turret.configure(turretConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
+
     }
 
 
@@ -61,5 +64,12 @@ public class Turret extends SubsystemBase {
     public void setRPM(double rpm) {
         neoPID.setSetpoint(rpm, SparkBase.ControlType.kVelocity);
     }
+
+    public void turnToPoint(double point){neoPID.setSetpoint(point, SparkBase.ControlType.kPosition, ClosedLoopSlot.kSlot0);}
+    public boolean turingP(){return neoPID.isAtSetpoint();}
+    public double getPos(){return turretEncoder.getPosition();}
+    public void setpos(){turretEncoder.setPosition(0);}
+
+
 
 }

@@ -9,8 +9,10 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 import team.gif.lib.LimelightHelpers;
+import team.gif.robot.commands.ArcadeDrive;
 import team.gif.robot.commands.ManualTurn;
 import team.gif.robot.commands.TurretTurn;
+import team.gif.robot.subsystems.DriveTrain;
 import team.gif.robot.subsystems.IndexerWheels;
 import team.gif.robot.subsystems.NeoSpinDexer;
 import team.gif.robot.subsystems.Shooter;
@@ -38,6 +40,7 @@ public class Robot extends TimedRobot {
     public static Pigeon2_0 pigeon;
     public static Turret turret;
     public static SpinDexer spinDexer;
+    public static DriveTrain driveTrain;
     /*  public static SwerveConfiguration swerveConfig;
     public static SwerveDrivetrain swerveDrive;*/
 
@@ -57,16 +60,18 @@ public class Robot extends TimedRobot {
         // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
         // autonomous chooser on the dashboard.
         robotContainer = new RobotContainer();
-        limelight = new Limelight("limelight-turret");
+        limelight = new Limelight("limelight-front");
         pigeon = new Pigeon2_0(RobotMap.PIGEON_ID);
         turret = new Turret();
         spinDexer = new SpinDexer();
         neoSpinDexer = new NeoSpinDexer();
         shooter = new Shooter();
         indexerWheels = new IndexerWheels();
+        driveTrain = new DriveTrain();
         //turret.setDefaultCommand(new ManualTurn());
         Robot.limelight.setDistanceEstimatorParams(Constants.turret.limelightMountAngleDegrees,Constants.turret.limelightLensHeightInches,Constants.turret.goalHeightInches,0);
         Robot.turret.setDefaultCommand(new TurretTurn());
+        Robot.driveTrain.setDefaultCommand(new ArcadeDrive());
        /* swerveConfig = new SwerveConfiguration(new RobotMap.Mk4Map(), new Constants.Mk4Constants(), TalonFXDriveMotor::new, TalonFXTurnMotor::new, CANCoderEncoder::new);
         swerveConfig = new SwerveConfiguration(new RobotMap.Mk3Map(), new Constants.Mk3Constants(), SparkMaxDriveMotor::new, TalonSRXTurnMotorEncoder::new, null);
         swerveDrive = new SwerveDrivetrain(swerveConfig);

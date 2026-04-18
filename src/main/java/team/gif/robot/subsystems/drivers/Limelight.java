@@ -36,7 +36,7 @@ public class Limelight {
      * Create a new limelight object with default key.
      */
     public Limelight() {
-        this("limelight-turret");
+        this("limelight-front");
     }
 
     /**
@@ -312,4 +312,5 @@ public class Limelight {
         //calculate distance (shooter is 4 inches behind limelight)
         return offsetInches + (goalHeightInches - lensHeightInches) / Math.tan(angleToGoalRadians);
     }
+
 }

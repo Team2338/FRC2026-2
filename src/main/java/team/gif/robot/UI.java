@@ -1,5 +1,7 @@
 package team.gif.robot;
 
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class UI {
@@ -13,8 +15,8 @@ public class UI {
      *  and save file as "YYYY elastic-layout.json"
      */
     public UI() {
-        
-    }
+        ShuffleboardTab shuffleboardTab = Shuffleboard.getTab("FRC 2026");
+        shuffleboardTab.addDouble("GetPositon", Robot.turret::getPos);    }
 
     /**
      * Widgets which are updated periodically should be placed here
