@@ -16,40 +16,40 @@ import com.revrobotics.spark.config.SparkMaxConfig;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import team.gif.robot.RobotMap;
 
-public class NeoSpinDexer extends SubsystemBase {
+public class Collector extends SubsystemBase {
     /** Creates a new ExampleSubsystem. */
-    public SparkMax spiner;
+    public SparkMax collector;
     public SparkClosedLoopController neoPID;
-    public RelativeEncoder spinerEncoder;
-    public SparkMaxConfig spinerConfig;
-    double Kp =0.0005;
+    public RelativeEncoder collectorEncoder;
+    public SparkMaxConfig collectorConfig;
+    double Kp =0.00025;
         //0.00025;
     double Ki = 0;
     double Kd = 0;
-    public NeoSpinDexer() {
-        spiner = new SparkMax(RobotMap.SPIN_DEXER_MOTOR_ID, SparkLowLevel.MotorType.kBrushless);
-        neoPID = spiner.getClosedLoopController();
-        spinerEncoder = spiner.getEncoder();
-        spinerConfig = new SparkMaxConfig();
+    public Collector() {
+        collector = new SparkMax(RobotMap.COLLECTOR_MOTOR_ID, SparkLowLevel.MotorType.kBrushless);
+        neoPID = collector.getClosedLoopController();
+        collectorEncoder = collector.getEncoder();
+        collectorConfig = new SparkMaxConfig();
 
-        spinerConfig.closedLoop
+        collectorConfig.closedLoop
                 .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
                 .pid(Kp, Ki, Kd);
 
-        spinerConfig.idleMode(SparkMaxConfig.IdleMode.kBrake); //or replace kBrake with kCoast
-        spinerConfig.inverted(true); //true or false
+        collectorConfig.idleMode(SparkMaxConfig.IdleMode.kBrake); //or replace kBrake with kCoast
+        collectorConfig.inverted(true); //true or false
         //turretConfig.softLimit.forwardSoftLimit(.5);
         //turretConfig.softLimit.forwardSoftLimitEnabled(true);
 //        turretConfig.softLimit.reverseSoftLimit(-.5);
 //        turretConfig.softLimit.reverseSoftLimitEnabled(true);
 
-        spiner.configure(spinerConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+        collector.configure(collectorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
     }
 
 
     public void turn(double percent) {
-        spiner.set(percent);
+        collector.set(percent);
     }
 
     public void setRPM(double rpm) {

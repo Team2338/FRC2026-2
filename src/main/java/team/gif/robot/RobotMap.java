@@ -7,14 +7,16 @@ public abstract class RobotMap {
     public static final int DRIVER_CONTROLLER_ID = 0;
     public static final int AUX_CONTROLLER_ID = 1;
     public static final int TEST_CONTROLLER_ID = 2;
-    public static final int TURRET_MOTOR_ID = 14;
-    public static final int SPIN_DEXER_MOTOR_ID = 202;
-    public static final int INDEX_MOTER_ID = 303;
-    public static final int SHOOT_MOTOR_ID = 16;
-    public static final int RL_CIM = 100;
-    public static final int RR_CIM = 200;
-    public static final int FL_CIM = 300;
-    public static final int FR_CIM = 400;
+    public static final int TURRET_MOTOR_ID = 6;
+    public static final int SPIN_DEXER_MOTOR_ID = 4;
+    public static final int INDEX_MOTER_ID = 60;
+    public static final int SHOOT_MOTOR_ID = 61;
+    public static final int RL_CIM = 1;
+    public static final int RR_CIM = 5;
+    public static final int FL_CIM = 41;
+    public static final int FR_CIM = 7;
+    public static final int COLLECTOR_MOTOR_ID = 13;
+    public static final int COLLECTOR_PIVIOT_ID = 20;
 
 
 

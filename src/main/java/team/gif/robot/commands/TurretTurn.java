@@ -39,7 +39,7 @@ private final PIDController alignPID;
             double speed = Robot.oi.driver.getRightX();
             Robot.turret.PerTurn(speed*.05);
         }
-        Robot.manualMode = Math.abs(Robot.oi.driver.getRightX()) > .05;
+        Robot.manualMode = Math.abs(Robot.oi.aux.getRightX()) > .05;
 
 //        if (Robot.limelight.getXOffset()<.5){
 //            Robot.shooter.setRPM(Constants.SHOOTER_RPM);

@@ -22,7 +22,7 @@ public class IndexerWheels extends SubsystemBase {
     public SparkClosedLoopController neoPID;
     public RelativeEncoder indexerEncoder;
     public SparkMaxConfig indexerConfig;
-    double Kp =0.00025;
+    double Kp =0.000;
         //0.00025;
     double Ki = 0;
     double Kd = 0;

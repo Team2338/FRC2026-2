@@ -16,7 +16,7 @@ import com.revrobotics.spark.config.SparkMaxConfig;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import team.gif.robot.RobotMap;
 
-public class NeoSpinDexer extends SubsystemBase {
+public class CollectorPivot extends SubsystemBase {
     /** Creates a new ExampleSubsystem. */
     public SparkMax spiner;
     public SparkClosedLoopController neoPID;
@@ -26,8 +26,8 @@ public class NeoSpinDexer extends SubsystemBase {
         //0.00025;
     double Ki = 0;
     double Kd = 0;
-    public NeoSpinDexer() {
-        spiner = new SparkMax(RobotMap.SPIN_DEXER_MOTOR_ID, SparkLowLevel.MotorType.kBrushless);
+    public CollectorPivot() {
+        spiner = new SparkMax(RobotMap.COLLECTOR_PIVIOT_ID, SparkLowLevel.MotorType.kBrushless);
         neoPID = spiner.getClosedLoopController();
         spinerEncoder = spiner.getEncoder();
         spinerConfig = new SparkMaxConfig();

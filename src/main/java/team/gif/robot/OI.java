@@ -3,6 +3,9 @@ package team.gif.robot;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import team.gif.robot.commands.Collect;
+import team.gif.robot.commands.CollectDown;
+import team.gif.robot.commands.CollectUp;
 import team.gif.robot.commands.Intake;
 import team.gif.robot.commands.NEOTest;
 import team.gif.robot.commands.Shoot;
@@ -78,12 +81,14 @@ public class OI {
 
     public OI() {
         DriverStation.silenceJoystickConnectionWarning(true);
-        dA.whileTrue(new TurretTurn());
+        dRBump.whileTrue(new Collect());
         dB.whileTrue(new SpinerSpin());
         dX.whileTrue(new Intake());
         dY.whileTrue(new Shoot());
-        dDPadDown.whileTrue(new TurnPointTest());
-        dDPadUp.onTrue(new ZeroEncoder());
+        dDPadRight.whileTrue(new TurnPointTest());
+        dDPadLeft.onTrue(new ZeroEncoder());
+        dDPadUp.whileTrue(new CollectUp());
+        dDPadDown.whileTrue(new CollectDown());
 
         /*
          *
