@@ -27,7 +27,7 @@ private final PIDController alignPID;
         if (!Robot.manualMode) {
             double targetingAngularVelocity = alignPID.calculate(Robot.limelight.getXOffset(), 0);
             targetingAngularVelocity *= -1;
-            Robot.turret.turn(targetingAngularVelocity * 800);
+            Robot.turret.turn(-targetingAngularVelocity * 800);
             System.out.println(Robot.limelight.getXOffset());
             System.out.println("voltage");
             System.out.println(targetingAngularVelocity);
@@ -36,7 +36,7 @@ private final PIDController alignPID;
             System.out.println(Robot.limelight.getXOffset());
         }
         else {
-            double speed = Robot.oi.driver.getRightX();
+            double speed = Robot.oi.aux.getRightX();
             Robot.turret.PerTurn(speed*.05);
         }
         Robot.manualMode = Math.abs(Robot.oi.aux.getRightX()) > .05;
@@ -55,7 +55,7 @@ private final PIDController alignPID;
     // Return true when the command should end, false if it should continue. Runs every ~20ms.
     @Override
     public boolean isFinished() {
-            return !Robot.limelight.hasTarget();
+            return false;
     }
 //hello world
     // Called when the command ends or is interrupted.

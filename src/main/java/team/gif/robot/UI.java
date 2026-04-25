@@ -16,7 +16,9 @@ public class UI {
      */
     public UI() {
         ShuffleboardTab shuffleboardTab = Shuffleboard.getTab("FRC 2026");
-        shuffleboardTab.addDouble("GetPositon", Robot.turret::getPos);    }
+        shuffleboardTab.addDouble("GetPositon", Robot.turret::getPos);
+
+    }
 
     /**
      * Widgets which are updated periodically should be placed here

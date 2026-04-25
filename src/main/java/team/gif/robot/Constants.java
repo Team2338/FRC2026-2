@@ -25,7 +25,7 @@ public final class Constants {
     public static final double SINER_SPPED_VOLT = 2;
     public static final double SPINNER_SPEED_PER = .5;
     public static final double INDEX_WHEELS_SPEED_PER = .5;
-    public static final double SHOOTER_RPM = 3000;
+    public static final double SHOOTER_RPM = 4000;
     public static final class turret{
         public static final double limelightMountAngleDegrees = 27.83;
                 //15.73469965;
@@ -46,4 +46,9 @@ public final class Constants {
     public static final class Field {
         public static final Translation2d HUB_BLUE_TRANSLATION = new Translation2d(Units.inchesToMeters(182.11), Units.inchesToMeters(158.84));
         public static final Translation2d HUB_RED_TRANSLATION = new Translation2d(Units.inchesToMeters((651.22 - 182.11)), Units.inchesToMeters(158.84));
-}}
+}
+    public static final class Vision {
+        public static final String LIMELIGHT_NAME = "limelight-front";
+        public static final int PIGEON_ID = 9; // change to your real CAN ID
+    }
+}

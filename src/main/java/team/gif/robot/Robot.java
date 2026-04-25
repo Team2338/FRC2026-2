@@ -8,9 +8,9 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
-import team.gif.lib.LimelightHelpers;
 import team.gif.robot.commands.ArcadeDrive;
 import team.gif.robot.commands.ManualTurn;
+import team.gif.robot.commands.TurretRight;
 import team.gif.robot.commands.TurretTurn;
 import team.gif.robot.subsystems.Collector;
 import team.gif.robot.subsystems.CollectorPivot;
@@ -20,7 +20,9 @@ import team.gif.robot.subsystems.NeoSpinDexer;
 import team.gif.robot.subsystems.Shooter;
 import team.gif.robot.subsystems.SpinDexer;
 import team.gif.robot.subsystems.Turret;
+import team.gif.robot.subsystems.VisionSubsystem;
 import team.gif.robot.subsystems.drivers.Limelight;
+import team.gif.robot.subsystems.drivers.Pigeon;
 import team.gif.robot.subsystems.drivers.Pigeon2_0;
 
 
@@ -41,10 +43,11 @@ public class Robot extends TimedRobot {
     public static IndexerWheels indexerWheels;
     public static NeoSpinDexer neoSpinDexer;
     public static Shooter shooter;
-    public static Pigeon2_0 pigeon;
+    public static Pigeon pigeon;
     public static Turret turret;
     public static SpinDexer spinDexer;
     public static DriveTrain driveTrain;
+    public static VisionSubsystem visionSubsystem;
     /*  public static SwerveConfiguration swerveConfig;
     public static SwerveDrivetrain swerveDrive;*/
 
@@ -64,8 +67,9 @@ public class Robot extends TimedRobot {
         // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
         // autonomous chooser on the dashboard.
         robotContainer = new RobotContainer();
-        limelight = new Limelight("limelight-front");
-        pigeon = new Pigeon2_0(RobotMap.PIGEON_ID);
+        visionSubsystem = new VisionSubsystem();
+        limelight = new Limelight("limelight-turret");
+        pigeon = new Pigeon(RobotMap.PIGEON_ID);
         turret = new Turret();
         spinDexer = new SpinDexer();
         collectorPivot = new CollectorPivot();
@@ -77,7 +81,9 @@ public class Robot extends TimedRobot {
         //turret.setDefaultCommand(new ManualTurn());
         Robot.limelight.setDistanceEstimatorParams(Constants.turret.limelightMountAngleDegrees,Constants.turret.limelightLensHeightInches,Constants.turret.goalHeightInches,0);
         Robot.turret.setDefaultCommand(new TurretTurn());
+
         Robot.driveTrain.setDefaultCommand(new ArcadeDrive());
+        //Robot.turret.setDefaultCommand(new TurretRight());
        /* swerveConfig = new SwerveConfiguration(new RobotMap.Mk4Map(), new Constants.Mk4Constants(), TalonFXDriveMotor::new, TalonFXTurnMotor::new, CANCoderEncoder::new);
         swerveConfig = new SwerveConfiguration(new RobotMap.Mk3Map(), new Constants.Mk3Constants(), SparkMaxDriveMotor::new, TalonSRXTurnMotorEncoder::new, null);
         swerveDrive = new SwerveDrivetrain(swerveConfig);

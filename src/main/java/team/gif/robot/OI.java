@@ -11,6 +11,8 @@ import team.gif.robot.commands.NEOTest;
 import team.gif.robot.commands.Shoot;
 import team.gif.robot.commands.SpinerSpin;
 import team.gif.robot.commands.TurnPointTest;
+import team.gif.robot.commands.TurretLeft;
+import team.gif.robot.commands.TurretRight;
 import team.gif.robot.commands.TurretTurn;
 import team.gif.robot.commands.ZeroEncoder;
 
@@ -81,14 +83,17 @@ public class OI {
 
     public OI() {
         DriverStation.silenceJoystickConnectionWarning(true);
-        dRBump.whileTrue(new Collect());
-        dB.whileTrue(new SpinerSpin());
-        dX.whileTrue(new Intake());
-        dY.whileTrue(new Shoot());
+        aLBump.whileTrue(new Collect());
+        aRBump.whileTrue(new SpinerSpin());
+        dLBump.whileTrue(new Intake());
+        dRBump.whileTrue(new Shoot());
         dDPadRight.whileTrue(new TurnPointTest());
         dDPadLeft.onTrue(new ZeroEncoder());
         dDPadUp.whileTrue(new CollectUp());
         dDPadDown.whileTrue(new CollectDown());
+        aDPadLeft.whileTrue(new TurretLeft());
+        aDPadRight.whileTrue(new TurretRight());
+
 
         /*
          *

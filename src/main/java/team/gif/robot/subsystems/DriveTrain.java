@@ -38,7 +38,10 @@ public class DriveTrain extends SubsystemBase {
         rearLeftCIM.follow(frontLeftCIM);
 
         driveTrain = new DifferentialDrive(frontLeftCIM, frontRightCIM);
+
+
     }
+
     //Type 1 TankDrive
     public void driverArcade(double speed, double rotation){
         driveTrain.arcadeDrive(speed, rotation);
