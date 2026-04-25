@@ -18,9 +18,9 @@ import edu.wpi.first.math.util.Units;
  */
 public final class Constants {
     public static final double DEBOUNCE_DEFAULT = 0.020;
-    public static final double TURRET_P = .00003;//.00003 good
+    public static final double TURRET_P = .000035;//.00003 good
             //0.02;
-    public static final double TURRET_I = 0.00003;//0.00003;//.000015
+    public static final double TURRET_I = 0.0000;//0.00003;//.000015
     public static final double TURRET_D = 0;
     public static final double SINER_SPPED_VOLT = 2;
     public static final double SPINNER_SPEED_PER = .5;

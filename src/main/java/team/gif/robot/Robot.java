@@ -20,7 +20,6 @@ import team.gif.robot.subsystems.NeoSpinDexer;
 import team.gif.robot.subsystems.Shooter;
 import team.gif.robot.subsystems.SpinDexer;
 import team.gif.robot.subsystems.Turret;
-import team.gif.robot.subsystems.VisionSubsystem;
 import team.gif.robot.subsystems.drivers.Limelight;
 import team.gif.robot.subsystems.drivers.Pigeon;
 import team.gif.robot.subsystems.drivers.Pigeon2_0;
@@ -47,7 +46,6 @@ public class Robot extends TimedRobot {
     public static Turret turret;
     public static SpinDexer spinDexer;
     public static DriveTrain driveTrain;
-    public static VisionSubsystem visionSubsystem;
     /*  public static SwerveConfiguration swerveConfig;
     public static SwerveDrivetrain swerveDrive;*/
 
@@ -67,7 +65,6 @@ public class Robot extends TimedRobot {
         // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
         // autonomous chooser on the dashboard.
         robotContainer = new RobotContainer();
-        visionSubsystem = new VisionSubsystem();
         limelight = new Limelight("limelight-turret");
         pigeon = new Pigeon(RobotMap.PIGEON_ID);
         turret = new Turret();

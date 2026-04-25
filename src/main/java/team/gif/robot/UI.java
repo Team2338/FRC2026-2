@@ -17,6 +17,10 @@ public class UI {
     public UI() {
         ShuffleboardTab shuffleboardTab = Shuffleboard.getTab("FRC 2026");
         shuffleboardTab.addDouble("GetPositon", Robot.turret::getPos);
+        shuffleboardTab.addBoolean("is at stop", Robot.turret::isAtStop);
+        shuffleboardTab.addDouble("pigion heading", Robot.pigeon::get360Heading);
+        shuffleboardTab.addBoolean("IS at 0 stop", Robot.turret::isAt0Stop);
+//        shuffleboardTab.addDouble("turret rots", Robot.turret::);
 
     }
 

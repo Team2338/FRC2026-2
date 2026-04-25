@@ -23,6 +23,10 @@ import team.gif.robot.RobotMap;
 
 public class Turret extends SubsystemBase {
     /** Creates a new ExampleSubsystem. */
+    /*
+    Need to add correct PID + Feedforward loop into code
+    This could be done by a SysID function
+     */
     public SparkMax turret;
     public SparkClosedLoopController neoPID;
     public RelativeEncoder turretEncoder;
@@ -40,19 +44,26 @@ public class Turret extends SubsystemBase {
         turretConfig.closedLoop
                 .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
                 .pid(Kp, Ki, Kd);
+        // double check if this gets set in motor controller or is run on rio
 
         turretConfig.idleMode(SparkMaxConfig.IdleMode.kBrake); //or replace kBrake with kCoast
         turretConfig.inverted(true); //true or false
-        //turretConfig.softLimit.forwardSoftLimit(.5);
-        //turretConfig.softLimit.forwardSoftLimitEnabled(true);
-//        turretConfig.softLimit.reverseSoftLimit(-.5);
-//        turretConfig.softLimit.reverseSoftLimitEnabled(true);
+        // Redo soft limit testing as turret is now an odd 360 deg
+        turretConfig.softLimit.forwardSoftLimit(0);
+        turretConfig.softLimit.forwardSoftLimitEnabled(true);
+        turretConfig.softLimit.reverseSoftLimit(-28);
+        turretConfig.softLimit.reverseSoftLimitEnabled(true);
 
         turret.configure(turretConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
 
     }
-
+    public boolean isAtStop(){
+        return turretEncoder.getPosition() <= -29;
+    }
+    public boolean isAt0Stop(){
+        return turretEncoder.getPosition() >= -1;
+    }
 
     public void turn(double voltage) {
         turret.setVoltage(voltage);

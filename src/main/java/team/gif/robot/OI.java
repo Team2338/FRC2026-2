@@ -88,13 +88,20 @@ public class OI {
         dLBump.whileTrue(new Intake());
         dRBump.whileTrue(new Shoot());
         dDPadRight.whileTrue(new TurnPointTest());
-        dDPadLeft.onTrue(new ZeroEncoder());
+        dStart.onTrue(new ZeroEncoder());
         dDPadUp.whileTrue(new CollectUp());
         dDPadDown.whileTrue(new CollectDown());
         aDPadLeft.whileTrue(new TurretLeft());
         aDPadRight.whileTrue(new TurretRight());
 
+        aRTrigger.whileTrue(new SpinerSpin());
+        dRTrigger.whileTrue(new Shoot().withTimeout(0.25).andThen(new Shoot().alongWith(new Intake())));
+        /*
+        Need to fix aux using driver feedback from Apr 25, 2026
+        this is a piece of code to help drivers
+                dRTrigger.whileTrue(new Shoot().withTimeout(0.25).andThen(new Shoot().alongWith(new Intake())));
 
+         */
         /*
          *
          * Create controller actions here
