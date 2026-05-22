@@ -51,10 +51,10 @@ public class DriveTrain extends SubsystemBase {
         rightBackNEO.configure(configRightBack, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
 
-        //configLeftBack.follow(RobotMap.LEFT_FRONT_NEO);
-        //configRightBack.follow(RobotMap.RIGHT_FRONT_NEO);
+        configLeftBack.follow(RobotMap.LEFT_FRONT_NEO);
+        configRightBack.follow(RobotMap.RIGHT_FRONT_NEO);
 
-        //drive = new DifferentialDrive(leftFrontNEO, rightFrontNEO);
+        drive = new DifferentialDrive(leftFrontNEO, rightFrontNEO);
 
 
     }

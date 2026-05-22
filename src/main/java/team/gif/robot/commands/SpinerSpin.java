@@ -18,6 +18,7 @@ public class SpinerSpin extends Command {
     // Called every time the scheduler runs (~20ms) while the command is scheduled
     @Override
     public void execute() {
+        System.out.println("asldflskadjflksjdfl");
         Robot.neoSpinDexer.setRPM(-1000);
     }
 

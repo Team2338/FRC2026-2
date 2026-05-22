@@ -86,7 +86,9 @@ public class OI {
         aLBump.whileTrue(new Collect());
         aRBump.whileTrue(new SpinerSpin());
         dLBump.whileTrue(new Intake());
-        dRBump.whileTrue(new Shoot());
+        dRBump.whileTrue(new Sh
+
+                oot());
         dDPadRight.whileTrue(new TurnPointTest());
         dStart.onTrue(new ZeroEncoder());
         dDPadUp.whileTrue(new CollectUp());
