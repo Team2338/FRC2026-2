@@ -21,6 +21,7 @@ public class UI {
         shuffleboardTab.addDouble("pigion heading", Robot.pigeon::get360Heading);
         shuffleboardTab.addBoolean("IS at 0 stop", Robot.turret::isAt0Stop);
 //        shuffleboardTab.addDouble("turret rots", Robot.turret::);
+        SmartDashboard.putNumber("P", 0);
 
     }
 
@@ -33,5 +34,7 @@ public class UI {
     public void update() {
         //Example
         //SmartDashboard.putNumber("Climber Position", Robot.elevator.getPosition())
+        SmartDashboard.putNumber("M1 RPM", Robot.shooter.getRPMOne());
+        SmartDashboard.putNumber("M2 RPM", Robot.shooter.getRPMTwo());
     }
 }

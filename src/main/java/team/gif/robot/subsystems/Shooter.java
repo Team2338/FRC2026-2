@@ -9,6 +9,7 @@ import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import team.gif.robot.RobotMap;
 
@@ -23,7 +24,7 @@ public class Shooter extends SubsystemBase {
     public TalonFXConfiguration configurationOne;
     public TalonFXConfiguration configurationTwo;
     public VelocityVoltage velocityVoltage;
-    double Kp =0.00125;
+    public double Kp = 0;
         //0.00025;
     double Ki = 0;
     double Kd = 0;
@@ -32,18 +33,12 @@ public class Shooter extends SubsystemBase {
     public Shooter() {
         shooterMotorOne = new TalonFX(RobotMap.SHOOT_MOTOR_ID_ONE);
         shooterMotorTwo = new TalonFX(RobotMap.SHOOT_MOTOR_ID_TWO);
-
         configurationOne = new TalonFXConfiguration();
-        configurationOne.Slot0.kP = Kp;
-        configurationOne.MotorOutput.NeutralMode = NeutralModeValue.Coast;
-        configurationOne.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
-
         configurationTwo = new TalonFXConfiguration();
-        configurationTwo.Slot0.kP = Kp;
-        configurationTwo.MotorOutput.NeutralMode = NeutralModeValue.Coast;
-        configurationTwo.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
 
-        velocityVoltage = new VelocityVoltage(0).withSlot(0);
+        setConfig(configurationOne, configurationTwo);
+
+        velocityVoltage = new VelocityVoltage(0);
 
 /**
         shooter = new SparkMax(RobotMap.SHOOT_MOTOR_ID, SparkLowLevel.MotorType.kBrushless);
@@ -67,6 +62,21 @@ public class Shooter extends SubsystemBase {
 
     }
 
+    @Override
+    public void periodic() {
+        double newP = SmartDashboard.getNumber("P", 0);
+
+        double oldP = configurationOne.Slot0.kP;
+
+        if (newP!=oldP) {
+            configurationOne.Slot0.kP = newP;
+            configurationTwo.Slot0.kP = newP;
+
+            setConfig(configurationOne, configurationTwo);
+
+        }
+
+    }
 
     public void turn(double voltage) {
         shooterMotorOne.setVoltage(voltage);
@@ -78,11 +88,27 @@ public class Shooter extends SubsystemBase {
         shooterMotorTwo.setControl(velocityVoltage.withVelocity(rpm/60));
     }
 
+    public void stopMotors() {
+        shooterMotorOne.stopMotor();
+        shooterMotorTwo.stopMotor();
+    }
+
     public double getRPMOne(){
         return shooterMotorOne.getVelocity().getValueAsDouble() * 60;
     }
 
     public double getRPMTwo(){
         return shooterMotorTwo.getVelocity().getValueAsDouble() * 60;
+    }
+
+    public void setConfig(TalonFXConfiguration configOne, TalonFXConfiguration configTwo) {
+        configOne.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
+        configOne.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+
+        configTwo.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
+        configTwo.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+
+        shooterMotorOne.getConfigurator().apply(configOne);
+        shooterMotorTwo.getConfigurator().apply(configTwo);
     }
 }

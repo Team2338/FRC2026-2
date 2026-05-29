@@ -25,7 +25,7 @@ public final class Constants {
     public static final double SINER_SPPED_VOLT = 2;
     public static final double SPINNER_SPEED_PER = .5;
     public static final double INDEX_WHEELS_SPEED_PER = .5;
-    public static final double SHOOTER_RPM = 4000;
+    public static final double SHOOTER_RPM = 3500; //4000
     public static final class turret{
         public static final double limelightMountAngleDegrees = 27.83;
                 //15.73469965;
