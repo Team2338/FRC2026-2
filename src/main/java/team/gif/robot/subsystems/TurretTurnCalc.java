@@ -4,10 +4,30 @@
 
 package team.gif.robot.subsystems;
 
+import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class TurretTurnCalc extends SubsystemBase {
     /** Creates a new ExampleSubsystem. */
-    public TurretTurnCalc() {}
+    private final static InterpolatingDoubleTreeMap distanceMap = new InterpolatingDoubleTreeMap();
 
+    static {
+
+        double measurementOffset = 0;
+
+
+        distanceMap.put((1.2 + measurementOffset), 2500.0);
+        distanceMap.put((1.75 + measurementOffset), 2750.0);
+        distanceMap.put((2.15 + measurementOffset), 3000.0);
+        distanceMap.put((3.16 + measurementOffset), 3400.0);
+        distanceMap.put((3.66 + measurementOffset), 3800.0);
+        distanceMap.put((4.3 + measurementOffset), 4000.0);
+
+    }
+    public static double getShotRPM(double distance) {
+    return distanceMap.get(distance);
 }
+}
+
+

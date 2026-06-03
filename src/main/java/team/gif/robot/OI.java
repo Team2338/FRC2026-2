@@ -93,6 +93,15 @@ public class OI {
         dDPadDown.whileTrue(new CollectDown());
         aDPadLeft.whileTrue(new TurretLeft());
         aDPadRight.whileTrue(new TurretRight());
+        /*
+        * dis || rpm
+        * 1.20m || 2500
+        * 4.30m || 4000
+        * 2.25m || 3000
+        * 1.75m || 2800
+        * 3.16m || 3400
+        * 3.66m || 3800
+        * */
 
         aRTrigger.whileTrue(new SpinerSpin());
         dRTrigger.whileTrue(new Shoot().withTimeout(0.25).andThen(new Shoot().alongWith(new Intake())));

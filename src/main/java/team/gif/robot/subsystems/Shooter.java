@@ -35,10 +35,16 @@ public class Shooter extends SubsystemBase {
         shooterMotorTwo = new TalonFX(RobotMap.SHOOT_MOTOR_ID_TWO);
         configurationOne = new TalonFXConfiguration();
         configurationTwo = new TalonFXConfiguration();
+        configurationOne.Slot0.kS = 0.12278;
+        configurationOne.Slot0.kV = 0.11522;
+        configurationOne.Slot0.kA = 0.0078728;
+        configurationTwo = configurationOne.clone();
+
 
         setConfig(configurationOne, configurationTwo);
 
         velocityVoltage = new VelocityVoltage(0);
+
 
 /**
         shooter = new SparkMax(RobotMap.SHOOT_MOTOR_ID, SparkLowLevel.MotorType.kBrushless);
