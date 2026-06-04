@@ -22,7 +22,7 @@ public class NeoSpinDexer extends SubsystemBase {
     public SparkClosedLoopController neoPID;
     public RelativeEncoder spinerEncoder;
     public SparkMaxConfig spinerConfig;
-    double Kp =0.0005;
+    double Kp =0.000125;
         //0.00025;
     double Ki = 0;
     double Kd = 0;
