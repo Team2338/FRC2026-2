@@ -11,12 +11,18 @@ import com.revrobotics.ResetMode;
 import com.revrobotics.spark.SparkBase;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.SparkMaxConfig;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
+import edu.wpi.first.math.kinematics.DifferentialDriveOdometry3d;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import team.gif.robot.Robot;
 import team.gif.robot.RobotMap;
 import com.revrobotics.spark.SparkLowLevel;
 
 import static team.gif.robot.RobotMap.LEFT_FRONT_NEO;
+import static team.gif.robot.RobotMap.RIGHT_FRONT_NEO;
 
 public class DriveTrain extends SubsystemBase {
     private SparkMax leftFrontNEO;
@@ -28,6 +34,7 @@ public class DriveTrain extends SubsystemBase {
     private SparkMax rightBackNEO;
     private SparkMaxConfig configRightBack;
     private DifferentialDrive drive;
+    public Pose2d m_pose;
 
     public DriveTrain() {
         leftFrontNEO = new SparkMax(LEFT_FRONT_NEO, SparkLowLevel.MotorType.kBrushless);
@@ -56,7 +63,17 @@ public class DriveTrain extends SubsystemBase {
 
         drive = new DifferentialDrive(leftFrontNEO, rightFrontNEO);
 
+        m_odometry = new DifferentialDriveOdometry(
+                Robot.pigeon.getRotation2d(),
+                leftFrontNEO.getEncoder().getPosition(), rightFrontNEO.getEncoder().getPosition(),
+                new Pose2d(5.0,13.5,new Rotation2d())
 
+        );
+    }
+    DifferentialDriveOdometry m_odometry;
+    public void periodic(){
+        var gyroAngle = Robot.pigeon.getRotation2d();
+        m_pose = m_odometry.update(gyroAngle,leftFrontNEO.getEncoder().getPosition(),rightFrontNEO.getEncoder().getPosition());
     }
     public void driveTank(double leftSpeed, double rightSpeed){drive.tankDrive(leftSpeed, rightSpeed);}
     public void driveArcade(double speed, double rotation){drive.arcadeDrive(speed, rotation);}
