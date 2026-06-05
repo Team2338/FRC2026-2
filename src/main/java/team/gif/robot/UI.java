@@ -23,6 +23,7 @@ public class UI {
 //        shuffleboardTab.addDouble("turret rots", Robot.turret::);
         SmartDashboard.putNumber("P", 0);
 
+
     }
 
     /**
@@ -36,5 +37,9 @@ public class UI {
         //SmartDashboard.putNumber("Climber Position", Robot.elevator.getPosition())
         SmartDashboard.putNumber("M1 RPM", Robot.shooter.getRPMOne());
         SmartDashboard.putNumber("M2 RPM", Robot.shooter.getRPMTwo());
+        SmartDashboard.putNumber("HEADING", Robot.pigeon.get360Heading());
+        SmartDashboard.putNumber("right motor", Robot.driveTrain.getVelocityRight());
+        SmartDashboard.putNumber("left motor", Robot.driveTrain.getVelocityLeft());
+
     }
 }

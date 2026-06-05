@@ -19,7 +19,7 @@ public class SpinerSpin extends Command {
     @Override
     public void execute() {
         System.out.println("asldflskadjflksjdfl");
-        Robot.neoSpinDexer.setRPM(-800);
+        Robot.neoSpinDexer.setRPM(-1000);
     }
 
     // Return true when the command should end, false if it should continue. Runs every ~20ms.

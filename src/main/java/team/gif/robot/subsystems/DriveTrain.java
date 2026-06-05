@@ -7,6 +7,7 @@ package team.gif.robot.subsystems;
 //import com.pathplanner.lib.auto.AutoBuilder;
 //import com.pathplanner.lib.config.RobotConfig;
 import com.revrobotics.PersistMode;
+import com.revrobotics.RelativeEncoder;
 import com.revrobotics.ResetMode;
 import com.revrobotics.spark.SparkBase;
 import com.revrobotics.spark.SparkMax;
@@ -15,6 +16,8 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry3d;
+import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.networktables.StructPublisher;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import team.gif.robot.Robot;
@@ -36,6 +39,7 @@ public class DriveTrain extends SubsystemBase {
     private DifferentialDrive drive;
     public Pose2d m_pose;
 
+
     public DriveTrain() {
         leftFrontNEO = new SparkMax(LEFT_FRONT_NEO, SparkLowLevel.MotorType.kBrushless);
         leftBackNEO = new SparkMax(RobotMap.LEFT_BACK_NEO, SparkLowLevel.MotorType.kBrushless);
@@ -51,6 +55,12 @@ public class DriveTrain extends SubsystemBase {
         configLeftBack.idleMode(SparkMaxConfig.IdleMode.kBrake).follow(LEFT_FRONT_NEO);
         configRightFront.idleMode(SparkMaxConfig.IdleMode.kBrake);
         configRightBack.idleMode(SparkMaxConfig.IdleMode.kBrake).follow(RobotMap.RIGHT_FRONT_NEO);
+        configLeftFront.encoder.positionConversionFactor((1/10.71)*.47879);
+        configLeftBack.encoder.positionConversionFactor((1/10.71)*.47879);
+        configRightBack.encoder.positionConversionFactor((1/10.71)*.47879);
+        configRightFront.encoder.positionConversionFactor((1/10.71)*.47879);
+
+
 
         leftFrontNEO.configure(configLeftFront, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
         leftBackNEO.configure(configLeftBack, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
@@ -63,20 +73,33 @@ public class DriveTrain extends SubsystemBase {
 
         drive = new DifferentialDrive(leftFrontNEO, rightFrontNEO);
 
+
+
         m_odometry = new DifferentialDriveOdometry(
                 Robot.pigeon.getRotation2d(),
-                leftFrontNEO.getEncoder().getPosition(), rightFrontNEO.getEncoder().getPosition(),
-                new Pose2d(5.0,13.5,new Rotation2d())
+                (leftFrontNEO.getEncoder().getPosition() + leftBackNEO.getEncoder().getPosition())/2, -(rightFrontNEO.getEncoder().getPosition()+ rightBackNEO.getEncoder().getPosition())/2,
+                new Pose2d(16.541-3.56,8.07-4.09,new Rotation2d())
 
         );
+
     }
     DifferentialDriveOdometry m_odometry;
+    StructPublisher<Pose2d> publisher = NetworkTableInstance.getDefault()
+            .getStructTopic("ROBOT POSITION", Pose2d.struct).publish();
     public void periodic(){
         var gyroAngle = Robot.pigeon.getRotation2d();
-        m_pose = m_odometry.update(gyroAngle,leftFrontNEO.getEncoder().getPosition(),rightFrontNEO.getEncoder().getPosition());
+        m_pose = m_odometry.update(gyroAngle,(leftFrontNEO.getEncoder().getPosition() + leftBackNEO.getEncoder().getPosition())/2,-(rightFrontNEO.getEncoder().getPosition()+ rightBackNEO.getEncoder().getPosition())/2);
+        publisher.set(m_pose);
     }
     public void driveTank(double leftSpeed, double rightSpeed){drive.tankDrive(leftSpeed, rightSpeed);}
     public void driveArcade(double speed, double rotation){drive.arcadeDrive(speed, rotation);}
+    public double getVelocityLeft(){
+        return leftFrontNEO.getEncoder().getVelocity();
+    }
+    public double getVelocityRight(){
+        return rightFrontNEO.getEncoder().getVelocity();
+    }
+
 
      {
 
