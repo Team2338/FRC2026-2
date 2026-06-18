@@ -83,16 +83,17 @@ public class OI {
 
     public OI() {
         DriverStation.silenceJoystickConnectionWarning(true);
-        aLBump.whileTrue(new Collect());
-        aRBump.whileTrue(new SpinerSpin());
-        dLBump.whileTrue(new Intake());
-        dRBump.whileTrue(new Shoot());
-        dDPadRight.whileTrue(new TurnPointTest());
+        //aLBump.whileTrue(new Intake());
+        aRBump.whileTrue(new Shoot().withTimeout(.25).andThen(new Shoot().alongWith(new Intake())));
+        aLBump.whileTrue(new SpinerSpin());
+        aDPadUp.whileTrue(new CollectUp());
+        aDPadDown.whileTrue(new CollectDown());
+        dLBump.whileTrue(new Collect());
         dStart.onTrue(new ZeroEncoder());
-        dDPadUp.whileTrue(new CollectUp());
-        dDPadDown.whileTrue(new CollectDown());
-        aDPadLeft.whileTrue(new TurretLeft());
-        aDPadRight.whileTrue(new TurretRight());
+        //dRBump.whileTrue(new Shoot());
+        //dDPadRight.whileTrue(new TurnPointTest());
+        //aDPadLeft.whileTrue(new TurretLeft());
+        //aDPadRight.whileTrue(new TurretRight());
         /*
         * dis || rpm
         * 1.20m || 2500
