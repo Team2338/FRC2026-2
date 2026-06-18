@@ -13,10 +13,12 @@ import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry3d;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import team.gif.robot.Constants;
 import team.gif.robot.Robot;
 import team.gif.robot.RobotMap;
 import com.revrobotics.spark.SparkLowLevel;
@@ -75,11 +77,14 @@ public class DriveTrain extends SubsystemBase {
         var gyroAngle = Robot.pigeon.getRotation2d();
         m_pose = m_odometry.update(gyroAngle,leftFrontNEO.getEncoder().getPosition(),rightFrontNEO.getEncoder().getPosition());
     }
+    public double distance(){
+        double xdistance =  Constants.Field.HUB_RED_TRANSLATION.getX() - Math.abs(m_pose.getX());
+        double ydistance = Constants.Field.HUB_RED_TRANSLATION.getY() - Math.abs(m_pose.getY());
+        return Math.hypot(xdistance,ydistance);
+    }
     public void driveTank(double leftSpeed, double rightSpeed){drive.tankDrive(leftSpeed, rightSpeed);}
     public void driveArcade(double speed, double rotation){drive.arcadeDrive(speed, rotation);}
 
-     {
 
-    }
 }
 
