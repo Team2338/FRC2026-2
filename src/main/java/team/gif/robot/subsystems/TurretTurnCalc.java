@@ -15,7 +15,7 @@ public class TurretTurnCalc extends SubsystemBase {
 
     static {
 
-        double measurementOffset = 0;
+        double measurementOffset = 0.88;
 
 
         distanceMap.put((1.2 + measurementOffset), 2500.0);

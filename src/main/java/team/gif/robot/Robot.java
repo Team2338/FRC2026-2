@@ -40,6 +40,7 @@ public class Robot extends TimedRobot {
     public static CollectorPivot collectorPivot;
     public static Collector collector;
     public static Limelight limelight;
+    public static Limelight limelight3;
     public static IndexerWheels indexerWheels;
     public static NeoSpinDexer neoSpinDexer;
     public static Shooter shooter;
@@ -68,6 +69,7 @@ public class Robot extends TimedRobot {
         // autonomous chooser on the dashboard.
         robotContainer = new RobotContainer();
         limelight = new Limelight("limelight-turret");
+        limelight3 = new Limelight("limelight-side");
         pigeon = new Pigeon(RobotMap.PIGEON_ID);
         turret = new Turret();
         spinDexer = new SpinDexer();
