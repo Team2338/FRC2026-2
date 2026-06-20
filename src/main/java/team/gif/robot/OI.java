@@ -1,6 +1,7 @@
 package team.gif.robot;
 
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import team.gif.robot.commands.Collect;
@@ -89,7 +90,8 @@ public class OI {
         aDPadUp.whileTrue(new CollectUp());
         aDPadDown.whileTrue(new CollectDown());
         dLBump.whileTrue(new Collect());
-        dStart.onTrue(new ZeroEncoder());
+        dStart.and(dDPadDown).onTrue(new ZeroEncoder());
+        dStart.and(dDPadUp).onTrue(new InstantCommand(()-> Robot.pigeon.resetPigeonPosition(0)));
         //dRBump.whileTrue(new Shoot());
         //dDPadRight.whileTrue(new TurnPointTest());
         //aDPadLeft.whileTrue(new TurretLeft());
