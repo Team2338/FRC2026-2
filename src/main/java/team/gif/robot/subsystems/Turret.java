@@ -33,13 +33,14 @@ public class Turret extends SubsystemBase {
     public SparkMaxConfig turretConfig;
     double Kp = 0.05;
         //0.00025;
-    double Ki = 0.001;
+    double Ki = 0;
     double Kd = 0;
     public Turret() {
         turret = new SparkMax(RobotMap.TURRET_MOTOR_ID, SparkLowLevel.MotorType.kBrushless);
         neoPID = turret.getClosedLoopController();
         turretEncoder = turret.getEncoder();
         turretConfig = new SparkMaxConfig();
+        turretConfig.smartCurrentLimit(45,28,5000);
 
         turretConfig.closedLoop
                 .feedbackSensor(FeedbackSensor.kPrimaryEncoder)

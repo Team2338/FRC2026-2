@@ -29,6 +29,8 @@ public class TurretTurnCalc extends SubsystemBase {
     public static double getShotRPM() {
     return distanceMap.get(Robot.driveTrain.distance());
 }
+
+
 }
 
 

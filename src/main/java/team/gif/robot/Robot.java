@@ -82,7 +82,7 @@ public class Robot extends TimedRobot {
         turretTurnCalc = new TurretTurnCalc();
         //turret.setDefaultCommand(new ManualTurn());
         Robot.limelight.setDistanceEstimatorParams(Constants.turret.limelightMountAngleDegrees,Constants.turret.limelightLensHeightInches,Constants.turret.goalHeightInches,0);
-        Robot.turret.setDefaultCommand(new TurretTurn());
+        //Robot.turret.setDefaultCommand(new TurretTurn());
 
         Robot.driveTrain.setDefaultCommand(new ArcadeDrive());
         //Robot.turret.setDefaultCommand(new TurretRight());
@@ -118,6 +118,8 @@ public class Robot extends TimedRobot {
         // block in order for anything in the Command-based framework to work.
         CommandScheduler.getInstance().run();
         System.out.println(driveTrain.distance());
+        System.out.println("angle" + driveTrain.getAngleHub());
+        System.out.println("error" + driveTrain.headingErrorHub());
 
         ui.update();
 

@@ -16,6 +16,7 @@ import team.gif.robot.commands.TurretLeft;
 import team.gif.robot.commands.TurretRight;
 import team.gif.robot.commands.TurretTurn;
 import team.gif.robot.commands.ZeroEncoder;
+import team.gif.robot.commands.turnetPosTurn;
 
 public class OI {
     /*
@@ -92,6 +93,9 @@ public class OI {
         dLBump.whileTrue(new Collect());
         dStart.and(dDPadDown).onTrue(new ZeroEncoder());
         dStart.and(dDPadUp).onTrue(new InstantCommand(()-> Robot.pigeon.resetPigeonPosition(0)));
+
+        dY.whileTrue(new TurnPointTest());
+        dB.whileTrue(new turnetPosTurn());
         //dRBump.whileTrue(new Shoot());
         //dDPadRight.whileTrue(new TurnPointTest());
         //aDPadLeft.whileTrue(new TurretLeft());

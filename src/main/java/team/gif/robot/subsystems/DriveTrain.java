@@ -10,10 +10,12 @@ import com.revrobotics.spark.SparkLowLevel;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.estimator.DifferentialDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 // OLD ODOMETRY IMPORT - intentionally no longer used.
 // import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
@@ -356,12 +358,34 @@ public class DriveTrain extends SubsystemBase {
         m_pose = pose;
     }
 
+
     public double distance() {
         double xdistance = Constants.Field.HUB_RED_TRANSLATION.getX() - Math.abs(m_pose.getX());
         double ydistance = Constants.Field.HUB_RED_TRANSLATION.getY() - Math.abs(m_pose.getY());
 
         return Math.hypot(xdistance, ydistance);
     }
+    public Rotation2d getAngleHub(){
+        Translation2d robotTrans = m_pose.getTranslation();
+        Translation2d hubTrans = Constants.Field.HUB_RED_TRANSLATION;
+
+        Translation2d RobotToHub = hubTrans.minus(robotTrans);
+        return RobotToHub.getAngle();
+    }
+    public Rotation2d headingErrorHub(){
+        Rotation2d angleToHub = getAngleHub();
+        Rotation2d RobotHeading = Robot.pigeon.getRotation2d();
+
+        double errorRadins = angleToHub.minus(RobotHeading).getRadians();
+
+        return Rotation2d.fromRadians(MathUtil.angleModulus(errorRadins));
+    }
+    public double turnAmount(){
+        double angle = headingErrorHub().getDegrees();
+        return (angle*.75)*.1;
+    }
+
+
 
     public void driveTank(double leftSpeed, double rightSpeed) {
         drive.tankDrive(leftSpeed, rightSpeed);
