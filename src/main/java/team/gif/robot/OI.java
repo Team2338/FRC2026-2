@@ -91,8 +91,8 @@ public class OI {
         aDPadUp.whileTrue(new CollectUp());
         aDPadDown.whileTrue(new CollectDown());
         dLBump.whileTrue(new Collect());
-        dStart.and(dDPadDown).onTrue(new ZeroEncoder());
-        dStart.and(dDPadUp).onTrue(new InstantCommand(()-> Robot.pigeon.resetPigeonPosition(0)));
+        dStart.and(dDPadDown).onTrue(new ZeroEncoder().ignoringDisable(true));
+        dStart.and(dDPadUp).onTrue(new InstantCommand(()-> Robot.pigeon.resetPigeonPosition(0)).ignoringDisable(true));
 
         dY.whileTrue(new TurnPointTest());
         dB.whileTrue(new turnetPosTurn());

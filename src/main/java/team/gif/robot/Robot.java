@@ -20,6 +20,7 @@ import team.gif.robot.subsystems.NeoSpinDexer;
 import team.gif.robot.subsystems.Shooter;
 import team.gif.robot.subsystems.SpinDexer;
 import team.gif.robot.subsystems.Turret;
+import team.gif.robot.subsystems.TurretActTurnCalc;
 import team.gif.robot.subsystems.TurretTurnCalc;
 import team.gif.robot.subsystems.drivers.Limelight;
 import team.gif.robot.subsystems.drivers.Pigeon;
@@ -49,6 +50,7 @@ public class Robot extends TimedRobot {
     public static SpinDexer spinDexer;
     public static DriveTrain driveTrain;
     public static TurretTurnCalc turretTurnCalc;
+    public static TurretActTurnCalc turretActTurnCalc;
     /*  public static SwerveConfiguration swerveConfig;
     public static SwerveDrivetrain swerveDrive;*/
 
@@ -80,6 +82,7 @@ public class Robot extends TimedRobot {
         driveTrain = new DriveTrain();
         collector = new Collector();
         turretTurnCalc = new TurretTurnCalc();
+        turretActTurnCalc = new TurretActTurnCalc();
         //turret.setDefaultCommand(new ManualTurn());
         Robot.limelight.setDistanceEstimatorParams(Constants.turret.limelightMountAngleDegrees,Constants.turret.limelightLensHeightInches,Constants.turret.goalHeightInches,0);
         //Robot.turret.setDefaultCommand(new TurretTurn());

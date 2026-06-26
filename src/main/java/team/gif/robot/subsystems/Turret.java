@@ -31,7 +31,7 @@ public class Turret extends SubsystemBase {
     public SparkClosedLoopController neoPID;
     public RelativeEncoder turretEncoder;
     public SparkMaxConfig turretConfig;
-    double Kp = 0.05;
+    double Kp = 0.14;
         //0.00025;
     double Ki = 0;
     double Kd = 0;
@@ -40,7 +40,7 @@ public class Turret extends SubsystemBase {
         neoPID = turret.getClosedLoopController();
         turretEncoder = turret.getEncoder();
         turretConfig = new SparkMaxConfig();
-        turretConfig.smartCurrentLimit(45,28,5000);
+        turretConfig.smartCurrentLimit(20,10,250);
 
         turretConfig.closedLoop
                 .feedbackSensor(FeedbackSensor.kPrimaryEncoder)

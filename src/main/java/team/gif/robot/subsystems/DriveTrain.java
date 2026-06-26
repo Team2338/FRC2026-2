@@ -382,7 +382,8 @@ public class DriveTrain extends SubsystemBase {
     }
     public double turnAmount(){
         double angle = headingErrorHub().getDegrees();
-        return (angle*.75)*.1;
+        return ((angle)*.1*.75);
+//        return angle;
     }
 
 
