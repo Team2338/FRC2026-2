@@ -25,18 +25,18 @@ public class turnetPosTurn extends Command {
         //offset
 //        System.out.println("-------\n"+ TurretActTurnCalc.turnPlace()+"\n---------------------");
         //Robot.turret.turnToPoint(TurretActTurnCalc.turnPlace()); #important
-        if(Robot.driveTrain.turnAmount()>5.062){ // ofset orriganl 4.762
-             turn = Robot.driveTrain.turnAmount() - 27;
+        if(Robot.driveTrain.turnAmount()>4.262){ // ofset orriganl 4.762 /// 4.262 // was 5.062
+             turn = Robot.driveTrain.turnAmount() - 30;
             System.out.println("turn +"+ turn +"bleh");
         }
-        if (Robot.driveTrain.turnAmount()<=5.062){
+        if (Robot.driveTrain.turnAmount()<=4.262){
             turn = Robot.driveTrain.turnAmount() ;
         }
 //        else{
 //            turn = Robot.driveTrain.turnAmount();
-//        }
-        if(turn <= 5.062 && turn > -22.238){
-            turn -= 5.062;
+//        }\
+        if(turn <= 4.262 && turn > -25.738){ // 5.062 is offset becuase turret zero is not robot zzero, 30 - offset
+            turn -= 4.262;
             Robot.turret.turnToPoint(turn);
             System.out.println("||||||\n"+turn+"\n|||||");
             System.out.println(Robot.driveTrain.turnAmount());

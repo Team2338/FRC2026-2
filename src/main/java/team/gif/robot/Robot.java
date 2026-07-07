@@ -121,8 +121,8 @@ public class Robot extends TimedRobot {
         // block in order for anything in the Command-based framework to work.
         CommandScheduler.getInstance().run();
         System.out.println(driveTrain.distance());
-        System.out.println("angle" + driveTrain.getAngleHub());
-        System.out.println("error" + driveTrain.headingErrorHub());
+        //System.out.println("angle" + driveTrain.getAngleHub());
+        //System.out.println("error" + driveTrain.headingErrorHub());
 
         ui.update();
 

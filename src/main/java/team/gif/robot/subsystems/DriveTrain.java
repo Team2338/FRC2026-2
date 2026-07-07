@@ -231,6 +231,7 @@ public class DriveTrain extends SubsystemBase {
     }
 
     private void addLimelightVisionMeasurement(Rotation2d gyroAngle) {
+        System.out.println("command is running");
         /*
          * MegaTag2 needs the robot's current heading.
          *
@@ -256,10 +257,12 @@ public class DriveTrain extends SubsystemBase {
         }
 
         if (mt2.tagCount <= 0) {
+            System.out.println("less than 0 tag" + mt2.tagCount);
             return;
         }
 
         if (mt2.pose == null) {
+            System.out.println("null");
             return;
         }
 
@@ -281,6 +284,7 @@ public class DriveTrain extends SubsystemBase {
          * the current estimate.
          */
         if (poseDifferenceMeters > MAX_VISION_POSE_JUMP_METERS) {
+            System.out.println("tooooo longggggg" + poseDifferenceMeters);
             return;
         }
 
@@ -382,7 +386,7 @@ public class DriveTrain extends SubsystemBase {
     }
     public double turnAmount(){
         double angle = headingErrorHub().getDegrees();
-        return ((angle)*.1*.75);
+        return ((angle)*0.08333333333333);
 //        return angle;
     }
 

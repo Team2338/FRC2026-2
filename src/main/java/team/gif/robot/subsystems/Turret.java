@@ -40,7 +40,7 @@ public class Turret extends SubsystemBase {
         neoPID = turret.getClosedLoopController();
         turretEncoder = turret.getEncoder();
         turretConfig = new SparkMaxConfig();
-        turretConfig.smartCurrentLimit(20,10,250);
+        turretConfig.smartCurrentLimit(3,4,250);
 
         turretConfig.closedLoop
                 .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
@@ -50,9 +50,9 @@ public class Turret extends SubsystemBase {
         turretConfig.idleMode(SparkMaxConfig.IdleMode.kBrake); //or replace kBrake with kCoast
         turretConfig.inverted(true); //true or false
         // Redo soft limit testing as turret is now an odd 360 deg
-        turretConfig.softLimit.forwardSoftLimit(0);
+        turretConfig.softLimit.forwardSoftLimit(0.5);
         turretConfig.softLimit.forwardSoftLimitEnabled(true);
-        turretConfig.softLimit.reverseSoftLimit(-28);
+        turretConfig.softLimit.reverseSoftLimit(-30.5);
         turretConfig.softLimit.reverseSoftLimitEnabled(true);
 
         turret.configure(turretConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
@@ -60,10 +60,10 @@ public class Turret extends SubsystemBase {
 
     }
     public boolean isAtStop(){
-        return turretEncoder.getPosition() <= -29;
+        return turretEncoder.getPosition() <= -30.5;
     }
     public boolean isAt0Stop(){
-        return turretEncoder.getPosition() >= -1;
+        return turretEncoder.getPosition() >= -0.5;
     }
 
     public void turn(double voltage) {

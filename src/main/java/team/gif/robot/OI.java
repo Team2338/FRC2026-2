@@ -90,12 +90,14 @@ public class OI {
         aLBump.whileTrue(new SpinerSpin());
         aDPadUp.whileTrue(new CollectUp());
         aDPadDown.whileTrue(new CollectDown());
+        dRBump.whileTrue(new CollectUp());
+        dRTrigger.whileTrue(new CollectDown());
         dLBump.whileTrue(new Collect());
         dStart.and(dDPadDown).onTrue(new ZeroEncoder().ignoringDisable(true));
         dStart.and(dDPadUp).onTrue(new InstantCommand(()-> Robot.pigeon.resetPigeonPosition(0)).ignoringDisable(true));
 
         dY.whileTrue(new TurnPointTest());
-        dB.whileTrue(new turnetPosTurn());
+        aB.whileTrue(new turnetPosTurn());
         //dRBump.whileTrue(new Shoot());
         //dDPadRight.whileTrue(new TurnPointTest());
         //aDPadLeft.whileTrue(new TurretLeft());
@@ -110,8 +112,8 @@ public class OI {
         * 3.66m || 3800
         * */
 
-        aRTrigger.whileTrue(new SpinerSpin());
-        dRTrigger.whileTrue(new Shoot().withTimeout(0.25).andThen(new Shoot().alongWith(new Intake())));
+//        aRTrigger.whileTrue(new SpinerSpin());
+//        dRTrigger.whileTrue(new Shoot().withTimeout(0.25).andThen(new Shoot().alongWith(new Intake())));
         /*
         Need to fix aux using driver feedback from Apr 25, 2026
         this is a piece of code to help drivers
