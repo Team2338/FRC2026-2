@@ -22,6 +22,8 @@ public class UI {
         shuffleboardTab.addBoolean("IS at 0 stop", Robot.turret::isAt0Stop);
 //        shuffleboardTab.addDouble("turret rots", Robot.turret::);
         SmartDashboard.putNumber("P", 0);
+        SmartDashboard.putBoolean("LL3 HasTarget", LimelightHelpers.getTV("Limelight-side"));
+
 
 
     }

@@ -24,6 +24,7 @@ import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.StructPublisher;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import team.gif.robot.Constants;
@@ -97,7 +98,7 @@ public class DriveTrain extends SubsystemBase {
      * corrections. During initial testing, you can raise this value or temporarily
      * disable this check.
      */
-    private static final double MAX_VISION_POSE_JUMP_METERS = 10;
+    private static final double MAX_VISION_POSE_JUMP_METERS = 5;
 
     private final DifferentialDriveKinematics m_kinematics =
             new DifferentialDriveKinematics(TRACK_WIDTH_METERS);
@@ -249,16 +250,16 @@ public class DriveTrain extends SubsystemBase {
                 0.0  // rollRate -> Usually not needed for flat FRC drivetrain localization.
         );
 
-        LimelightHelpers.PoseEstimate mt2 =
-                LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(LIMELIGHT_NAME);
+        LimelightHelpers.PoseEstimate mt2 = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(LIMELIGHT_NAME);
+
+        SmartDashboard.putNumber("MT2 tag count", mt2.tagCount);
 
         if (mt2 == null) {
             return;
         }
 
         if (mt2.tagCount <= 0) {
-            System.out.println("less than 0 tag" + mt2.tagCount);
-            return;
+           return;
         }
 
         if (mt2.pose == null) {
@@ -284,6 +285,7 @@ public class DriveTrain extends SubsystemBase {
          * the current estimate.
          */
         if (poseDifferenceMeters > MAX_VISION_POSE_JUMP_METERS) {
+            SmartDashboard.putNumber("posedistance", poseDifferenceMeters);
             System.out.println("tooooo longggggg" + poseDifferenceMeters);
             return;
         }
@@ -302,25 +304,7 @@ public class DriveTrain extends SubsystemBase {
         );
         System.out.println("fixing pos");
 
-        /*
-         * OLD BAD VISION RESET CODE - intentionally commented out.
-         *
-         * Do NOT reset encoders when vision sees a tag.
-         * The pose estimator expects cumulative wheel distances.
-         *
-         * leftFrontNEO.getEncoder().setPosition(0);
-         * rightFrontNEO.getEncoder().setPosition(0);
-         *
-         * Do NOT reset odometry every time vision sees a tag.
-         * Vision should be fused using addVisionMeasurement(...).
-         *
-         * m_odometry.resetPosition(
-         *         gyroAngle,
-         *         getLeftDistanceMeters(),
-         *         getRightDistanceMeters(),
-         *         m_poseEstimator.getEstimatedPosition()
-         * );
-         */
+
     }
 
     private double getLeftDistanceMeters() {
