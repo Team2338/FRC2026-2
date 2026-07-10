@@ -16,6 +16,7 @@ import team.gif.robot.commands.TurretLeft;
 import team.gif.robot.commands.TurretRight;
 import team.gif.robot.commands.TurretTurn;
 import team.gif.robot.commands.ZeroEncoder;
+import team.gif.robot.commands.changeAimMode;
 import team.gif.robot.commands.turnetPosTurn;
 
 public class OI {
@@ -88,15 +89,18 @@ public class OI {
         //aLBump.whileTrue(new Intake());
         aRBump.whileTrue(new Shoot().withTimeout(.25).andThen(new Shoot().alongWith(new Intake())));
         aLBump.whileTrue(new SpinerSpin());
-        aDPadUp.whileTrue(new CollectUp());
-        aDPadDown.whileTrue(new CollectDown());
+        aDPadLeft.onTrue(new changeAimMode());
+//        aDPadUp.whileTrue(new CollectUp());
+//        aDPadDown.whileTrue(new CollectDown());
         dRBump.whileTrue(new CollectUp());
         dRTrigger.whileTrue(new CollectDown());
         dLBump.whileTrue(new Collect());
-        dStart.and(dDPadDown).onTrue(new ZeroEncoder().ignoringDisable(true));
+        aStart.and(aDPadDown).onTrue(new ZeroEncoder().ignoringDisable(true));
         dStart.and(dDPadUp).onTrue(new InstantCommand(()-> Robot.pigeon.resetPigeonPosition(0)).ignoringDisable(true));
-
-        dY.whileTrue(new TurnPointTest());
+        dStart.and(dDPadRight).onTrue(new InstantCommand(()-> Robot.pigeon.resetPigeonPosition(270)).ignoringDisable(true));
+        dStart.and(dDPadDown).onTrue(new InstantCommand(()-> Robot.pigeon.resetPigeonPosition(180)).ignoringDisable(true));
+        dStart.and(dDPadLeft).onTrue(new InstantCommand(()-> Robot.pigeon.resetPigeonPosition(90)).ignoringDisable(true));
+       // dY.whileTrue(new TurnPointTest());
         aB.whileTrue(new turnetPosTurn());
         //dRBump.whileTrue(new Shoot());
         //dDPadRight.whileTrue(new TurnPointTest());

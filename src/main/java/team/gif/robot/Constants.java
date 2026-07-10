@@ -46,6 +46,10 @@ public final class Constants {
     public static final class Field {
         public static final Translation2d HUB_BLUE_TRANSLATION = new Translation2d(Units.inchesToMeters(182.11), Units.inchesToMeters(158.84));
         public static final Translation2d HUB_RED_TRANSLATION = new Translation2d(Units.inchesToMeters((651.22 - 182.11)), Units.inchesToMeters(158.84));
+        public static final Translation2d PASS_RED_DEOPO = new Translation2d(Units.inchesToMeters(651.22-32), Units.inchesToMeters(212));
+        public static final Translation2d PASS_RED_OUTPOST = new Translation2d(Units.inchesToMeters(651.22-32), Units.inchesToMeters(105));
+        public static final Translation2d PASS_BLUE_DEOPO = new Translation2d(Units.inchesToMeters(32), Units.inchesToMeters(212));
+        public static final Translation2d PASS_BLUE_OUTPOST = new Translation2d(Units.inchesToMeters(32), Units.inchesToMeters(105));
 }
     public static final class Vision {
         public static final String LIMELIGHT_NAME = "limelight-front";

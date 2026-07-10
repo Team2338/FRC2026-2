@@ -21,6 +21,7 @@ import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 // import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 // import edu.wpi.first.math.kinematics.DifferentialDriveOdometry3d;
 
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.StructPublisher;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -33,6 +34,8 @@ import team.gif.robot.Robot;
 import team.gif.robot.RobotMap;
 
 public class DriveTrain extends SubsystemBase {
+    public boolean shooting = false;
+    public boolean scoreing = true; // determines if turret shoots at hub or pass zone
 
     /*
      * FIXME:
@@ -119,7 +122,13 @@ public class DriveTrain extends SubsystemBase {
 
     public Pose2d m_pose = INITIAL_POSE;
 
+    private boolean RedAllience;
+    private Translation2d hub;
+
     private final DifferentialDrivePoseEstimator m_poseEstimator;
+    private Translation2d pos;
+    private Translation2d depoShot;
+    private Translation2d outpostShot;
 
     /*
      * OLD ODOMETRY FIELD - intentionally commented out.
@@ -204,6 +213,28 @@ public class DriveTrain extends SubsystemBase {
     @Override
     public void periodic() {
         Rotation2d gyroAngle = Robot.pigeon.getRotation2d();
+        RedAllience = SmartDashboard.getBoolean("RED allience", true);
+        if(RedAllience){
+            hub = Constants.Field.HUB_RED_TRANSLATION;
+            depoShot = Constants.Field.PASS_RED_DEOPO;
+            outpostShot = Constants.Field.PASS_RED_OUTPOST;
+        }
+        if(!RedAllience){
+            hub = Constants.Field.HUB_BLUE_TRANSLATION;
+            outpostShot = Constants.Field.PASS_BLUE_DEOPO;
+            depoShot = Constants.Field.PASS_BLUE_OUTPOST;
+        }
+        if(scoreing){
+            pos = hub;
+        }
+        if(!scoreing){
+         if(m_pose.getY() <= Units.inchesToMeters(158.84)){
+             pos = outpostShot;
+         }
+         else{
+             pos = depoShot;
+         }
+        }
 
         /*
          * Correct pose-estimator update.
@@ -348,14 +379,14 @@ public class DriveTrain extends SubsystemBase {
 
 
     public double distance() {
-        double xdistance = Constants.Field.HUB_RED_TRANSLATION.getX() - Math.abs(m_pose.getX());
-        double ydistance = Constants.Field.HUB_RED_TRANSLATION.getY() - Math.abs(m_pose.getY());
+        double xdistance = pos.getX() - Math.abs(m_pose.getX());
+        double ydistance = pos.getY() - Math.abs(m_pose.getY());
 
         return Math.hypot(xdistance, ydistance);
     }
     public Rotation2d getAngleHub(){
         Translation2d robotTrans = m_pose.getTranslation();
-        Translation2d hubTrans = Constants.Field.HUB_RED_TRANSLATION;
+        Translation2d hubTrans = pos;
 
         Translation2d RobotToHub = hubTrans.minus(robotTrans);
         return RobotToHub.getAngle();
@@ -381,7 +412,10 @@ public class DriveTrain extends SubsystemBase {
     }
 
     public void driveArcade(double speed, double rotation) {
-        drive.arcadeDrive(speed, rotation);
+        if(shooting){
+        drive.arcadeDrive(speed*.5, rotation*.5);
+    }
+        else{drive.arcadeDrive(speed, rotation);}
     }
 
     public double getVelocityLeft() {

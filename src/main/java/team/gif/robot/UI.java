@@ -2,9 +2,13 @@ package team.gif.robot;
 
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+import java.security.PublicKey;
+
 public class UI {
+
     /**
      *  Widgets (e.g. gyro, text, True/False flags),
      *  buttons (e.g. SmartDashboard.putData("Reset", new ResetHeading()); ),
@@ -22,8 +26,8 @@ public class UI {
         shuffleboardTab.addBoolean("IS at 0 stop", Robot.turret::isAt0Stop);
 //        shuffleboardTab.addDouble("turret rots", Robot.turret::);
         SmartDashboard.putNumber("P", 0);
+        SmartDashboard.putBoolean("RED allience", true);
         SmartDashboard.putBoolean("LL3 HasTarget", LimelightHelpers.getTV("Limelight-side"));
-
 
 
     }
@@ -42,6 +46,7 @@ public class UI {
         SmartDashboard.putNumber("HEADING", Robot.pigeon.get360Heading());
         SmartDashboard.putNumber("right motor", Robot.driveTrain.getVelocityRight());
         SmartDashboard.putNumber("left motor", Robot.driveTrain.getVelocityLeft());
+        SmartDashboard.putBoolean("hub aim?", Robot.driveTrain.scoreing);
 
     }
 }

@@ -23,7 +23,7 @@ public class TurretTurnCalc extends SubsystemBase {
         distanceMap.put((2.15 + measurementOffset), 3000.0);
         distanceMap.put((3.16 + measurementOffset), 3400.0);
         distanceMap.put((3.66 + measurementOffset), 3800.0);
-        distanceMap.put((4.3 + measurementOffset), 4000.0);
+        distanceMap.put((4.3 + measurementOffset), 4200.0);
 
     }
     public static double getShotRPM() {
