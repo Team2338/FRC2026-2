@@ -31,7 +31,7 @@ public class Turret extends SubsystemBase {
     public SparkClosedLoopController neoPID;
     public RelativeEncoder turretEncoder;
     public SparkMaxConfig turretConfig;
-    double Kp = 0.14;
+    double Kp = 0.35;
         //0.00025;
     double Ki = 0;
     double Kd = 0;

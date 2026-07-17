@@ -8,16 +8,16 @@ import team.gif.robot.commands.Collect;
 import team.gif.robot.commands.CollectDown;
 import team.gif.robot.commands.CollectUp;
 import team.gif.robot.commands.Intake;
-import team.gif.robot.commands.NEOTest;
 import team.gif.robot.commands.Shoot;
 import team.gif.robot.commands.SpinerSpin;
-import team.gif.robot.commands.TurnPointTest;
-import team.gif.robot.commands.TurretLeft;
-import team.gif.robot.commands.TurretRight;
-import team.gif.robot.commands.TurretTurn;
+import team.gif.robot.commands.SpinerSpinBAckwads;
+import team.gif.robot.commands.TurretC;
+import team.gif.robot.commands.TurretCC;
 import team.gif.robot.commands.ZeroEncoder;
 import team.gif.robot.commands.changeAimMode;
 import team.gif.robot.commands.turnetPosTurn;
+
+import static team.gif.robot.Robot.pigeon;
 
 public class OI {
     /*
@@ -89,23 +89,28 @@ public class OI {
         //aLBump.whileTrue(new Intake());
         aRBump.whileTrue(new Shoot().withTimeout(.25).andThen(new Shoot().alongWith(new Intake())));
         aLBump.whileTrue(new SpinerSpin());
-        aDPadLeft.onTrue(new changeAimMode());
+        aA.onTrue(new changeAimMode());
+        aDPadLeft.onTrue(new TurretCC());
+        aDPadRight.onTrue(new TurretC());
+        aLTrigger.whileTrue(new SpinerSpinBAckwads());
+
 //        aDPadUp.whileTrue(new CollectUp());
 //        aDPadDown.whileTrue(new CollectDown());
         dRBump.whileTrue(new CollectUp());
         dRTrigger.whileTrue(new CollectDown());
         dLBump.whileTrue(new Collect());
         aStart.and(aDPadDown).onTrue(new ZeroEncoder().ignoringDisable(true));
-        dStart.and(dDPadUp).onTrue(new InstantCommand(()-> Robot.pigeon.resetPigeonPosition(0)).ignoringDisable(true));
-        dStart.and(dDPadRight).onTrue(new InstantCommand(()-> Robot.pigeon.resetPigeonPosition(270)).ignoringDisable(true));
-        dStart.and(dDPadDown).onTrue(new InstantCommand(()-> Robot.pigeon.resetPigeonPosition(180)).ignoringDisable(true));
-        dStart.and(dDPadLeft).onTrue(new InstantCommand(()-> Robot.pigeon.resetPigeonPosition(90)).ignoringDisable(true));
+        dStart.and(dDPadUp).onTrue(new InstantCommand(()-> pigeon.resetPigeonPosition(0)).ignoringDisable(true));
+        dStart.and(dDPadRight).onTrue(new InstantCommand(()-> pigeon.resetPigeonPosition(270)).ignoringDisable(true));
+        dStart.and(dDPadDown).onTrue(new InstantCommand(()-> pigeon.resetPigeonPosition(180)).ignoringDisable(true));
+        dStart.and(dDPadLeft).onTrue(new InstantCommand(()-> pigeon.resetPigeonPosition(90)).ignoringDisable(true));
        // dY.whileTrue(new TurnPointTest());
         aB.whileTrue(new turnetPosTurn());
         //dRBump.whileTrue(new Shoot());
         //dDPadRight.whileTrue(new TurnPointTest());
         //aDPadLeft.whileTrue(new TurretLeft());
         //aDPadRight.whileTrue(new TurretRight());
+
         /*
         * dis || rpm
         * 1.20m || 2500

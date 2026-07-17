@@ -14,14 +14,20 @@ public class TurretActTurnCalc extends SubsystemBase {
 
     static {
 
-        distanceMap.put(-360.0,-27.0);
+        distanceMap.put(-360.0,-25.238);
+        distanceMap.put(-180.0,-12.619);
+        //distanceMap.put(-142.0,-15.857);
+        distanceMap.put(-56.25, 0.0);
+        distanceMap.put(0.0, (-4.762));
+        distanceMap.put(180.0,(-17.381));
+        distanceMap.put(360.0,-34.762);
+       /* distanceMap.put(-360.0,-27.0);
         distanceMap.put(-180.0,-20.0);
         distanceMap.put(-142.0,-15.857);
         distanceMap.put(-56.25, 0.0);
         distanceMap.put(0.0, (-4.762));
         distanceMap.put(180.0,(-20.0));
-        distanceMap.put(360.0,-27.0);
-
+        distanceMap.put(360.0,-27.0);*/
 
 
 
