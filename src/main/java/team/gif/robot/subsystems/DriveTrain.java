@@ -140,6 +140,9 @@ public class DriveTrain extends SubsystemBase {
     private Translation2d depoShot;
     private Translation2d outpostShot;
 
+    Rotation2d Rots;
+    public Rotation2d gyroAngle = Robot.pigeon.getRotation2d();
+
     /*
      * OLD ODOMETRY FIELD - intentionally commented out.
      *
@@ -222,7 +225,7 @@ public class DriveTrain extends SubsystemBase {
 
     @Override
     public void periodic() {
-        Rotation2d gyroAngle = Robot.pigeon.getRotation2d();
+        gyroAngle = Robot.pigeon.getRotation2d();
         RedAllience = SmartDashboard.getBoolean("RED allience", true);
         if(RedAllience){
             hub = Constants.Field.HUB_RED_TRANSLATION;
@@ -273,7 +276,7 @@ public class DriveTrain extends SubsystemBase {
     }
 
     private void addLimelightVisionMeasurement(Rotation2d gyroAngle) {
-        System.out.println("command is running");
+        //System.out.println("command is running");
         /*
          * MegaTag2 needs the robot's current heading.
          *
@@ -327,7 +330,7 @@ public class DriveTrain extends SubsystemBase {
          */
         if (poseDifferenceMeters > MAX_VISION_POSE_JUMP_METERS) {
             SmartDashboard.putNumber("posedistance", poseDifferenceMeters);
-            System.out.println("tooooo longggggg" + poseDifferenceMeters);
+            //System.out.println("tooooo longggggg" + poseDifferenceMeters);
             return;
         }
 
@@ -343,7 +346,7 @@ public class DriveTrain extends SubsystemBase {
                 mt2.pose,
                 mt2.timestampSeconds
         );
-        System.out.println("fixing pos");
+        //System.out.println("fixing pos");
 
 
     }
@@ -444,7 +447,7 @@ public class DriveTrain extends SubsystemBase {
     }
     public Rotation2d headingErrorHub(){
         Rotation2d angleToHub = getAngleHub();
-        Rotation2d RobotHeading = Robot.pigeon.getRotation2d();
+        Rotation2d RobotHeading = gyroAngle;
 
         double errorRadins = angleToHub.minus(RobotHeading).getRadians();
 

@@ -28,7 +28,7 @@ public class UI {
         SmartDashboard.putNumber("P", 0);
         SmartDashboard.putBoolean("RED allience", true);
         SmartDashboard.putBoolean("LL3 HasTarget", LimelightHelpers.getTV("Limelight-side"));
-
+        //SmartDashboard.putNumber("distance", Robot.driveTrain.distance());
 
     }
 
@@ -48,6 +48,7 @@ public class UI {
         SmartDashboard.putNumber("left motor", Robot.driveTrain.getVelocityLeft());
         SmartDashboard.putBoolean("hub aim?", Robot.driveTrain.scoreing);
         SmartDashboard.putNumber("distance",Robot.driveTrain.distance());
+
 
     }
 }

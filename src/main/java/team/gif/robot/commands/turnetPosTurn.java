@@ -9,7 +9,9 @@ public class turnetPosTurn extends Command {
 
     public turnetPosTurn() {
         super();
-        //addRequirements(Robot.climber); // uncomment
+        //addRequirements(Robot.climber);
+        // uncomment
+        addRequirements(Robot.turret);
     }
 
     // Called when the command is initially scheduled.

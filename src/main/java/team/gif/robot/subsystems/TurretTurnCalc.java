@@ -17,17 +17,18 @@ public class TurretTurnCalc extends SubsystemBase {
 
         double measurementOffset = 0.88;
 
-
-        distanceMap.put((1.2 + measurementOffset), 2500.0);
+        distanceMap.put((.62 + measurementOffset), 2500.0);
+        distanceMap.put((1.2 + measurementOffset), 2650.0);
         distanceMap.put((1.75 + measurementOffset), 2750.0);
         distanceMap.put((2.15 + measurementOffset), 3000.0);
-        distanceMap.put((3.16 + measurementOffset), 3400.0);
-        distanceMap.put((3.66 + measurementOffset), 3800.0);
-        distanceMap.put((4.3 + measurementOffset), 4200.0);
-
+        distanceMap.put((3.16 + measurementOffset), 3500.0);
+        distanceMap.put((3.66 + measurementOffset), 3950.0);
+        distanceMap.put((4.3 + measurementOffset), 4300.0);
+        distanceMap.put((4.589 + measurementOffset), 4400.0);
     }
     public static double getShotRPM() {
-    return distanceMap.get(Robot.driveTrain.distance());
+        //System.out.println(Robot.driveTrain.distance());
+        return distanceMap.get(Robot.driveTrain.distance());
 }
 
 
