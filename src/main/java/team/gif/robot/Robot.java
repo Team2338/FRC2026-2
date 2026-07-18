@@ -51,6 +51,7 @@ public class Robot extends TimedRobot {
     public static DriveTrain driveTrain;
     public static TurretTurnCalc turretTurnCalc;
     public static TurretActTurnCalc turretActTurnCalc;
+    private final CommandScheduler commandScheduler = CommandScheduler.getInstance();
     /*  public static SwerveConfiguration swerveConfig;
     public static SwerveDrivetrain swerveDrive;*/
 
@@ -119,7 +120,7 @@ public class Robot extends TimedRobot {
         // commands, running already-scheduled commands, removing finished or interrupted commands,
         // and running subsystem periodic() methods.  This must be called from the robot's periodic
         // block in order for anything in the Command-based framework to work.
-        CommandScheduler.getInstance().run();
+        commandScheduler.run();
         System.out.println(driveTrain.distance());
         //System.out.println("angle" + driveTrain.getAngleHub());
         //System.out.println("error" + driveTrain.headingErrorHub());
@@ -137,11 +138,15 @@ public class Robot extends TimedRobot {
 
     /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
     @Override
-    public void autonomousInit() {}
+    public void autonomousInit() {
+        autonomousCommand = robotContainer.getAutonomousCommand();
+    }
 
     /** This function is called periodically during autonomous. */
     @Override
-    public void autonomousPeriodic() {}
+    public void autonomousPeriodic() {
+        commandScheduler.schedule(autonomousCommand);
+    }
 
     @Override
     public void teleopInit() {

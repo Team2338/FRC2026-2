@@ -47,6 +47,7 @@ public class UI {
         SmartDashboard.putNumber("right motor", Robot.driveTrain.getVelocityRight());
         SmartDashboard.putNumber("left motor", Robot.driveTrain.getVelocityLeft());
         SmartDashboard.putBoolean("hub aim?", Robot.driveTrain.scoreing);
+        SmartDashboard.putNumber("distance",Robot.driveTrain.distance());
 
     }
 }

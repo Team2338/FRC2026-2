@@ -4,8 +4,14 @@
 
 package team.gif.robot;
 
+import com.pathplanner.lib.auto.NamedCommands;
+import com.pathplanner.lib.commands.PathPlannerAuto;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import team.gif.robot.commands.Collect;
+import team.gif.robot.commands.CollectDownAuto;
+import team.gif.robot.commands.Shoot;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -15,8 +21,12 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  */
 public class RobotContainer {
 
+
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {
+        NamedCommands.registerCommand("Shoot",new Shoot());
+        NamedCommands.registerCommand("Collect", new Collect());
+        NamedCommands.registerCommand("CollectDown", new CollectDownAuto());
         // Configure the trigger bindings
         configureBindings();
 
@@ -32,5 +42,8 @@ public class RobotContainer {
      * joysticks}.
      */
     private void configureBindings() {
+    }
+    public Command getAutonomousCommand(){
+        return new PathPlannerAuto("New Auto");
     }
 }

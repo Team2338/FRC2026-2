@@ -4,8 +4,13 @@
 
 package team.gif.robot.subsystems;
 
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.config.ModuleConfig;
+import com.pathplanner.lib.config.RobotConfig;
+import com.pathplanner.lib.controllers.PPLTVController;
 import com.revrobotics.PersistMode;
 import com.revrobotics.ResetMode;
+import com.revrobotics.spark.SparkBase;
 import com.revrobotics.spark.SparkLowLevel;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.SparkMaxConfig;
@@ -16,14 +21,18 @@ import edu.wpi.first.math.estimator.DifferentialDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 // OLD ODOMETRY IMPORT - intentionally no longer used.
 // import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 // import edu.wpi.first.math.kinematics.DifferentialDriveOdometry3d;
 
+import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
+import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.StructPublisher;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -31,6 +40,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import team.gif.robot.Constants;
 import team.gif.robot.LimelightHelpers;
 import team.gif.robot.Robot;
+import team.gif.robot.RobotContainer;
 import team.gif.robot.RobotMap;
 
 public class DriveTrain extends SubsystemBase {
@@ -337,6 +347,47 @@ public class DriveTrain extends SubsystemBase {
 
 
     }
+    private boolean checkRedAlliance() {
+        //This state should never happen unless we are not connected.
+        //It is set to red because that is what we are set up for in the shop.
+        if(DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get() == DriverStation.Alliance.Red) {
+            return true;
+        } else return DriverStation.getAlliance().isEmpty() || DriverStation.getAlliance().get() != DriverStation.Alliance.Blue;
+
+    }
+    public ChassisSpeeds getRobotRelitiveSpeed(){
+        DifferentialDriveWheelSpeeds wheelSpeeds = new DifferentialDriveWheelSpeeds(
+                leftFrontNEO.getEncoder().getVelocity(),
+                rightFrontNEO.getEncoder().getVelocity()
+        );
+        return m_kinematics.toChassisSpeeds(wheelSpeeds);
+    }
+    public void driveRobotRelative(ChassisSpeeds speeds){
+        DifferentialDriveWheelSpeeds wheelSpeeds = m_kinematics.toWheelSpeeds(speeds);
+        leftFrontNEO.getClosedLoopController().setSetpoint(wheelSpeeds.leftMetersPerSecond, SparkBase.ControlType.kVelocity);
+        rightFrontNEO.getClosedLoopController().setSetpoint(wheelSpeeds.rightMetersPerSecond, SparkBase.ControlType.kVelocity);
+    }
+    private void configPathPlanner(){
+        RobotConfig ppConfig;
+        try{
+            ppConfig = RobotConfig.fromGUISettings();
+        }catch (Exception e){
+            ModuleConfig moduleConfig = new ModuleConfig(.0762,5,1, DCMotor.getNEO(2), 50, 1);
+            ppConfig = new RobotConfig(15, 0,moduleConfig , TRACK_WIDTH_METERS);
+
+        }
+        AutoBuilder.configure(
+                this::getPose,
+                this::resetPose,
+                this::getRobotRelitiveSpeed,
+                this::driveRobotRelative,
+                new PPLTVController(0.02),
+                ppConfig,
+                this::checkRedAlliance,
+                this
+        );
+    }
+
 
     private double getLeftDistanceMeters() {
         return (leftFrontNEO.getEncoder().getPosition()

@@ -55,4 +55,5 @@ public final class Constants {
         public static final String LIMELIGHT_NAME = "limelight-front";
         public static final int PIGEON_ID = 9; // change to your real CAN ID
     }
+    public static final class config{}
 }
