@@ -32,7 +32,6 @@ import team.gif.robot.subsystems.drivers.Pigeon;
  */
 public class Robot extends TimedRobot {
     private static Command autonomousCommand;
-    private RobotContainer robotContainer;
     public static OI oi;
     public static CollectorPivot collectorPivot;
     public static Collector collector;
@@ -52,6 +51,7 @@ public class Robot extends TimedRobot {
     public static SwerveDrivetrain swerveDrive;*/
 
     public static UI ui;
+    private RobotContainer robotContainer;
 
    // public static final boolean enableSwerveDebug = true;
   //  public static final boolean fullDashboard = true;
@@ -66,7 +66,7 @@ public class Robot extends TimedRobot {
     public Robot() {
         // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
         // autonomous chooser on the dashboard.
-        robotContainer = new RobotContainer();
+
         limelight = new Limelight("limelight-turret");
         limelight3 = new Limelight("limelight-side");
         pigeon = new Pigeon(RobotMap.PIGEON_ID);
@@ -99,7 +99,7 @@ public class Robot extends TimedRobot {
         //These should be at or near the bottom
 
 
-
+        robotContainer = new RobotContainer();
         oi = new OI();
         ui = new UI();
 
@@ -138,13 +138,13 @@ public class Robot extends TimedRobot {
     /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
     @Override
     public void autonomousInit() {
-        autonomousCommand = robotContainer.getAutonomousCommand();
+        //autonomousCommand = robotContainer.getAutonomousCommand();
     }
 
     /** This function is called periodically during autonomous. */
     @Override
     public void autonomousPeriodic() {
-        commandScheduler.schedule(autonomousCommand);
+        //commandScheduler.schedule(autonomousCommand);
     }
 
     @Override

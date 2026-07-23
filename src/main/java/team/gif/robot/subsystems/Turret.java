@@ -31,20 +31,21 @@ public class Turret extends SubsystemBase {
     public SparkClosedLoopController neoPID;
     public RelativeEncoder turretEncoder;
     public SparkMaxConfig turretConfig;
-    double Kp = 0.35;
+    double Kp = 2;
         //0.00025;
     double Ki = 0;
     double Kd = 0;
+    public double offset = 0;
     public Turret() {
         turret = new SparkMax(RobotMap.TURRET_MOTOR_ID, SparkLowLevel.MotorType.kBrushless);
         neoPID = turret.getClosedLoopController();
         turretEncoder = turret.getEncoder();
         turretConfig = new SparkMaxConfig();
         turretConfig.smartCurrentLimit(3,5,300);
-
         turretConfig.closedLoop
                 .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
-                .pid(Kp, Ki, Kd);
+                .pid(Kp, Ki, Kd)
+                .allowedClosedLoopError(.01,ClosedLoopSlot.kSlot0);
         // double check if this gets set in motor controller or is run on rio
 
         turretConfig.idleMode(SparkMaxConfig.IdleMode.kBrake); //or replace kBrake with kCoast

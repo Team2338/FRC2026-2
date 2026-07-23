@@ -22,6 +22,7 @@ public class TurretC extends Command {
     public void execute() {
        blah = Robot.pigeon.getRotation2d().plus(inc) ;
        Robot.pigeon.resetPigeonPosition(blah.getDegrees());
+       Robot.turret.offset += 2;
 
     }
 

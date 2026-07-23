@@ -9,7 +9,7 @@ public class Shoot extends Command {
 
     public Shoot() {
         super();
-        addRequirements(Robot.shooter, Robot.turretTurnCalc);
+        addRequirements(Robot.shooter);
     }
 
     // Called when the command is initially scheduled.

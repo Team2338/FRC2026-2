@@ -9,6 +9,7 @@ import team.gif.robot.commands.CollectDown;
 import team.gif.robot.commands.CollectUp;
 import team.gif.robot.commands.Intake;
 import team.gif.robot.commands.Shoot;
+import team.gif.robot.commands.ShootTest;
 import team.gif.robot.commands.SpinerSpin;
 import team.gif.robot.commands.SpinerSpinBAckwads;
 import team.gif.robot.commands.TurretC;
@@ -93,6 +94,7 @@ public class OI {
         aDPadLeft.onTrue(new TurretCC());
         aDPadRight.onTrue(new TurretC());
         aLTrigger.whileTrue(new SpinerSpinBAckwads());
+        dA.whileTrue(new ShootTest().withTimeout(.25).andThen(new ShootTest().alongWith(new Intake())));
 
 //        aDPadUp.whileTrue(new CollectUp());
 //        aDPadDown.whileTrue(new CollectDown());

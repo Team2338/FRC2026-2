@@ -1,12 +1,11 @@
 package team.gif.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import team.gif.robot.Constants;
 import team.gif.robot.Robot;
 // Need to be removed later
-public class NEOTest extends Command {
+public class ShootTest extends Command {
 
-    public NEOTest() {
+    public ShootTest() {
         super();
         addRequirements(Robot.turret);
         //addRequirements(Robot.climber); // uncomment
@@ -19,8 +18,7 @@ public class NEOTest extends Command {
     // Called every time the scheduler runs (~20ms) while the command is scheduled
     @Override
     public void execute() {
-        Robot.turret.turn(3);
-        System.out.println("moving");
+        Robot.shooter.setRPM(4400);
     }
 
     // Return true when the command should end, false if it should continue. Runs every ~20ms.
@@ -32,6 +30,6 @@ public class NEOTest extends Command {
     // Called when the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
-        Robot.turret.turn(0);
+        Robot.shooter.setRPM(0);
     }
 }

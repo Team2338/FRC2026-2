@@ -24,6 +24,7 @@ public class TurretCC extends Command {
     public void execute() {
         blah = Robot.pigeon.getRotation2d().minus(inc) ;
         Robot.pigeon.resetPigeonPosition(blah.getDegrees());
+        Robot.turret.offset -= 2;
     }
 
     // Return true when the command should end, false if it should continue. Runs every ~20ms.

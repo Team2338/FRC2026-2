@@ -44,6 +44,6 @@ public class RobotContainer {
     private void configureBindings() {
     }
     public Command getAutonomousCommand(){
-        return new PathPlannerAuto("New Auto");
+        return new PathPlannerAuto("Copy of New Auto");
     }
 }

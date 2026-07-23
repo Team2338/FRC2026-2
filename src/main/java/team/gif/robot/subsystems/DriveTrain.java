@@ -370,6 +370,20 @@ public class DriveTrain extends SubsystemBase {
         leftFrontNEO.getClosedLoopController().setSetpoint(wheelSpeeds.leftMetersPerSecond, SparkBase.ControlType.kVelocity);
         rightFrontNEO.getClosedLoopController().setSetpoint(wheelSpeeds.rightMetersPerSecond, SparkBase.ControlType.kVelocity);
     }
+    public Pose2d getPose() {
+        return m_poseEstimator.getEstimatedPosition();
+    }
+
+    public void resetPose(Pose2d pose) {
+        m_poseEstimator.resetPosition(
+                Robot.pigeon.getRotation2d(),
+                getLeftDistanceMeters(),
+                getRightDistanceMeters(),
+                pose
+        );
+
+        m_pose = pose;
+    }
     private void configPathPlanner(){
         RobotConfig ppConfig;
         try{
@@ -379,6 +393,7 @@ public class DriveTrain extends SubsystemBase {
             ppConfig = new RobotConfig(15, 0,moduleConfig , TRACK_WIDTH_METERS);
 
         }
+
         AutoBuilder.configure(
                 this::getPose,
                 this::resetPose,
@@ -416,20 +431,7 @@ public class DriveTrain extends SubsystemBase {
                 + rightBackNEO.getEncoder().getPosition()) / 2.0);
     }
 
-    public Pose2d getPose() {
-        return m_poseEstimator.getEstimatedPosition();
-    }
 
-    public void resetPose(Pose2d pose) {
-        m_poseEstimator.resetPosition(
-                Robot.pigeon.getRotation2d(),
-                getLeftDistanceMeters(),
-                getRightDistanceMeters(),
-                pose
-        );
-
-        m_pose = pose;
-    }
 
 
     public double distance() {

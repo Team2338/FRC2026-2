@@ -28,7 +28,7 @@ public class Shooter extends SubsystemBase {
         //0.00025;
     double Ki = 0;
     double Kd = 0;
-
+    public double speed = 0;
 
     public Shooter() {
         shooterMotorOne = new TalonFX(RobotMap.SHOOT_MOTOR_ID_ONE);
@@ -71,8 +71,12 @@ public class Shooter extends SubsystemBase {
     @Override
     public void periodic() {
         double newP = SmartDashboard.getNumber("P", 0);
-
+        double newSpeed = SmartDashboard.getNumber("speed", 0);
         double oldP = configurationOne.Slot0.kP;
+
+        if(newSpeed != speed){
+            speed = newSpeed;
+        }
 
         if (newP!=oldP) {
             configurationOne.Slot0.kP = newP;
