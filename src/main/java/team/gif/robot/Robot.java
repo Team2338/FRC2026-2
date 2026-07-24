@@ -4,7 +4,9 @@
 
 package team.gif.robot;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
@@ -123,6 +125,9 @@ public class Robot extends TimedRobot {
         //System.out.println("angle" + driveTrain.getAngleHub());
         //System.out.println("error" + driveTrain.headingErrorHub());
         System.out.println(pigeon.getRotation2d()+"-----");
+
+        SmartDashboard.putNumber("Match Time", DriverStation.getMatchTime());
+
 
         ui.update();
 
