@@ -17,7 +17,7 @@ public class Intake extends Command {
     // Called every time the scheduler runs (~20ms) while the command is scheduled
     @Override
     public void execute() {
-        Robot.indexerWheels.turn(.3);
+        Robot.indexerWheels.turn(.5);
     }
 
     // Return true when the command should end, false if it should continue. Runs every ~20ms.
