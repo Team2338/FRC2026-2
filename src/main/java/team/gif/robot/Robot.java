@@ -24,6 +24,7 @@ import team.gif.robot.subsystems.TurretActTurnCalc;
 import team.gif.robot.subsystems.TurretTurnCalc;
 import team.gif.robot.subsystems.drivers.Limelight;
 import team.gif.robot.subsystems.drivers.Pigeon;
+import team.gif.robot.subsystems.drivers.Pigeon2_0;
 
 
 /**
@@ -42,7 +43,7 @@ public class Robot extends TimedRobot {
     public static IndexerWheels indexerWheels;
     public static NeoSpinDexer neoSpinDexer;
     public static Shooter shooter;
-    public static Pigeon pigeon;
+    public static Pigeon2_0 pigeon;
     public static Turret turret;
     public static SpinDexer spinDexer;
     public static DriveTrain driveTrain;
@@ -71,7 +72,7 @@ public class Robot extends TimedRobot {
 
         limelight = new Limelight("limelight-turret");
         limelight3 = new Limelight("limelight-side");
-        pigeon = new Pigeon(RobotMap.PIGEON_ID);
+        pigeon = new Pigeon2_0(RobotMap.PIGEON_ID);
         turret = new Turret();
         spinDexer = new SpinDexer();
         collectorPivot = new CollectorPivot();
