@@ -43,7 +43,7 @@ public class Robot extends TimedRobot {
     public static IndexerWheels indexerWheels;
     public static NeoSpinDexer neoSpinDexer;
     public static Shooter shooter;
-    public static Pigeon2_0 pigeon;
+    public static Pigeon2_0 pigeon; // change from Pigeon2_0 to Pigeon
     public static Turret turret;
     public static SpinDexer spinDexer;
     public static DriveTrain driveTrain;
@@ -72,7 +72,7 @@ public class Robot extends TimedRobot {
 
         limelight = new Limelight("limelight-turret");
         limelight3 = new Limelight("limelight-side");
-        pigeon = new Pigeon2_0(RobotMap.PIGEON_ID);
+        pigeon = new Pigeon2_0(RobotMap.PIGEON_ID);// change from Pigeon2_0 to Pigeon
         turret = new Turret();
         spinDexer = new SpinDexer();
         collectorPivot = new CollectorPivot();
