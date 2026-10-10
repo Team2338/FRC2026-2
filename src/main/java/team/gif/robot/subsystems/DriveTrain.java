@@ -179,6 +179,12 @@ public class DriveTrain extends SubsystemBase {
         configRightFront.encoder.positionConversionFactor(DRIVE_ENCODER_POSITION_CONVERSION_FACTOR_METERS);
         configRightBack.encoder.positionConversionFactor(DRIVE_ENCODER_POSITION_CONVERSION_FACTOR_METERS);
 
+        configLeftFront.encoder.velocityConversionFactor(DRIVE_ENCODER_POSITION_CONVERSION_FACTOR_METERS/60);
+        configLeftBack.encoder.velocityConversionFactor(DRIVE_ENCODER_POSITION_CONVERSION_FACTOR_METERS/60);
+        configRightFront.encoder.velocityConversionFactor(DRIVE_ENCODER_POSITION_CONVERSION_FACTOR_METERS/60);
+        configRightBack.encoder.velocityConversionFactor(DRIVE_ENCODER_POSITION_CONVERSION_FACTOR_METERS/60);
+
+
         configLeftFront.closedLoop.p(0.002).i(0).d(0.00001).outputRange(-1,1);
         configLeftBack.closedLoop.p(0.002).i(0).d(0.00001).outputRange(-1,1);
         configRightFront.closedLoop.p(0.002).i(0).d(0.00001).outputRange(-1,1);
