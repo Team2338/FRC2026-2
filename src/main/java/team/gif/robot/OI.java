@@ -4,19 +4,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import team.gif.robot.commands.Collect;
-import team.gif.robot.commands.CollectDown;
-import team.gif.robot.commands.CollectUp;
-import team.gif.robot.commands.Intake;
-import team.gif.robot.commands.Shoot;
-import team.gif.robot.commands.ShootTest;
-import team.gif.robot.commands.SpinerSpin;
-import team.gif.robot.commands.SpinerSpinBAckwads;
-import team.gif.robot.commands.TurretC;
-import team.gif.robot.commands.TurretCC;
-import team.gif.robot.commands.ZeroEncoder;
-import team.gif.robot.commands.changeAimMode;
-import team.gif.robot.commands.turnetPosTurn;
+import team.gif.robot.commands.*;
 
 import static team.gif.robot.Robot.pigeon;
 
@@ -108,6 +96,7 @@ public class OI {
         dStart.and(dDPadLeft).onTrue(new InstantCommand(()-> pigeon.resetPigeonPosition(90)).ignoringDisable(true));
        // dY.whileTrue(new TurnPointTest());
         aB.whileTrue(new turnetPosTurn());
+        aX.whileTrue(new AgitateColector());
         //dRBump.whileTrue(new Shoot());
         //dDPadRight.whileTrue(new TurnPointTest());
         //aDPadLeft.whileTrue(new TurretLeft());

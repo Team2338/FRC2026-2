@@ -4,6 +4,8 @@
 
 package team.gif.robot;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -23,7 +25,6 @@ import team.gif.robot.subsystems.Turret;
 import team.gif.robot.subsystems.TurretActTurnCalc;
 import team.gif.robot.subsystems.TurretTurnCalc;
 import team.gif.robot.subsystems.drivers.Limelight;
-import team.gif.robot.subsystems.drivers.Pigeon;
 import team.gif.robot.subsystems.drivers.Pigeon2_0;
 
 
@@ -52,14 +53,20 @@ public class Robot extends TimedRobot {
     private final CommandScheduler commandScheduler = CommandScheduler.getInstance();
     /*  public static SwerveConfiguration swerveConfig;
     public static SwerveDrivetrain swerveDrive;*/
-
+    static Rotation2d flip = Rotation2d.fromDegrees(180);
     public static UI ui;
     private RobotContainer robotContainer;
+    private static final Pose2d RED_POSE =
+            new Pose2d(16.541 - 3.56, 8.07 - 4.09, new Rotation2d());
+    private static final Pose2d BLUE_POSE =
+            new Pose2d(16.541-12.981, 8.07-4.09 , new Rotation2d().plus(flip));
 
    // public static final boolean enableSwerveDebug = true;
   //  public static final boolean fullDashboard = true;
 
     public static boolean manualMode = false;
+    boolean isRedAllience = true;
+
 
 
     /**
@@ -100,9 +107,9 @@ public class Robot extends TimedRobot {
         swerveDrive.addLimelight("limelight-front");*/
 
         //These should be at or near the bottom
-
-
         robotContainer = new RobotContainer();
+
+
         oi = new OI();
         ui = new UI();
 
@@ -117,17 +124,31 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void robotPeriodic() {
+
         // Runs the Scheduler.  This is responsible for polling buttons, adding newly-scheduled
         // commands, running already-scheduled commands, removing finished or interrupted commands,
         // and running subsystem periodic() methods.  This must be called from the robot's periodic
         // block in order for anything in the Command-based framework to work.
         commandScheduler.run();
-        System.out.println(driveTrain.distance());
+        //System.out.println(driveTrain.distance());
         //System.out.println("angle" + driveTrain.getAngleHub());
         //System.out.println("error" + driveTrain.headingErrorHub());
-        System.out.println(pigeon.getRotation2d()+"-----");
+        //System.out.println(pigeon.getRotation2d()+"-----");
 
         SmartDashboard.putNumber("Match Time", DriverStation.getMatchTime());
+        boolean RedAlliance = SmartDashboard.getBoolean("RED allience", true);
+        System.out.println(RedAlliance);
+        System.out.println(isRedAllience);
+
+        if(isRedAllience != RedAlliance){
+            if(RedAlliance){
+                driveTrain.resetPose(RED_POSE);
+            }
+            else{
+                driveTrain.resetPose(BLUE_POSE);
+            }
+        }
+        isRedAllience = RedAlliance;
 
 
         ui.update();
@@ -144,13 +165,14 @@ public class Robot extends TimedRobot {
     /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
     @Override
     public void autonomousInit() {
-        //autonomousCommand = robotContainer.getAutonomousCommand();
+
+        autonomousCommand = robotContainer.getAutonomousCommand();
     }
 
     /** This function is called periodically during autonomous. */
     @Override
     public void autonomousPeriodic() {
-        //commandScheduler.schedule(autonomousCommand);
+        commandScheduler.schedule(autonomousCommand);
     }
 
     @Override

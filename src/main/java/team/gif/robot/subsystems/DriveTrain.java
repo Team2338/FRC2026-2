@@ -111,7 +111,7 @@ public class DriveTrain extends SubsystemBase {
      * corrections. During initial testing, you can raise this value or temporarily
      * disable this check.
      */
-    private static final double MAX_VISION_POSE_JUMP_METERS = 5;
+    private static final double MAX_VISION_POSE_JUMP_METERS = 20;
 
     private final DifferentialDriveKinematics m_kinematics =
             new DifferentialDriveKinematics(TRACK_WIDTH_METERS);
@@ -156,6 +156,8 @@ public class DriveTrain extends SubsystemBase {
             .publish();
 
     public DriveTrain() {
+        configPathPlanner();
+
 
         leftFrontNEO = new SparkMax(RobotMap.LEFT_FRONT_NEO, SparkLowLevel.MotorType.kBrushless);
         leftBackNEO = new SparkMax(RobotMap.LEFT_BACK_NEO, SparkLowLevel.MotorType.kBrushless);
@@ -383,14 +385,15 @@ public class DriveTrain extends SubsystemBase {
         );
 
         m_pose = pose;
+        publisher.set(m_pose);
     }
     private void configPathPlanner(){
         RobotConfig ppConfig;
         try{
             ppConfig = RobotConfig.fromGUISettings();
         }catch (Exception e){
-            ModuleConfig moduleConfig = new ModuleConfig(.0762,5,1, DCMotor.getNEO(2), 50, 1);
-            ppConfig = new RobotConfig(15, 0,moduleConfig , TRACK_WIDTH_METERS);
+            ModuleConfig moduleConfig = new ModuleConfig(.0762,.5,1, DCMotor.getNEO(4), 38, 4);
+            ppConfig = new RobotConfig(56.7, 0,moduleConfig , TRACK_WIDTH_METERS);
 
         }
 
@@ -405,6 +408,8 @@ public class DriveTrain extends SubsystemBase {
                 this
         );
     }
+
+
 
 
     private double getLeftDistanceMeters() {

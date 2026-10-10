@@ -4,6 +4,7 @@
 
 package team.gif.robot;
 
+import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -44,6 +45,8 @@ public class RobotContainer {
     private void configureBindings() {
     }
     public Command getAutonomousCommand(){
-        return new PathPlannerAuto("Copy of New Auto");
+        AutoBuilder.buildAuto("test auto");
+        return new PathPlannerAuto("test auto");
+
     }
 }
