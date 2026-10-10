@@ -170,14 +170,19 @@ public class DriveTrain extends SubsystemBase {
         configRightBack = new SparkMaxConfig();
 
         configLeftFront.idleMode(SparkMaxConfig.IdleMode.kBrake);
-        configLeftBack.idleMode(SparkMaxConfig.IdleMode.kBrake).follow(RobotMap.LEFT_FRONT_NEO);
+        configLeftBack.idleMode(SparkMaxConfig.IdleMode.kBrake).follow(leftFrontNEO);
         configRightFront.idleMode(SparkMaxConfig.IdleMode.kBrake);
-        configRightBack.idleMode(SparkMaxConfig.IdleMode.kBrake).follow(RobotMap.RIGHT_FRONT_NEO);
+        configRightBack.idleMode(SparkMaxConfig.IdleMode.kBrake).follow(rightFrontNEO);
 
         configLeftFront.encoder.positionConversionFactor(DRIVE_ENCODER_POSITION_CONVERSION_FACTOR_METERS);
         configLeftBack.encoder.positionConversionFactor(DRIVE_ENCODER_POSITION_CONVERSION_FACTOR_METERS);
         configRightFront.encoder.positionConversionFactor(DRIVE_ENCODER_POSITION_CONVERSION_FACTOR_METERS);
         configRightBack.encoder.positionConversionFactor(DRIVE_ENCODER_POSITION_CONVERSION_FACTOR_METERS);
+
+        configLeftFront.closedLoop.p(0.002).i(0).d(0.00001).outputRange(-1,1);
+        configLeftBack.closedLoop.p(0.002).i(0).d(0.00001).outputRange(-1,1);
+        configRightFront.closedLoop.p(0.002).i(0).d(0.00001).outputRange(-1,1);
+        configRightBack.closedLoop.p(0.002).i(0).d(0.00001).outputRange(-1,1);
 
         leftFrontNEO.configure(
                 configLeftFront,
@@ -204,6 +209,7 @@ public class DriveTrain extends SubsystemBase {
         );
 
         drive = new DifferentialDrive(leftFrontNEO, rightFrontNEO);
+        drive.setSafetyEnabled(false);
 
         m_poseEstimator = new DifferentialDrivePoseEstimator(
                 m_kinematics,
@@ -212,6 +218,7 @@ public class DriveTrain extends SubsystemBase {
                 getRightDistanceMeters(),
                 INITIAL_POSE
         );
+
 
         /*
          * OLD ODOMETRY CONSTRUCTOR - intentionally commented out.
@@ -371,6 +378,9 @@ public class DriveTrain extends SubsystemBase {
         DifferentialDriveWheelSpeeds wheelSpeeds = m_kinematics.toWheelSpeeds(speeds);
         leftFrontNEO.getClosedLoopController().setSetpoint(wheelSpeeds.leftMetersPerSecond, SparkBase.ControlType.kVelocity);
         rightFrontNEO.getClosedLoopController().setSetpoint(wheelSpeeds.rightMetersPerSecond, SparkBase.ControlType.kVelocity);
+        System.out.println("this is important" + wheelSpeeds.leftMetersPerSecond + wheelSpeeds.rightMetersPerSecond);
+        System.out.println(leftFrontNEO.getEncoder().getVelocity() + rightFrontNEO.getEncoder().getVelocity()+ "this to");
+        drive.feedWatchdog();
     }
     public Pose2d getPose() {
         return m_poseEstimator.getEstimatedPosition();
@@ -392,7 +402,7 @@ public class DriveTrain extends SubsystemBase {
         try{
             ppConfig = RobotConfig.fromGUISettings();
         }catch (Exception e){
-            ModuleConfig moduleConfig = new ModuleConfig(.0762,.5,1, DCMotor.getNEO(4), 38, 4);
+            ModuleConfig moduleConfig = new ModuleConfig(.0762,5,1, DCMotor.getNEO(4), 38, 4);
             ppConfig = new RobotConfig(56.7, 0,moduleConfig , TRACK_WIDTH_METERS);
 
         }
