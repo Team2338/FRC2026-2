@@ -185,10 +185,11 @@ public class DriveTrain extends SubsystemBase {
         configRightBack.encoder.velocityConversionFactor(DRIVE_ENCODER_POSITION_CONVERSION_FACTOR_METERS/60);
 
 
-        configLeftFront.closedLoop.p(0.004).i(0).d(0).outputRange(-1,1);
-        configLeftBack.closedLoop.p(0.004).i(0).d(0).outputRange(-1,1);
-        configRightFront.closedLoop.p(0.004).i(0).d(0).outputRange(-1,1);
-        configRightBack.closedLoop.p(0.004).i(0).d(0).outputRange(-1,1);
+        configLeftFront.closedLoop.p(0.075).i(0).d(0).outputRange(-1,1);
+        configLeftBack.closedLoop.p(0.075).i(0).d(0).outputRange(-1,1);
+        configRightFront.closedLoop.p(0.075).i(0).d(0).outputRange(-1,1);
+        configRightBack.closedLoop.p(0.075).i(0).d(0).outputRange(-1,1);
+
 
         leftFrontNEO.configure(
                 configLeftFront,
@@ -409,7 +410,7 @@ public class DriveTrain extends SubsystemBase {
             ppConfig = RobotConfig.fromGUISettings();
         }catch (Exception e){
             ModuleConfig moduleConfig = new ModuleConfig(.0762,5,1, DCMotor.getNEO(4), 38, 4);
-            ppConfig = new RobotConfig(56.7, 0,moduleConfig , TRACK_WIDTH_METERS);
+            ppConfig = new RobotConfig(56.7, 20.21,moduleConfig , TRACK_WIDTH_METERS);
 
         }
 
