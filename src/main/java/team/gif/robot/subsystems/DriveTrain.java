@@ -185,10 +185,10 @@ public class DriveTrain extends SubsystemBase {
         configRightBack.encoder.velocityConversionFactor(DRIVE_ENCODER_POSITION_CONVERSION_FACTOR_METERS/60);
 
 
-        configLeftFront.closedLoop.p(0.002).i(0).d(0.00001).outputRange(-1,1);
-        configLeftBack.closedLoop.p(0.002).i(0).d(0.00001).outputRange(-1,1);
-        configRightFront.closedLoop.p(0.002).i(0).d(0.00001).outputRange(-1,1);
-        configRightBack.closedLoop.p(0.002).i(0).d(0.00001).outputRange(-1,1);
+        configLeftFront.closedLoop.p(0.004).i(0).d(0).outputRange(-1,1);
+        configLeftBack.closedLoop.p(0.004).i(0).d(0).outputRange(-1,1);
+        configRightFront.closedLoop.p(0.004).i(0).d(0).outputRange(-1,1);
+        configRightBack.closedLoop.p(0.004).i(0).d(0).outputRange(-1,1);
 
         leftFrontNEO.configure(
                 configLeftFront,
@@ -281,7 +281,7 @@ public class DriveTrain extends SubsystemBase {
         );
 
         // this as its named will add a vision measurement if the limelight can see a tag, but will do nothing if it can't see a tag
-        addLimelightVisionMeasurement(gyroAngle);
+        // addLimelightVisionMeasurement(gyroAngle);
 
         // Update the field-relative pose to be published to NetworkTables.
         m_pose = m_poseEstimator.getEstimatedPosition();
@@ -291,6 +291,7 @@ public class DriveTrain extends SubsystemBase {
     }
 
     private void addLimelightVisionMeasurement(Rotation2d gyroAngle) {
+
         //System.out.println("command is running");
         /*
          * MegaTag2 needs the robot's current heading.
@@ -361,7 +362,6 @@ public class DriveTrain extends SubsystemBase {
                 mt2.pose,
                 mt2.timestampSeconds
         );
-        //System.out.println("fixing pos");
 
 
     }
@@ -383,7 +383,7 @@ public class DriveTrain extends SubsystemBase {
     public void driveRobotRelative(ChassisSpeeds speeds){
         DifferentialDriveWheelSpeeds wheelSpeeds = m_kinematics.toWheelSpeeds(speeds);
         leftFrontNEO.getClosedLoopController().setSetpoint(wheelSpeeds.leftMetersPerSecond, SparkBase.ControlType.kVelocity);
-        rightFrontNEO.getClosedLoopController().setSetpoint(wheelSpeeds.rightMetersPerSecond, SparkBase.ControlType.kVelocity);
+        rightFrontNEO.getClosedLoopController().setSetpoint(-wheelSpeeds.rightMetersPerSecond, SparkBase.ControlType.kVelocity);
         System.out.println("this is important" + wheelSpeeds.leftMetersPerSecond + wheelSpeeds.rightMetersPerSecond);
         System.out.println(leftFrontNEO.getEncoder().getVelocity() + rightFrontNEO.getEncoder().getVelocity()+ "this to");
         drive.feedWatchdog();

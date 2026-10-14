@@ -136,19 +136,9 @@ public class Robot extends TimedRobot {
         //System.out.println(pigeon.getRotation2d()+"-----");
 
         SmartDashboard.putNumber("Match Time", DriverStation.getMatchTime());
-        boolean RedAlliance = SmartDashboard.getBoolean("RED allience", true);
-        System.out.println(RedAlliance);
-        System.out.println(isRedAllience);
 
-        if(isRedAllience != RedAlliance){
-            if(RedAlliance){
-                driveTrain.resetPose(RED_POSE);
-            }
-            else{
-                driveTrain.resetPose(BLUE_POSE);
-            }
-        }
-        isRedAllience = RedAlliance;
+
+
 
 
         ui.update();
@@ -165,14 +155,26 @@ public class Robot extends TimedRobot {
     /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
     @Override
     public void autonomousInit() {
+        boolean RedAlliance = SmartDashboard.getBoolean("RED allience", true);
+        if(isRedAllience != RedAlliance){
+            if(RedAlliance){
+                driveTrain.resetPose(RED_POSE);
+            }
+            else{
+                driveTrain.resetPose(BLUE_POSE);
+            }
+        }
+        isRedAllience = RedAlliance;
 
         autonomousCommand = robotContainer.getAutonomousCommand();
+        commandScheduler.schedule(autonomousCommand);
+
     }
 
     /** This function is called periodically during autonomous. */
     @Override
     public void autonomousPeriodic() {
-        commandScheduler.schedule(autonomousCommand);
+
     }
 
     @Override
