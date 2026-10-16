@@ -242,7 +242,7 @@ public class DriveTrain extends SubsystemBase {
     @Override
     public void periodic() {
         gyroAngle = Robot.pigeon.getRotation2d();
-        RedAllience = SmartDashboard.getBoolean("RED allience", true);
+        RedAllience = checkRedAlliance();
         if(RedAllience){
             hub = Constants.Field.HUB_RED_TRANSLATION;
             depoShot = Constants.Field.PASS_RED_DEOPO;

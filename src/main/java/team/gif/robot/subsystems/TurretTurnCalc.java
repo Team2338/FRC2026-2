@@ -22,10 +22,10 @@ public class TurretTurnCalc extends SubsystemBase {
         distanceMap.put((2.7), 3000.0);
         distanceMap.put((2.8), 3100.0);
         distanceMap.put((3.0), 3200.0);
-        distanceMap.put((3.2), 3300.0);
-        distanceMap.put((3.5), 3500.0);
+        distanceMap.put((3.2), 3250.0);
+        distanceMap.put((3.5), 3450.0);
         distanceMap.put((3.8), 3500.0);
-        distanceMap.put((4.0), 3700.0);
+        distanceMap.put((4.0), 3625.0);
         distanceMap.put((4.3), 3900.0);
         distanceMap.put((4.5), 4000.0);
         distanceMap.put((4.8), 4100.0);
