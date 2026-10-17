@@ -45,8 +45,8 @@ public class RobotContainer {
     private void configureBindings() {
     }
     public Command getAutonomousCommand(){
-        AutoBuilder.buildAuto("depo auto");
-        return new PathPlannerAuto("depo auto");
+        AutoBuilder.buildAuto("Center to Depot");
+        return new PathPlannerAuto("Center to Depot");
 
     }
 }

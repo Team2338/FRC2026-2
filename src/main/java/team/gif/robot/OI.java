@@ -94,6 +94,8 @@ public class OI {
         dStart.and(dDPadRight).onTrue(new InstantCommand(()-> pigeon.resetPigeonPosition(270)).ignoringDisable(true));
         dStart.and(dDPadDown).onTrue(new InstantCommand(()-> pigeon.resetPigeonPosition(180)).ignoringDisable(true));
         dStart.and(dDPadLeft).onTrue(new InstantCommand(()-> pigeon.resetPigeonPosition(90)).ignoringDisable(true));
+
+        dLTrigger.whileTrue(new CollectOut());
        // dY.whileTrue(new TurnPointTest());
         aB.whileTrue(new turnetPosTurn());
         aX.whileTrue(new AgitateColector());

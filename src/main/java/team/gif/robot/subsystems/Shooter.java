@@ -68,7 +68,7 @@ public class Shooter extends SubsystemBase {
 
     }
 
-    @Override
+
     public void periodic() {
         double newP = SmartDashboard.getNumber("P", 0);
         double newSpeed = SmartDashboard.getNumber("speed", 0);

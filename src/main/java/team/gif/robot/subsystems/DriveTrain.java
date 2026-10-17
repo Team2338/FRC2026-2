@@ -185,10 +185,10 @@ public class DriveTrain extends SubsystemBase {
         configRightBack.encoder.velocityConversionFactor(DRIVE_ENCODER_POSITION_CONVERSION_FACTOR_METERS/60);
 
 
-        configLeftFront.closedLoop.p(0.075).i(0).d(0).outputRange(-1,1);
-        configLeftBack.closedLoop.p(0.075).i(0).d(0).outputRange(-1,1);
-        configRightFront.closedLoop.p(0.075).i(0).d(0).outputRange(-1,1);
-        configRightBack.closedLoop.p(0.075).i(0).d(0).outputRange(-1,1);
+        configLeftFront.closedLoop.p(0.08).i(0).d(0).outputRange(-1,1);
+        configLeftBack.closedLoop.p(0.08).i(0).d(0).outputRange(-1,1);
+        configRightFront.closedLoop.p(0.08).i(0).d(0).outputRange(-1,1);
+        configRightBack.closedLoop.p(0.08).i(0).d(0).outputRange(-1,1);
 
 
         leftFrontNEO.configure(
@@ -282,7 +282,7 @@ public class DriveTrain extends SubsystemBase {
         );
 
         // this as its named will add a vision measurement if the limelight can see a tag, but will do nothing if it can't see a tag
-        // addLimelightVisionMeasurement(gyroAngle);
+        addLimelightVisionMeasurement(gyroAngle);
 
         // Update the field-relative pose to be published to NetworkTables.
         m_pose = m_poseEstimator.getEstimatedPosition();
@@ -490,7 +490,7 @@ public class DriveTrain extends SubsystemBase {
     }
 
     public void driveArcade(double speed, double rotation) {
-        if(shooting){
+        if(shooting && scoreing){
         drive.arcadeDrive(speed*.5, rotation*.5);
     }
         else{drive.arcadeDrive(speed, rotation);}

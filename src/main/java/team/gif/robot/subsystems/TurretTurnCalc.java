@@ -30,8 +30,8 @@ public class TurretTurnCalc extends SubsystemBase {
         distanceMap.put((4.5), 4000.0);
         distanceMap.put((4.8), 4100.0);
         distanceMap.put((5.0), 4300.0);
-        distanceMap.put((5.4), 4600.0);
-        distanceMap.put((7.0),5000.0);
+        distanceMap.put((5.4), 4500.0);
+        distanceMap.put((7.0), 4500.0);
 
 
          /*distanceMap.put((2.3), 2600.0); //(This was for orange wheels as of 10/3/2026)
