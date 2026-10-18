@@ -1,6 +1,7 @@
 package team.gif.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import team.gif.robot.Constants;
 import team.gif.robot.Robot;
 
 public class CollectDown extends Command {
@@ -17,7 +18,7 @@ public class CollectDown extends Command {
     // Called every time the scheduler runs (~20ms) while the command is scheduled
     @Override
     public void execute() {
-        Robot.collectorPivot.turn(.2);
+        Robot.collectorPivot.turn(Constants.Commands.COLLECTOR_PIVOT_SPEED_UP);
     }
 
     // Return true when the command should end, false if it should continue. Runs every ~20ms.

@@ -34,7 +34,7 @@ private double offset;
             if (Robot.turret.isAtStop()){
                 System.out.println("at 30 stop");
                 if (targetingAngularVelocity < 0){
-                    Robot.turret.turn(-targetingAngularVelocity*(1500*2));
+                    Robot.turret.turn(-targetingAngularVelocity*Constants.Turret.TURRET_VOLTAGE_MULTIPLIER_LIMITED_DOUBLE);
                 }
                 else {
                     Robot.turret.turn(0);
@@ -43,19 +43,19 @@ private double offset;
             if (Robot.turret.isAt0Stop()){
                 System.out.println("at zero");
                 if (targetingAngularVelocity > 0){
-                    Robot.turret.turn(-targetingAngularVelocity*(1500*2));
+                    Robot.turret.turn(-targetingAngularVelocity*Constants.Turret.TURRET_VOLTAGE_MULTIPLIER_LIMITED_DOUBLE);
                 }
                 else {
                     Robot.turret.turn(0);
                 }}
             if (!Robot.turret.isAt0Stop() && !Robot.turret.isAtStop()){
-                Robot.turret.turn(-targetingAngularVelocity * 2000);
+                Robot.turret.turn(-targetingAngularVelocity * Constants.Turret.TURRET_VOLTAGE_MULTIPLIER_NORMAL);
                 System.out.println("wkjaiuytgxdrhfjgkulh.g,fmjgfc,v.guyfd,xrmfgcj,yftzmct,");
             }
             if (!Robot.limelight.hasTarget()&& !Robot.turret.isAtStop() && !Robot.turret.isAt0Stop()){
                 double TAV2 = alignPID.calculate(offset, 0);
                 TAV2 *= -1;
-                Robot.turret.turn(-TAV2*1500);
+                Robot.turret.turn(-TAV2*Constants.Turret.TURRET_VOLTAGE_MULTIPLIER_LIMITED);
             }
 
             // targetanularvelocity is a very low number that is why we want a larget number even for voltage
@@ -69,9 +69,9 @@ private double offset;
         else {
             System.out.println("in manual");
             double speed = Robot.oi.aux.getRightX();
-            Robot.turret.PerTurn(speed*.35);
+            Robot.turret.PerTurn(speed*Constants.Turret.TURRET_MANUAL_TURN_SPEED_MULTIPLIER);
         }
-        Robot.manualMode = Math.abs(Robot.oi.aux.getRightX()) > .05;
+        Robot.manualMode = Math.abs(Robot.oi.aux.getRightX()) > Constants.Commands.MANUAL_MODE_THRESHOLD;
 
 //        if (Robot.limelight.getXOffset()<.5){
 //            Robot.shooter.setRPM(Constants.SHOOTER_RPM);

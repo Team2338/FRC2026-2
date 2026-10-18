@@ -14,6 +14,7 @@ import com.revrobotics.spark.SparkLowLevel;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import team.gif.robot.Constants;
 import team.gif.robot.RobotMap;
 
 public class Collector extends SubsystemBase {
@@ -22,7 +23,7 @@ public class Collector extends SubsystemBase {
     public SparkClosedLoopController neoPID;
     public RelativeEncoder collectorEncoder;
     public SparkMaxConfig collectorConfig;
-    double Kp =0.00025;
+    double Kp = Constants.MotorPID.COLLECTOR_PID_P;
         //0.00025;
     double Ki = 0;
     double Kd = 0;

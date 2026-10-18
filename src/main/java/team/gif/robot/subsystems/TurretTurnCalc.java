@@ -7,6 +7,7 @@ package team.gif.robot.subsystems;
 import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import team.gif.robot.Constants;
 import team.gif.robot.Robot;
 
 public class TurretTurnCalc extends SubsystemBase {
@@ -15,7 +16,7 @@ public class TurretTurnCalc extends SubsystemBase {
 
     static {
 
-        double measurementOffset = 0.88;
+        double measurementOffset = Constants.TurretTurnCalc.MEASUREMENT_OFFSET;
 
         distanceMap.put((2.3), 2800.0);
         distanceMap.put((2.4 ), 2800.0);

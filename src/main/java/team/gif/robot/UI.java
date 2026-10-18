@@ -2,10 +2,7 @@ package team.gif.robot;
 
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
-import java.security.PublicKey;
 
 public class UI {
 
@@ -47,7 +44,7 @@ public class UI {
         SmartDashboard.putNumber("HEADING", Robot.pigeon.getRotation2d().getDegrees());
         SmartDashboard.putNumber("right motor", Robot.driveTrain.getVelocityRight());
         SmartDashboard.putNumber("left motor", Robot.driveTrain.getVelocityLeft());
-        SmartDashboard.putBoolean("hub aim?", Robot.driveTrain.scoreing);
+        SmartDashboard.putBoolean("hub aim?", Robot.driveTrain.scoring);
         SmartDashboard.putNumber("distance",Robot.driveTrain.distance());
         SmartDashboard.putNumber("offset", Robot.turret.offset);
 
