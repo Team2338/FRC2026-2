@@ -150,6 +150,12 @@
                       "data": {
                         "commands": [
                           {
+                            "type": "named",
+                            "data": {
+                              "name": "CollectDown"
+                            }
+                          },
+                          {
                             "type": "wait",
                             "data": {
                               "waitTime": 0.4
