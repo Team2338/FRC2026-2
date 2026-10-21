@@ -2,9 +2,12 @@ package team.gif.robot;
 
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class UI {
+
+    private static SendableChooser<AutoMode> autoChooser;
 
     /**
      *  Widgets (e.g. gyro, text, True/False flags),
@@ -16,7 +19,12 @@ public class UI {
      *  and save file as "YYYY elastic-layout.json"
      */
     public UI() {
+        autoChooser = new SendableChooser<>();
+        autoChooser.setDefaultOption("Center to Depot", AutoMode.CENTER_TO_DEPOT);
+        // Add more auto options here as needed
+
         ShuffleboardTab shuffleboardTab = Shuffleboard.getTab("FRC 2026");
+        shuffleboardTab.add("Auto Mode", autoChooser);
         shuffleboardTab.addDouble("GetPositon", Robot.turret::getPos);
         shuffleboardTab.addBoolean("is at stop", Robot.turret::isAtStop);
         shuffleboardTab.addDouble("pigion heading", Robot.pigeon::get360Heading);
@@ -28,6 +36,10 @@ public class UI {
         SmartDashboard.putNumber("speed", 0);
         //SmartDashboard.putNumber("distance", Robot.driveTrain.distance());
 
+    }
+
+    public static AutoMode getSelectedAutoMode() {
+        return autoChooser.getSelected();
     }
 
     /**
