@@ -8,6 +8,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -26,6 +27,8 @@ import team.gif.robot.subsystems.TurretActTurnCalc;
 import team.gif.robot.subsystems.TurretTurnCalc;
 import team.gif.robot.subsystems.drivers.Limelight;
 import team.gif.robot.subsystems.drivers.Pigeon2_0;
+
+import static team.gif.robot.Constants.MatchTimes;
 
 
 /**
@@ -66,6 +69,10 @@ public class Robot extends TimedRobot {
 
     public static boolean manualMode = false;
     boolean isRedAllience = true;
+
+    public static String matchShift = "N/A";
+    public static double shiftTime = 0;
+    public static  boolean winAutoShiftTwoShiftFour;
 
 
 
@@ -112,6 +119,8 @@ public class Robot extends TimedRobot {
 
         oi = new OI();
         ui = new UI();
+
+        winAutoShiftTwoShiftFour = false;
 
     }
 
@@ -169,12 +178,14 @@ public class Robot extends TimedRobot {
         autonomousCommand = robotContainer.getAutonomousCommand();
         commandScheduler.schedule(autonomousCommand);
 
+        matchShift = "Go Rock!";
+
     }
 
     /** This function is called periodically during autonomous. */
     @Override
     public void autonomousPeriodic() {
-
+        shiftTime = DriverStation.getMatchTime();
     }
 
     @Override
@@ -186,11 +197,17 @@ public class Robot extends TimedRobot {
         if (autonomousCommand != null) {
             autonomousCommand.cancel();
         }
+
+        winAutoShiftTwoShiftFour = false;
     }
 
     /** This function is called periodically during operator control. */
     @Override
-    public void teleopPeriodic() {}
+    public void teleopPeriodic() {
+        double matchTime = DriverStation.getMatchTime();
+
+        updateMatchInfo(matchTime);
+    }
 
 
     @Override
@@ -214,4 +231,47 @@ public class Robot extends TimedRobot {
     public void setManualMode(boolean isManualMode) {
         manualMode = isManualMode;
     }
+
+    /**
+     * Updates the game data for match shift, remaining shift time, determines if
+     * alliance should be collecting/passing or scoring
+     * @param matchTime current match time from driver station
+     */
+    private void updateMatchInfo(double matchTime) {
+        String gameData = DriverStation.getGameSpecificMessage();
+
+        // if gamedata matches alliance color then we won auto and score in shifts 2 and 4
+        // need to make sure the data is there or it will crash
+        if (gameData != null && !gameData.isEmpty() && DriverStation.getAlliance().isPresent()) {
+            if (gameData.charAt(0) == (DriverStation.getAlliance().get() == DriverStation.Alliance.Red ? 'R' : 'B')) {
+                winAutoShiftTwoShiftFour = true;
+            }
+        }
+
+        // calculate which shift is active, shoot or passing, and remaining time in current shift
+        if (matchTime > MatchTimes.END_OF_TRANSITION_PERIOD) {
+            matchShift = winAutoShiftTwoShiftFour ? "Trans->Pass" : "Trans->Shoot";
+            shiftTime = matchTime - MatchTimes.END_OF_TRANSITION_PERIOD;
+        } else if (matchTime < MatchTimes.END_OF_FOURTH_SHIFT) {
+            matchShift = "End Game";
+            shiftTime = matchTime;
+        } else {
+            matchShift = "N/A";
+            if (matchTime > MatchTimes.END_OF_FIRST_SHIFT) {
+                matchShift = (winAutoShiftTwoShiftFour ? "1 Pass" : "1 Shoot");
+            } else if (matchTime > MatchTimes.END_OF_SECOND_SHIFT) {
+                matchShift = (winAutoShiftTwoShiftFour ? "2 Shoot" : "2 Pass");
+            } else if (matchTime > MatchTimes.END_OF_THIRD_SHIFT) {
+                matchShift = (winAutoShiftTwoShiftFour ? "3 Pass" : "3 Shoot");
+            } else if (matchTime > MatchTimes.END_OF_FOURTH_SHIFT) {
+                matchShift = (winAutoShiftTwoShiftFour ? "4 Shoot" : "4 Pass");
+            }
+
+            shiftTime = (matchTime>MatchTimes.END_OF_FIRST_SHIFT) ? (matchTime - MatchTimes.END_OF_FIRST_SHIFT) :
+                    (matchTime>MatchTimes.END_OF_SECOND_SHIFT) ? (matchTime - MatchTimes.END_OF_SECOND_SHIFT) :
+                            (matchTime>MatchTimes.END_OF_THIRD_SHIFT) ? (matchTime - MatchTimes.END_OF_THIRD_SHIFT) :
+                                    matchTime - MatchTimes.END_OF_FOURTH_SHIFT;
+        }
+    }
+
 }
