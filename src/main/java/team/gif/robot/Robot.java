@@ -144,7 +144,7 @@ public class Robot extends TimedRobot {
         //System.out.println("error" + driveTrain.headingErrorHub());
         //System.out.println(pigeon.getRotation2d()+"-----");
 
-        SmartDashboard.putNumber("Match Time", DriverStation.getMatchTime());
+        SmartDashboard.putString("Match Time", String.format("%11.1f", DriverStation.getMatchTime()));
 
 
 
