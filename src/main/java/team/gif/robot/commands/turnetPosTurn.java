@@ -41,7 +41,7 @@ public class turnetPosTurn extends Command {
             turn -= 4.262;
             Robot.turret.turnToPoint(turn);
             //System.out.println("||||||\n"+turn+"\n|||||");
-            System.out.println(Robot.driveTrain.turnAmount());
+          //  System.out.println(Robot.driveTrain.turnAmount());
         }
        //System.out.println("-------\n"+Robot.driveTrain.turnAmount()+"\n----------");
 

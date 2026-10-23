@@ -164,16 +164,16 @@ public class Robot extends TimedRobot {
     /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
     @Override
     public void autonomousInit() {
-        boolean RedAlliance = SmartDashboard.getBoolean("RED allience", true);
-        if(isRedAllience != RedAlliance){
-            if(RedAlliance){
-                driveTrain.resetPose(RED_POSE);
-            }
-            else{
-                driveTrain.resetPose(BLUE_POSE);
-            }
-        }
-        isRedAllience = RedAlliance;
+//        boolean RedAlliance = SmartDashboard.getBoolean("RED allience", true);
+//        if(isRedAllience != RedAlliance){
+//            if(RedAlliance){
+//                driveTrain.resetPose(RED_POSE);
+//            }
+//            else{
+//                driveTrain.resetPose(BLUE_POSE);
+//            }
+//        }
+//        isRedAllience = RedAlliance;
 
         autonomousCommand = robotContainer.getAutonomousCommand();
         commandScheduler.schedule(autonomousCommand);
