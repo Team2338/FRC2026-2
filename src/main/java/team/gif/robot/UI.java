@@ -61,7 +61,8 @@ public class UI {
         SmartDashboard.putBoolean("hub aim?", Robot.driveTrain.scoring);
         SmartDashboard.putNumber("distance",Robot.driveTrain.distance());
         SmartDashboard.putNumber("offset", Robot.turret.offset);
-
+        SmartDashboard.putString("ShiftTime", String.format("%11.0f", Robot.shiftTime));
+        SmartDashboard.putString("Shift",Robot.matchShift);
 
     }
 }

@@ -42,7 +42,7 @@ public class turnetPosTurn extends Command {
             turn -= Constants.Turret.TURRET_OFFSET_DEGREES;
             Robot.turret.turnToPoint(turn);
             //System.out.println("||||||\n"+turn+"\n|||||");
-            System.out.println(Robot.driveTrain.turnAmount());
+          //  System.out.println(Robot.driveTrain.turnAmount());
         }
        //System.out.println("-------\n"+Robot.driveTrain.turnAmount()+"\n----------");
 

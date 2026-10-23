@@ -78,11 +78,12 @@ public class OI {
         //aLBump.whileTrue(new Intake());
         aRBump.whileTrue(new Shoot().withTimeout(Constants.Commands.SHOOT_TIMEOUT_SECONDS).andThen(new Shoot().alongWith(new Intake())));
         aLBump.whileTrue(new SpinerSpin());
+        dA.onTrue(new IsBoosting());
         aA.onTrue(new changeAimMode());
         aDPadLeft.onTrue(new TurretCC());
         aDPadRight.onTrue(new TurretC());
         aLTrigger.whileTrue(new SpinerSpinBAckwads());
-        dA.whileTrue(new ShootTest().withTimeout(Constants.Commands.SHOOT_TEST_TIMEOUT_SECONDS).andThen(new ShootTest().alongWith(new Intake())));
+        //dA.whileTrue(new ShootTest().withTimeout(.25).andThen(new ShootTest().alongWith(new Intake())));
 
 //        aDPadUp.whileTrue(new CollectUp());
 //        aDPadDown.whileTrue(new CollectDown());

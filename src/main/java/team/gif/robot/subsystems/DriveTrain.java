@@ -43,6 +43,7 @@ import team.gif.robot.Robot;
 import team.gif.robot.RobotMap;
 
 public class DriveTrain extends SubsystemBase {
+    public boolean boost = false;
     public boolean shooting = false;
     public boolean scoring = true; // determines if turret shoots at hub or pass zone
 
