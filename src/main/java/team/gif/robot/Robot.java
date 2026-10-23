@@ -92,7 +92,7 @@ public class Robot extends TimedRobot {
         turretActTurnCalc = new TurretActTurnCalc();
 
         //turret.setDefaultCommand(new ManualTurn());
-        Robot.limelight.setDistanceEstimatorParams(Constants.turret.limelightMountAngleDegrees,Constants.turret.limelightLensHeightInches,Constants.turret.goalHeightInches,0);
+        Robot.limelight.setDistanceEstimatorParams(Constants.Turret.limelightMountAngleDegrees,Constants.Turret.limelightLensHeightInches,Constants.Turret.goalHeightInches,0);
         //Robot.turret.setDefaultCommand(new TurretTurn());
 
         Robot.driveTrain.setDefaultCommand(new ArcadeDrive());

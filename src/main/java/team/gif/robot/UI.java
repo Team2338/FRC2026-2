@@ -21,6 +21,8 @@ public class UI {
     public UI() {
         autoChooser = new SendableChooser<>();
         autoChooser.setDefaultOption("Center to Depot", AutoMode.CENTER_TO_DEPOT);
+        autoChooser.addOption("left side", AutoMode.LEFT_SIDE_BACK);
+        autoChooser.addOption("right side", AutoMode.RIGHT_SIDE_BACK);
         // Add more auto options here as needed
 
         ShuffleboardTab shuffleboardTab = Shuffleboard.getTab("FRC 2026");

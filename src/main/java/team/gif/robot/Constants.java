@@ -82,7 +82,14 @@ public final class Constants {
         public static final double TURRET_WRAP_THRESHOLD = 4.262;
         public static final double TURRET_MIN_RANGE = -25.738;
         public static final double TURRET_WRAP_OFFSET = 30;
+        public static final double limelightMountAngleDegrees = 27.83;
+        //15.73469965;
+        public static final double limelightLensHeightInches = 23;
+        public static final double goalHeightInches =44.125;
+        //17.25;
+//                14.125;
     }
+
 
     // Motor subsystem PID constants
     public static final class MotorPID {
@@ -122,14 +129,7 @@ public final class Constants {
         public static final double MEASUREMENT_OFFSET = 0.88;
     }
 
-    public static final class turret{
-        public static final double limelightMountAngleDegrees = 27.83;
-                //15.73469965;
-        public static final double limelightLensHeightInches = 23;
-        public static final double goalHeightInches =44.125;
-                //17.25;
-                //14.125;
-    }
+
 
 
     //These constants should be referenced via Robot.swerveDrive.getConstants();
