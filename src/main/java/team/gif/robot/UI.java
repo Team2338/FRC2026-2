@@ -5,9 +5,9 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-import java.security.PublicKey;
-
 public class UI {
+
+    private static SendableChooser<AutoMode> autoChooser;
 
     /**
      *  Widgets (e.g. gyro, text, True/False flags),
@@ -19,7 +19,14 @@ public class UI {
      *  and save file as "YYYY elastic-layout.json"
      */
     public UI() {
+        autoChooser = new SendableChooser<>();
+        autoChooser.setDefaultOption("Center to Depot", AutoMode.CENTER_TO_DEPOT);
+        autoChooser.addOption("left side", AutoMode.LEFT_SIDE_BACK);
+        autoChooser.addOption("right side", AutoMode.RIGHT_SIDE_BACK);
+        // Add more auto options here as needed
+
         ShuffleboardTab shuffleboardTab = Shuffleboard.getTab("FRC 2026");
+        shuffleboardTab.add("Auto Mode", autoChooser);
         shuffleboardTab.addDouble("GetPositon", Robot.turret::getPos);
         shuffleboardTab.addBoolean("is at stop", Robot.turret::isAtStop);
         shuffleboardTab.addDouble("pigion heading", Robot.pigeon::get360Heading);
@@ -31,6 +38,10 @@ public class UI {
         SmartDashboard.putNumber("speed", 0);
         //SmartDashboard.putNumber("distance", Robot.driveTrain.distance());
 
+    }
+
+    public static AutoMode getSelectedAutoMode() {
+        return autoChooser.getSelected();
     }
 
     /**
@@ -47,10 +58,10 @@ public class UI {
         SmartDashboard.putNumber("HEADING", Robot.pigeon.getRotation2d().getDegrees());
         SmartDashboard.putNumber("right motor", Robot.driveTrain.getVelocityRight());
         SmartDashboard.putNumber("left motor", Robot.driveTrain.getVelocityLeft());
-        SmartDashboard.putBoolean("hub aim?", Robot.driveTrain.scoreing);
+        SmartDashboard.putBoolean("hub aim?", Robot.driveTrain.scoring);
         SmartDashboard.putNumber("distance",Robot.driveTrain.distance());
         SmartDashboard.putNumber("offset", Robot.turret.offset);
-        SmartDashboard.putString("ShiftTime", String.format("%11.1f", Robot.shiftTime));
+        SmartDashboard.putString("ShiftTime", String.format("%11.0f", Robot.shiftTime));
         SmartDashboard.putString("Shift",Robot.matchShift);
 
     }

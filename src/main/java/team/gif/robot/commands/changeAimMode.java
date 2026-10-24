@@ -13,11 +13,11 @@ public class changeAimMode extends Command {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        if(Robot.driveTrain.scoreing){
-            Robot.driveTrain.scoreing = false;
+        if(Robot.driveTrain.scoring){
+            Robot.driveTrain.scoring = false;
         }
         else {
-            Robot.driveTrain.scoreing = true;
+            Robot.driveTrain.scoring = true;
         }
     }
 

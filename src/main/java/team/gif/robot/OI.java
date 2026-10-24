@@ -76,7 +76,7 @@ public class OI {
     public OI() {
         DriverStation.silenceJoystickConnectionWarning(true);
         //aLBump.whileTrue(new Intake());
-        aRBump.whileTrue(new Shoot().withTimeout(.25).andThen(new Shoot().alongWith(new Intake())));
+        aRBump.whileTrue(new Shoot().withTimeout(Constants.Commands.SHOOT_TIMEOUT_SECONDS).andThen(new Shoot().alongWith(new Intake())));
         aLBump.whileTrue(new SpinerSpin());
         dA.onTrue(new IsBoosting());
         aA.onTrue(new changeAimMode());
@@ -91,10 +91,10 @@ public class OI {
         dRTrigger.whileTrue(new CollectDown());
         dLBump.whileTrue(new Collect());
         aStart.and(aDPadDown).onTrue(new ZeroEncoder().ignoringDisable(true));
-        dStart.and(dDPadUp).onTrue(new InstantCommand(()-> pigeon.resetPigeonPosition(0)).ignoringDisable(true));
-        dStart.and(dDPadRight).onTrue(new InstantCommand(()-> pigeon.resetPigeonPosition(270)).ignoringDisable(true));
-        dStart.and(dDPadDown).onTrue(new InstantCommand(()-> pigeon.resetPigeonPosition(180)).ignoringDisable(true));
-        dStart.and(dDPadLeft).onTrue(new InstantCommand(()-> pigeon.resetPigeonPosition(90)).ignoringDisable(true));
+        dStart.and(dDPadUp).onTrue(new InstantCommand(()-> pigeon.resetPigeonPosition(Constants.OI.GYRO_RESET_0)).ignoringDisable(true));
+        dStart.and(dDPadRight).onTrue(new InstantCommand(()-> pigeon.resetPigeonPosition(Constants.OI.GYRO_RESET_270)).ignoringDisable(true));
+        dStart.and(dDPadDown).onTrue(new InstantCommand(()-> pigeon.resetPigeonPosition(Constants.OI.GYRO_RESET_180)).ignoringDisable(true));
+        dStart.and(dDPadLeft).onTrue(new InstantCommand(()-> pigeon.resetPigeonPosition(Constants.OI.GYRO_RESET_90)).ignoringDisable(true));
 
         dLTrigger.whileTrue(new CollectOut());
        // dY.whileTrue(new TurnPointTest());

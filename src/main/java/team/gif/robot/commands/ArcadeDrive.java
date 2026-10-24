@@ -1,6 +1,7 @@
 package team.gif.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import team.gif.robot.Constants;
 import team.gif.robot.Robot;
 
 public class ArcadeDrive extends Command {
@@ -19,7 +20,7 @@ public class ArcadeDrive extends Command {
     public void execute() {
         double rotation = Robot.oi.driver.getLeftY(); //switch to getLeftX if we were to do one joystick arcade for some reason
         double speed = Robot.oi.driver.getRightX();
-        Robot.driveTrain.driveArcade(speed*0.85, rotation*0.85);
+        Robot.driveTrain.driveArcade(speed*Constants.OI.DRIVE_SPEED_MULTIPLIER, rotation*Constants.OI.DRIVE_SPEED_MULTIPLIER);
 
     }
 

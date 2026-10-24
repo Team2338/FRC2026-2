@@ -40,14 +40,13 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import team.gif.robot.Constants;
 import team.gif.robot.LimelightHelpers;
 import team.gif.robot.Robot;
-import team.gif.robot.RobotContainer;
 import team.gif.robot.RobotMap;
 
 public class DriveTrain extends SubsystemBase {
     public boolean boost = false;
     public boolean shooting = false;
-    public boolean scoreing = true; // determines if turret shoots at hub or pass zone
-
+    public boolean scoring = true; // determines if turret shoots at hub or pass zone;
+    Rotation2d inc = Rotation2d.fromDegrees(180);
     /*
      * FIXME:
      * This MUST be the real effective drivetrain track width in meters.
@@ -57,7 +56,7 @@ public class DriveTrain extends SubsystemBase {
      *
      * Do not trust turning pose accuracy until this is measured/tuned.
      */
-    private static final double TRACK_WIDTH_METERS = 0.597;
+    private static final double TRACK_WIDTH_METERS = Constants.DriveTrain.TRACK_WIDTH_METERS;
 
     /*
      * Your old conversion factor:
@@ -70,7 +69,7 @@ public class DriveTrain extends SubsystemBase {
      * This should convert SparkMax encoder motor rotations into meters traveled.
      */
     private static final double DRIVE_ENCODER_POSITION_CONVERSION_FACTOR_METERS =
-            (1.0 / 10.71) * 0.47879;
+            Constants.DriveTrain.DRIVE_ENCODER_POSITION_CONVERSION_FACTOR_METERS;
 
     /*
      * Use the same initial pose everywhere.
@@ -81,9 +80,11 @@ public class DriveTrain extends SubsystemBase {
      *
      * Keep it here unless your actual autonomous starting pose is different.
      */
-    private static final Pose2d INITIAL_POSE =
-            new Pose2d(16.541 - 3.56, 8.07 - 4.09, new Rotation2d());
-
+//    private static final Pose2d INITIAL_POSE =
+//            //new Pose2d(Constants.DriveTrain.INITIAL_POSE_X_METERS, Constants.DriveTrain.INITIAL_POSE_Y_METERS, new Rotation2d());
+//            new Pose2d(3.4, 4, new Rotation2d(180));
+//            //new Pose2d(0, 0, new Rotation2d());
+    // ^ was here but now creates on intialization for picking sides
     /*
      * FIXME:
      * Move this into Constants.Vision once the Limelight name is finalized.
@@ -92,7 +93,7 @@ public class DriveTrain extends SubsystemBase {
      * Earlier code references suggested there may also be "limelight-front" or
      * "limelight-turret" floating around. That mismatch needs to be cleaned up.
      */
-    private static final String LIMELIGHT_NAME = "limelight-side";
+    private static final String LIMELIGHT_NAME = Constants.DriveTrain.LIMELIGHT_NAME;
 
     /*
      * Vision standard deviations.
@@ -101,9 +102,9 @@ public class DriveTrain extends SubsystemBase {
      * Heading is basically ignored because MegaTag2 should use the gyro heading,
      * not overwrite the robot's yaw estimate from AprilTags.
      */
-    private static final double VISION_X_STD_DEV_METERS = 0.7;
-    private static final double VISION_Y_STD_DEV_METERS = 0.7;
-    private static final double VISION_THETA_STD_DEV_RADIANS = 9999999.0;
+    private static final double VISION_X_STD_DEV_METERS = Constants.DriveTrain.VISION_X_STD_DEV_METERS;
+    private static final double VISION_Y_STD_DEV_METERS = Constants.DriveTrain.VISION_Y_STD_DEV_METERS;
+    private static final double VISION_THETA_STD_DEV_RADIANS = Constants.DriveTrain.VISION_THETA_STD_DEV_RADIANS;
 
     /*
      * Reject vision poses that are wildly far from the current estimated pose.
@@ -112,7 +113,7 @@ public class DriveTrain extends SubsystemBase {
      * corrections. During initial testing, you can raise this value or temporarily
      * disable this check.
      */
-    private static final double MAX_VISION_POSE_JUMP_METERS = 20;
+    private static final double MAX_VISION_POSE_JUMP_METERS = Constants.DriveTrain.MAX_VISION_POSE_JUMP_METERS;
 
     private final DifferentialDriveKinematics m_kinematics =
             new DifferentialDriveKinematics(TRACK_WIDTH_METERS);
@@ -131,7 +132,7 @@ public class DriveTrain extends SubsystemBase {
 
     private DifferentialDrive drive;
 
-    public Pose2d m_pose = INITIAL_POSE;
+    public Pose2d m_pose = Robot.INITIAL_POSE;
 
     private boolean RedAllience;
     private Translation2d hub;
@@ -180,16 +181,16 @@ public class DriveTrain extends SubsystemBase {
         configRightFront.encoder.positionConversionFactor(DRIVE_ENCODER_POSITION_CONVERSION_FACTOR_METERS);
         configRightBack.encoder.positionConversionFactor(DRIVE_ENCODER_POSITION_CONVERSION_FACTOR_METERS);
 
-        configLeftFront.encoder.velocityConversionFactor(DRIVE_ENCODER_POSITION_CONVERSION_FACTOR_METERS/60);
-        configLeftBack.encoder.velocityConversionFactor(DRIVE_ENCODER_POSITION_CONVERSION_FACTOR_METERS/60);
-        configRightFront.encoder.velocityConversionFactor(DRIVE_ENCODER_POSITION_CONVERSION_FACTOR_METERS/60);
-        configRightBack.encoder.velocityConversionFactor(DRIVE_ENCODER_POSITION_CONVERSION_FACTOR_METERS/60);
+        configLeftFront.encoder.velocityConversionFactor(DRIVE_ENCODER_POSITION_CONVERSION_FACTOR_METERS/Constants.Shooter.RPS_TO_RPM);
+        configLeftBack.encoder.velocityConversionFactor(DRIVE_ENCODER_POSITION_CONVERSION_FACTOR_METERS/Constants.Shooter.RPS_TO_RPM);
+        configRightFront.encoder.velocityConversionFactor(DRIVE_ENCODER_POSITION_CONVERSION_FACTOR_METERS/Constants.Shooter.RPS_TO_RPM);
+        configRightBack.encoder.velocityConversionFactor(DRIVE_ENCODER_POSITION_CONVERSION_FACTOR_METERS/Constants.Shooter.RPS_TO_RPM);
 
 
-        configLeftFront.closedLoop.p(0.08).i(0).d(0).outputRange(-1,1);
-        configLeftBack.closedLoop.p(0.08).i(0).d(0).outputRange(-1,1);
-        configRightFront.closedLoop.p(0.08).i(0).d(0).outputRange(-1,1);
-        configRightBack.closedLoop.p(0.08).i(0).d(0).outputRange(-1,1);
+        configLeftFront.closedLoop.p(Constants.DriveTrain.DRIVE_PID_P).i(0).d(0).outputRange(-1,1);
+        configLeftBack.closedLoop.p(Constants.DriveTrain.DRIVE_PID_P).i(0).d(0).outputRange(-1,1);
+        configRightFront.closedLoop.p(Constants.DriveTrain.DRIVE_PID_P).i(0).d(0).outputRange(-1,1);
+        configRightBack.closedLoop.p(Constants.DriveTrain.DRIVE_PID_P).i(0).d(0).outputRange(-1,1);
 
 
         leftFrontNEO.configure(
@@ -224,7 +225,7 @@ public class DriveTrain extends SubsystemBase {
                 Robot.pigeon.getRotation2d(),
                 getLeftDistanceMeters(),
                 getRightDistanceMeters(),
-                INITIAL_POSE
+                Robot.INITIAL_POSE
         );
 
 
@@ -246,19 +247,19 @@ public class DriveTrain extends SubsystemBase {
         RedAllience = checkRedAlliance();
         if(RedAllience){
             hub = Constants.Field.HUB_RED_TRANSLATION;
-            depoShot = Constants.Field.PASS_RED_DEOPO;
+            depoShot = Constants.Field.PASS_RED_DEPOT;
             outpostShot = Constants.Field.PASS_RED_OUTPOST;
         }
         if(!RedAllience){
             hub = Constants.Field.HUB_BLUE_TRANSLATION;
-            outpostShot = Constants.Field.PASS_BLUE_DEOPO;
+            outpostShot = Constants.Field.PASS_BLUE_DEPOT;
             depoShot = Constants.Field.PASS_BLUE_OUTPOST;
         }
-        if(scoreing){
+        if(scoring){
             pos = hub;
         }
-        if(!scoreing){
-         if(m_pose.getY() <= Units.inchesToMeters(158.84)){
+        if(!scoring){
+         if(m_pose.getY() <= Constants.DriveTrain.FIELD_Y_DIVIDER_METERS){
              pos = outpostShot;
          }
          else{
@@ -410,8 +411,8 @@ public class DriveTrain extends SubsystemBase {
         try{
             ppConfig = RobotConfig.fromGUISettings();
         }catch (Exception e){
-            ModuleConfig moduleConfig = new ModuleConfig(.0762,5,1, DCMotor.getNEO(4), 38, 4);
-            ppConfig = new RobotConfig(56.7, 20.21,moduleConfig , TRACK_WIDTH_METERS);
+            ModuleConfig moduleConfig = new ModuleConfig(Constants.DriveTrain.WHEEL_RADIUS_METERS, Constants.DriveTrain.WHEEL_MASS_KG, Constants.DriveTrain.WHEEL_MOI_KG_M2, DCMotor.getNEO(Constants.DriveTrain.DRIVE_MOTORS_PER_MODULE), Constants.DriveTrain.MODULE_GEAR_RATIO, 4);
+            ppConfig = new RobotConfig(Constants.DriveTrain.DRIVE_MASS_KG, Constants.DriveTrain.DRIVE_MOI_KG_M2, moduleConfig, TRACK_WIDTH_METERS);
 
         }
 
@@ -420,7 +421,7 @@ public class DriveTrain extends SubsystemBase {
                 this::resetPose,
                 this::getRobotRelitiveSpeed,
                 this::driveRobotRelative,
-                new PPLTVController(0.02),
+                new PPLTVController(Constants.DriveTrain.PATHPLANNER_P),
                 ppConfig,
                 this::checkRedAlliance,
                 this
@@ -474,13 +475,13 @@ public class DriveTrain extends SubsystemBase {
         Rotation2d angleToHub = getAngleHub();
         Rotation2d RobotHeading = gyroAngle;
 
-        double errorRadins = angleToHub.minus(RobotHeading).getRadians();
+        double errorRadians = angleToHub.minus(RobotHeading).getRadians();
 
-        return Rotation2d.fromRadians(MathUtil.angleModulus(errorRadins));
+        return Rotation2d.fromRadians(MathUtil.angleModulus(errorRadians));
     }
-    public double turnAmount(){
+    public double turnAmount() {
         double angle = headingErrorHub().getDegrees();
-        return ((angle)*0.08333333333333);
+        return ((angle) * Constants.DriveTrain.TURN_MULTIPLIER);
 //        return angle;
     }
 
@@ -491,8 +492,8 @@ public class DriveTrain extends SubsystemBase {
     }
 
     public void driveArcade(double speed, double rotation) {
-        if(shooting && scoreing){
-        drive.arcadeDrive(speed*.5, rotation*.5);
+        if(shooting && scoring){
+        drive.arcadeDrive(speed*Constants.DriveTrain.SHOOTING_SPEED_REDUCTION, rotation*Constants.DriveTrain.SHOOTING_SPEED_REDUCTION);
     }
         else{drive.arcadeDrive(speed, rotation);}
     }

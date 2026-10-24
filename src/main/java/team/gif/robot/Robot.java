@@ -63,12 +63,17 @@ public class Robot extends TimedRobot {
             new Pose2d(16.541 - 3.56, 8.07 - 4.09, new Rotation2d());
     private static final Pose2d BLUE_POSE =
             new Pose2d(16.541-12.981, 8.07-4.09 , new Rotation2d().plus(flip));
+    public static Pose2d INITIAL_POSE =
+            new Pose2d(Constants.DriveTrain.INITIAL_POSE_X_METERS, Constants.DriveTrain.INITIAL_POSE_Y_METERS, new Rotation2d());
+            //new Pose2d(3.4, 4, new Rotation2d(180));
+    //new Pose2d(0, 0, new Rotation2d());
 
    // public static final boolean enableSwerveDebug = true;
   //  public static final boolean fullDashboard = true;
 
     public static boolean manualMode = false;
     boolean isRedAllience = true;
+
 
     public static String matchShift = "N/A";
     public static double shiftTime = 0;
@@ -81,6 +86,9 @@ public class Robot extends TimedRobot {
      * initialization code.
      */
     public Robot() {
+        if(!checkRedAlliance()){
+            INITIAL_POSE = BLUE_POSE;
+        }
         // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
         // autonomous chooser on the dashboard.
 
@@ -99,7 +107,8 @@ public class Robot extends TimedRobot {
         turretActTurnCalc = new TurretActTurnCalc();
 
         //turret.setDefaultCommand(new ManualTurn());
-        Robot.limelight.setDistanceEstimatorParams(Constants.turret.limelightMountAngleDegrees,Constants.turret.limelightLensHeightInches,Constants.turret.goalHeightInches,0);
+        Robot.limelight.setDistanceEstimatorParams(Constants.Turret.limelightMountAngleDegrees,Constants.Turret.limelightLensHeightInches,Constants.Turret.goalHeightInches,0);
+
         //Robot.turret.setDefaultCommand(new TurretTurn());
 
         Robot.driveTrain.setDefaultCommand(new ArcadeDrive());
@@ -144,7 +153,7 @@ public class Robot extends TimedRobot {
         //System.out.println("error" + driveTrain.headingErrorHub());
         //System.out.println(pigeon.getRotation2d()+"-----");
 
-        SmartDashboard.putNumber("Match Time", DriverStation.getMatchTime());
+        SmartDashboard.putString("Match Time", String.format("%11.1f", DriverStation.getMatchTime()));
 
 
 
@@ -164,16 +173,16 @@ public class Robot extends TimedRobot {
     /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
     @Override
     public void autonomousInit() {
-        boolean RedAlliance = SmartDashboard.getBoolean("RED allience", true);
-        if(isRedAllience != RedAlliance){
-            if(RedAlliance){
-                driveTrain.resetPose(RED_POSE);
-            }
-            else{
-                driveTrain.resetPose(BLUE_POSE);
-            }
-        }
-        isRedAllience = RedAlliance;
+//        boolean RedAlliance = SmartDashboard.getBoolean("RED allience", true);
+//        if(isRedAllience != RedAlliance){
+//            if(RedAlliance){
+//                driveTrain.resetPose(RED_POSE);
+//            }
+//            else{
+//                driveTrain.resetPose(BLUE_POSE);
+//            }
+//        }
+//        isRedAllience = RedAlliance;
 
         autonomousCommand = robotContainer.getAutonomousCommand();
         commandScheduler.schedule(autonomousCommand);
@@ -230,6 +239,16 @@ public class Robot extends TimedRobot {
 
     public void setManualMode(boolean isManualMode) {
         manualMode = isManualMode;
+    }
+
+
+    private boolean checkRedAlliance() {
+        //This state should never happen unless we are not connected.
+        //It is set to red because that is what we are set up for in the shop.
+        if(DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get() == DriverStation.Alliance.Red) {
+            return true;
+        } else return DriverStation.getAlliance().isEmpty() || DriverStation.getAlliance().get() != DriverStation.Alliance.Blue;
+
     }
 
     /**

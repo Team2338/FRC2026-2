@@ -1,6 +1,7 @@
 package team.gif.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import team.gif.robot.Constants;
 import team.gif.robot.Robot;
 import team.gif.robot.subsystems.TurretActTurnCalc;
 
@@ -27,21 +28,21 @@ public class turnetPosTurn extends Command {
         //offset
 //        System.out.println("-------\n"+ TurretActTurnCalc.turnPlace()+"\n---------------------");
         //Robot.turret.turnToPoint(TurretActTurnCalc.turnPlace()); #important
-        if(Robot.driveTrain.turnAmount()>4.262){ // ofset orriganl 4.762 /// 4.262 // was 5.062
-             turn = Robot.driveTrain.turnAmount() - 30;
+        if(Robot.driveTrain.turnAmount()>Constants.Turret.TURRET_OFFSET_DEGREES){ // ofset orriganl 4.762 /// 4.262 // was 5.062
+             turn = Robot.driveTrain.turnAmount() - Constants.Turret.TURRET_WRAP_OFFSET;
             //System.out.println("turn +"+ turn +"bleh");
         }
-        if (Robot.driveTrain.turnAmount()<=4.262){
+        if (Robot.driveTrain.turnAmount()<=Constants.Turret.TURRET_OFFSET_DEGREES){
             turn = Robot.driveTrain.turnAmount() ;
         }
 //        else{
 //            turn = Robot.driveTrain.turnAmount();
 //        }\
-        if(turn <= 4.262 && turn > -25.738){ // 5.062 is offset becuase turret zero is not robot zzero, 30 - offset
-            turn -= 4.262;
+        if(turn <= Constants.Turret.TURRET_WRAP_THRESHOLD && turn > Constants.Turret.TURRET_MIN_RANGE){ // 5.062 is offset becuase turret zero is not robot zzero, 30 - offset
+            turn -= Constants.Turret.TURRET_OFFSET_DEGREES;
             Robot.turret.turnToPoint(turn);
             //System.out.println("||||||\n"+turn+"\n|||||");
-            System.out.println(Robot.driveTrain.turnAmount());
+          //  System.out.println(Robot.driveTrain.turnAmount());
         }
        //System.out.println("-------\n"+Robot.driveTrain.turnAmount()+"\n----------");
 

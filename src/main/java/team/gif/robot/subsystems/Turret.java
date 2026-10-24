@@ -19,58 +19,61 @@ import edu.wpi.first.units.measure.Velocity;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import org.w3c.dom.ls.LSOutput;
 import team.gif.lib.LimelightHelpers;
+import team.gif.robot.Constants;
 import team.gif.robot.RobotMap;
 
 public class Turret extends SubsystemBase {
-    /** Creates a new ExampleSubsystem. */
+
     /*
     Need to add correct PID + Feedforward loop into code
     This could be done by a SysID function
      */
+
     public SparkMax turret;
     public SparkClosedLoopController neoPID;
     public RelativeEncoder turretEncoder;
     public SparkMaxConfig turretConfig;
-    double Kp = 2;
+    double Kp = Constants.Turret.TURRET_PID_P;
         //0.00025;
     double Ki = 0;
     double Kd = 0;
     public double offset = 0;
+
     public Turret() {
         turret = new SparkMax(RobotMap.TURRET_MOTOR_ID, SparkLowLevel.MotorType.kBrushless);
         neoPID = turret.getClosedLoopController();
         turretEncoder = turret.getEncoder();
         turretConfig = new SparkMaxConfig();
-        turretConfig.smartCurrentLimit(7,7,300);
+        turretConfig.smartCurrentLimit(Constants.Turret.TURRET_CURRENT_LIMIT_STALL, Constants.Turret.TURRET_CURRENT_LIMIT_FREE, (int)Constants.Turret.TURRET_CURRENT_LIMIT_LIMIT_TIME_MS);
         turretConfig.closedLoop
                 .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
                 .pid(Kp, Ki, Kd)
-                .allowedClosedLoopError(.01,ClosedLoopSlot.kSlot0);
+                .allowedClosedLoopError(Constants.Turret.TURRET_ALLOWED_CLOSED_LOOP_ERROR, ClosedLoopSlot.kSlot0);
         // double check if this gets set in motor controller or is run on rio
 
         turretConfig.idleMode(SparkMaxConfig.IdleMode.kBrake); //or replace kBrake with kCoast
         turretConfig.inverted(true); //true or false
         // Redo soft limit testing as turret is now an odd 360 deg
-        turretConfig.softLimit.forwardSoftLimit(0.5);
+        turretConfig.softLimit.forwardSoftLimit(Constants.Turret.TURRET_SOFT_LIMIT_FORWARD);
         turretConfig.softLimit.forwardSoftLimitEnabled(true);
-        turretConfig.softLimit.reverseSoftLimit(-30.5);
+        turretConfig.softLimit.reverseSoftLimit(Constants.Turret.TURRET_SOFT_LIMIT_REVERSE);
         turretConfig.softLimit.reverseSoftLimitEnabled(true);
 
         turret.configure(turretConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-
-
     }
-    public boolean isAtStop(){
-        return turretEncoder.getPosition() <= -30.5;
+
+    public boolean isAtStop() {
+        return turretEncoder.getPosition() <= Constants.Turret.TURRET_STOP_POSITION;
     }
-    public boolean isAt0Stop(){
-        return turretEncoder.getPosition() >= -0.5;
+
+    public boolean isAt0Stop() {
+        return turretEncoder.getPosition() >= Constants.Turret.TURRET_ZERO_STOP_POSITION;
     }
 
     public void turn(double voltage) {
         turret.setVoltage(voltage);
     }
-    public void PerTurn(double percent){
+    public void PerTurn(double percent) {
         turret.set(percent);
     }
 
@@ -78,11 +81,19 @@ public class Turret extends SubsystemBase {
         neoPID.setSetpoint(rpm, SparkBase.ControlType.kVelocity);
     }
 
-    public void turnToPoint(double point){neoPID.setSetpoint(point, SparkBase.ControlType.kPosition, ClosedLoopSlot.kSlot0);}
-    public boolean turingP(){return neoPID.isAtSetpoint();}
-    public double getPos(){return turretEncoder.getPosition();}
-    public void setpos(){turretEncoder.setPosition(0);}
+    public void turnToPoint(double point) {
+        neoPID.setSetpoint(point, SparkBase.ControlType.kPosition, ClosedLoopSlot.kSlot0);
+    }
 
+    public boolean turingP() {
+        return neoPID.isAtSetpoint();
+    }
 
+    public double getPos() {
+        return turretEncoder.getPosition();
+    }
 
+    public void setpos() {
+        turretEncoder.setPosition(0);
+    }
 }
