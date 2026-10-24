@@ -45,7 +45,7 @@ public final class Constants {
         public static final double VISION_X_STD_DEV_METERS = 0.7;
         public static final double VISION_Y_STD_DEV_METERS = 0.7;
         public static final double VISION_THETA_STD_DEV_RADIANS = 9999999.0;
-        public static final double MAX_VISION_POSE_JUMP_METERS = 20;
+        public static final double MAX_VISION_POSE_JUMP_METERS = 5;
         public static final double DRIVE_PID_P = 0.08;
         public static final double PATHPLANNER_P = 0.02;
         public static final double FIELD_Y_DIVIDER_METERS = Units.inchesToMeters(158.84);
@@ -102,7 +102,7 @@ public final class Constants {
     // Command constants
     public static final class Commands {
         public static final double SPIN_DEXER_REVERSE_RPM = -2000;
-        public static final double SPIN_DEXER_FORWARD_RPM = 1000;
+        public static final double SPIN_DEXER_FORWARD_RPM = 2000;
         public static final double INDEXER_WHEELS_REVERSE_SPEED = -0.3;
         public static final double SHOOT_TEST_RPM = 4400;
         public static final double AGITATE_CYCLE_1 = 25;

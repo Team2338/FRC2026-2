@@ -45,8 +45,8 @@ import team.gif.robot.RobotMap;
 public class DriveTrain extends SubsystemBase {
     public boolean boost = false;
     public boolean shooting = false;
-    public boolean scoring = true; // determines if turret shoots at hub or pass zone
-
+    public boolean scoring = true; // determines if turret shoots at hub or pass zone;
+    Rotation2d inc = Rotation2d.fromDegrees(180);
     /*
      * FIXME:
      * This MUST be the real effective drivetrain track width in meters.
@@ -81,8 +81,9 @@ public class DriveTrain extends SubsystemBase {
      * Keep it here unless your actual autonomous starting pose is different.
      */
     private static final Pose2d INITIAL_POSE =
-            new Pose2d(Constants.DriveTrain.INITIAL_POSE_X_METERS, Constants.DriveTrain.INITIAL_POSE_Y_METERS, new Rotation2d());
-
+            //new Pose2d(Constants.DriveTrain.INITIAL_POSE_X_METERS, Constants.DriveTrain.INITIAL_POSE_Y_METERS, new Rotation2d());
+            new Pose2d(3.4, 4, new Rotation2d(180));
+            //new Pose2d(0, 0, new Rotation2d());
     /*
      * FIXME:
      * Move this into Constants.Vision once the Limelight name is finalized.
