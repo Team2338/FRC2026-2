@@ -80,10 +80,11 @@ public class DriveTrain extends SubsystemBase {
      *
      * Keep it here unless your actual autonomous starting pose is different.
      */
-    private static final Pose2d INITIAL_POSE =
-            //new Pose2d(Constants.DriveTrain.INITIAL_POSE_X_METERS, Constants.DriveTrain.INITIAL_POSE_Y_METERS, new Rotation2d());
-            new Pose2d(3.4, 4, new Rotation2d(180));
-            //new Pose2d(0, 0, new Rotation2d());
+//    private static final Pose2d INITIAL_POSE =
+//            //new Pose2d(Constants.DriveTrain.INITIAL_POSE_X_METERS, Constants.DriveTrain.INITIAL_POSE_Y_METERS, new Rotation2d());
+//            new Pose2d(3.4, 4, new Rotation2d(180));
+//            //new Pose2d(0, 0, new Rotation2d());
+    // ^ was here but now creates on intialization for picking sides
     /*
      * FIXME:
      * Move this into Constants.Vision once the Limelight name is finalized.
@@ -131,7 +132,7 @@ public class DriveTrain extends SubsystemBase {
 
     private DifferentialDrive drive;
 
-    public Pose2d m_pose = INITIAL_POSE;
+    public Pose2d m_pose = Robot.INITIAL_POSE;
 
     private boolean RedAllience;
     private Translation2d hub;
@@ -224,7 +225,7 @@ public class DriveTrain extends SubsystemBase {
                 Robot.pigeon.getRotation2d(),
                 getLeftDistanceMeters(),
                 getRightDistanceMeters(),
-                INITIAL_POSE
+                Robot.INITIAL_POSE
         );
 
 
