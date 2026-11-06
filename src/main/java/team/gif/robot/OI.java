@@ -76,19 +76,19 @@ public class OI {
     public OI() {
         DriverStation.silenceJoystickConnectionWarning(true);
         //aLBump.whileTrue(new Intake());
-        aRBump.whileTrue(new Shoot().withTimeout(Constants.Commands.SHOOT_TIMEOUT_SECONDS).andThen(new Shoot().alongWith(new Intake())));
-        aLBump.whileTrue(new SpinerSpin());
-        dA.onTrue(new IsBoosting());
+        dRBump.whileTrue(new Shoot().withTimeout(Constants.Commands.SHOOT_TIMEOUT_SECONDS).andThen(new Shoot().alongWith(new Intake()).alongWith(new SpinerSpin())));
+        //aLBump.whileTrue(new SpinerSpin());
+       // dA.onTrue(new IsBoosting());
         aA.onTrue(new changeAimMode());
-        aDPadLeft.onTrue(new TurretCC());
-        aDPadRight.onTrue(new TurretC());
-        aLTrigger.whileTrue(new SpinerSpinBAckwads());
+        //aDPadLeft.onTrue(new TurretCC());
+        //aDPadRight.onTrue(new TurretC());
+        dLTrigger.whileTrue(new SpinerSpinBAckwads());
         //dA.whileTrue(new ShootTest().withTimeout(.25).andThen(new ShootTest().alongWith(new Intake())));
 
 //        aDPadUp.whileTrue(new CollectUp());
 //        aDPadDown.whileTrue(new CollectDown());
-        dRBump.whileTrue(new CollectUp());
-        dRTrigger.whileTrue(new CollectDown());
+        //dRBump.whileTrue(new CollectUp());
+       // dRTrigger.whileTrue(new CollectDown());
         dLBump.whileTrue(new Collect());
         aStart.and(aDPadDown).onTrue(new ZeroEncoder().ignoringDisable(true));
         dStart.and(dDPadUp).onTrue(new InstantCommand(()-> pigeon.resetPigeonPosition(Constants.OI.GYRO_RESET_0)).ignoringDisable(true));

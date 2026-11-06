@@ -84,7 +84,7 @@ public class DriveTrain extends SubsystemBase {
 //            //new Pose2d(Constants.DriveTrain.INITIAL_POSE_X_METERS, Constants.DriveTrain.INITIAL_POSE_Y_METERS, new Rotation2d());
 //            new Pose2d(3.4, 4, new Rotation2d(180));
 //            //new Pose2d(0, 0, new Rotation2d());
-    // ^ was here but now creates on intialization for picking sides
+    // ^ was here but now creates on intialization for picking sides n
     /*
      * FIXME:
      * Move this into Constants.Vision once the Limelight name is finalized.
@@ -493,9 +493,9 @@ public class DriveTrain extends SubsystemBase {
 
     public void driveArcade(double speed, double rotation) {
         if(shooting && scoring){
-        drive.arcadeDrive(speed*Constants.DriveTrain.SHOOTING_SPEED_REDUCTION, rotation*Constants.DriveTrain.SHOOTING_SPEED_REDUCTION);
+        drive.arcadeDrive(speed*Constants.DriveTrain.SHOOTING_SPEED_REDUCTION*.33, rotation*Constants.DriveTrain.SHOOTING_SPEED_REDUCTION*.33);
     }
-        else{drive.arcadeDrive(speed, rotation);}
+        else{drive.arcadeDrive(speed*.33, rotation*.33);}
     }
 
     public double getVelocityLeft() {
