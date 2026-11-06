@@ -9,7 +9,8 @@ public class Shoot extends Command {
 
     public Shoot() {
         super();
-        addRequirements(Robot.shooter);
+       // addRequirements(Robot.shooter);
+        addRequirements(Robot.shooterNeo);
     }
 
     // Called when the command is initially scheduled.
@@ -21,7 +22,8 @@ public class Shoot extends Command {
     // Called every time the scheduler runs (~20ms) while the command is scheduled
     @Override
     public void execute() {
-        Robot.shooter.setRPM(TurretTurnCalc.getShotRPM());
+    //    Robot.shooter.setRPM(TurretTurnCalc.getShotRPM());
+        Robot.shooterNeo.setRPM(TurretTurnCalc.getShotRPM());
         System.out.println("Shooting..");
     }
 
@@ -34,7 +36,8 @@ public class Shoot extends Command {
     // Called when the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
-        Robot.shooter.stopMotors();
+       // Robot.shooter.stopMotors();
+        Robot.shooterNeo.setRPM(0);
         Robot.driveTrain.shooting = false;
     }
 }

@@ -53,8 +53,8 @@ public class UI {
     public void update() {
         //Example
         //SmartDashboard.putNumber("Climber Position", Robot.elevator.getPosition())
-        SmartDashboard.putNumber("M1 RPM", Robot.shooter.getRPMOne());
-        SmartDashboard.putNumber("M2 RPM", Robot.shooter.getRPMTwo());
+        //SmartDashboard.putNumber("M1 RPM", Robot.shooter.getRPMOne());
+        //SmartDashboard.putNumber("M2 RPM", Robot.shooter.getRPMTwo());
         SmartDashboard.putNumber("HEADING", Robot.pigeon.getRotation2d().getDegrees());
         SmartDashboard.putNumber("right motor", Robot.driveTrain.getVelocityRight());
         SmartDashboard.putNumber("left motor", Robot.driveTrain.getVelocityLeft());

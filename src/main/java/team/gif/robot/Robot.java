@@ -21,6 +21,7 @@ import team.gif.robot.subsystems.DriveTrain;
 import team.gif.robot.subsystems.IndexerWheels;
 import team.gif.robot.subsystems.NeoSpinDexer;
 import team.gif.robot.subsystems.Shooter;
+import team.gif.robot.subsystems.ShooterNeo;
 import team.gif.robot.subsystems.SpinDexer;
 import team.gif.robot.subsystems.Turret;
 import team.gif.robot.subsystems.TurretActTurnCalc;
@@ -47,6 +48,7 @@ public class Robot extends TimedRobot {
     public static IndexerWheels indexerWheels;
     public static NeoSpinDexer neoSpinDexer;
     public static Shooter shooter;
+    public static ShooterNeo shooterNeo;
     public static Pigeon2_0 pigeon; // change from Pigeon2_0 to Pigeon
     public static Turret turret;
     public static SpinDexer spinDexer;
@@ -104,6 +106,7 @@ public class Robot extends TimedRobot {
         collector = new Collector();
         turretTurnCalc = new TurretTurnCalc();
         turretActTurnCalc = new TurretActTurnCalc();
+        shooterNeo = new ShooterNeo();
 
         //turret.setDefaultCommand(new ManualTurn());
         Robot.limelight.setDistanceEstimatorParams(Constants.Turret.limelightMountAngleDegrees,Constants.Turret.limelightLensHeightInches,Constants.Turret.goalHeightInches,0);
