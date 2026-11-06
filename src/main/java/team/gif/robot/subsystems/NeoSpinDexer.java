@@ -14,42 +14,43 @@ import com.revrobotics.spark.SparkLowLevel;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import team.gif.robot.Constants;
 import team.gif.robot.RobotMap;
 
 public class NeoSpinDexer extends SubsystemBase {
-    /** Creates a new ExampleSubsystem. */
-    public SparkMax spiner;
+
+    public SparkMax spinner;
     public SparkClosedLoopController neoPID;
-    public RelativeEncoder spinerEncoder;
-    public SparkMaxConfig spinerConfig;
-    double Kp =0.000125;
+    public RelativeEncoder spinnerEncoder;
+    public SparkMaxConfig spinnerConfig;
+    double kP = Constants.MotorPID.SPIN_DEXER_PID_P;
         //0.00025;
-    double Ki = 0;
-    double Kd = 0;
+    double kI = 0;
+    double kD = 0;
+
     public NeoSpinDexer() {
-        spiner = new SparkMax(RobotMap.SPIN_DEXER_MOTOR_ID, SparkLowLevel.MotorType.kBrushless);
-        neoPID = spiner.getClosedLoopController();
-        spinerEncoder = spiner.getEncoder();
-        spinerConfig = new SparkMaxConfig();
+        spinner = new SparkMax(RobotMap.SPIN_DEXER_MOTOR_ID, SparkLowLevel.MotorType.kBrushless);
+        neoPID = spinner.getClosedLoopController();
+        spinnerEncoder = spinner.getEncoder();
+        spinnerConfig = new SparkMaxConfig();
 
-        spinerConfig.closedLoop
+        spinnerConfig.closedLoop
                 .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
-                .pid(Kp, Ki, Kd);
+                .pid(kP, kI, kD);
 
-        spinerConfig.idleMode(SparkMaxConfig.IdleMode.kBrake); //or replace kBrake with kCoast
-        spinerConfig.inverted(true); //true or false
+        spinnerConfig.idleMode(SparkMaxConfig.IdleMode.kBrake); //or replace kBrake with kCoast
+        spinnerConfig.inverted(true); //true or false
         //turretConfig.softLimit.forwardSoftLimit(.5);
         //turretConfig.softLimit.forwardSoftLimitEnabled(true);
 //        turretConfig.softLimit.reverseSoftLimit(-.5);
 //        turretConfig.softLimit.reverseSoftLimitEnabled(true);
 
-        spiner.configure(spinerConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-
+        spinner.configure(spinnerConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     }
 
 
     public void turn(double percent) {
-        spiner.set(percent);
+        spinner.set(percent);
     }
 
     public void setRPM(double rpm) {

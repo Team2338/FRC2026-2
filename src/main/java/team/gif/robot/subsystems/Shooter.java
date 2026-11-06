@@ -11,6 +11,7 @@ import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import team.gif.robot.Constants;
 import team.gif.robot.RobotMap;
 
 public class Shooter extends SubsystemBase {
@@ -35,9 +36,9 @@ public class Shooter extends SubsystemBase {
         shooterMotorTwo = new TalonFX(RobotMap.SHOOT_MOTOR_ID_TWO);
         configurationOne = new TalonFXConfiguration();
         configurationTwo = new TalonFXConfiguration();
-        configurationOne.Slot0.kS = 0.12278;
-        configurationOne.Slot0.kV = 0.11522;
-        configurationOne.Slot0.kA = 0.0078728;
+        configurationOne.Slot0.kS = Constants.Shooter.SHOOTER_KS;
+        configurationOne.Slot0.kV = Constants.Shooter.SHOOTER_KV;
+        configurationOne.Slot0.kA = Constants.Shooter.SHOOTER_KA;
         configurationTwo = configurationOne.clone();
 
 
@@ -94,8 +95,8 @@ public class Shooter extends SubsystemBase {
     }
 
     public void setRPM(double rpm) {
-        shooterMotorOne.setControl(velocityVoltage.withVelocity(rpm/60));
-        shooterMotorTwo.setControl(velocityVoltage.withVelocity(rpm/60));
+        shooterMotorOne.setControl(velocityVoltage.withVelocity(rpm/Constants.Shooter.RPS_TO_RPM));
+        shooterMotorTwo.setControl(velocityVoltage.withVelocity(rpm/Constants.Shooter.RPS_TO_RPM));
     }
 
     public void stopMotors() {
@@ -103,12 +104,12 @@ public class Shooter extends SubsystemBase {
         shooterMotorTwo.stopMotor();
     }
 
-    public double getRPMOne(){
-        return shooterMotorOne.getVelocity().getValueAsDouble() * 60;
+    public double getRPMOne() {
+        return shooterMotorOne.getVelocity().getValueAsDouble() * Constants.Shooter.RPS_TO_RPM;
     }
 
-    public double getRPMTwo(){
-        return shooterMotorTwo.getVelocity().getValueAsDouble() * 60;
+    public double getRPMTwo() {
+        return shooterMotorTwo.getVelocity().getValueAsDouble() * Constants.Shooter.RPS_TO_RPM;
     }
 
     public void setConfig(TalonFXConfiguration configOne, TalonFXConfiguration configTwo) {

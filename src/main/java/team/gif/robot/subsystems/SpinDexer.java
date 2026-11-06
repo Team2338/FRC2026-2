@@ -11,15 +11,20 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import team.gif.robot.RobotMap;
 
 public class SpinDexer extends SubsystemBase {
-    /** Creates a new ExampleSubsystem. */
+
     public TalonSRX spinDexer;
+
     public SpinDexer() {
         spinDexer = new TalonSRX(RobotMap.SPIN_DEXER_MOTOR_ID);
         spinDexer.configFactoryDefault();
         spinDexer.setNeutralMode(NeutralMode.Brake);
     }
+
+    /**
+     * Spin the spindexer
+     * @param percent motor current percent to run spindexer at
+     */
     public void spin(double percent) {
         spinDexer.set(TalonSRXControlMode.PercentOutput, percent);
-
-
-    }}
+    }
+}

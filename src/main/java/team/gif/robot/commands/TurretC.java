@@ -2,11 +2,12 @@ package team.gif.robot.commands;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
+import team.gif.robot.Constants;
 import team.gif.robot.Robot;
 
 public class TurretC extends Command {
     Rotation2d blah;
-    Rotation2d inc = Rotation2d.fromDegrees(2);
+    Rotation2d inc = Rotation2d.fromDegrees(Constants.Turret.GYRO_ADJUSTMENT_DEGREES);
 
     public TurretC() {
         super();

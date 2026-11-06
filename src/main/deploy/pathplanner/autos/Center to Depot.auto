@@ -19,7 +19,7 @@
                           {
                             "type": "path",
                             "data": {
-                              "pathName": "to depo path"
+                              "pathName": "Copy of to depo path"
                             }
                           }
                         ]
@@ -86,7 +86,7 @@
                                 {
                                   "type": "path",
                                   "data": {
-                                    "pathName": "Depot Path"
+                                    "pathName": "Copy of depo path"
                                   }
                                 },
                                 {
@@ -158,7 +158,7 @@
                           {
                             "type": "wait",
                             "data": {
-                              "waitTime": 0.4
+                              "waitTime": 0.6
                             }
                           }
                         ]

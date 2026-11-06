@@ -78,9 +78,15 @@
                 }
               },
               {
+                "type": "named",
+                "data": {
+                  "name": "Collect"
+                }
+              },
+              {
                 "type": "wait",
                 "data": {
-                  "waitTime": 3.0
+                  "waitTime": 10.0
                 }
               }
             ]

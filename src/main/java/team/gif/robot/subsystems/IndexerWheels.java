@@ -14,27 +14,29 @@ import com.revrobotics.spark.SparkLowLevel;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import team.gif.robot.Constants;
 import team.gif.robot.RobotMap;
 
 public class IndexerWheels extends SubsystemBase {
-    /** Creates a new ExampleSubsystem. */
+
     public SparkMax indexer;
     public SparkClosedLoopController neoPID;
     public RelativeEncoder indexerEncoder;
     public SparkMaxConfig indexerConfig;
-    double Kp = 0.000;
+    double kP = Constants.MotorPID.INDEXER_PID_P;
         //0.00025;
-    double Ki = 0;
-    double Kd = 0;
+    double kI = 0;
+    double kD = 0;
+
     public IndexerWheels() {
-        indexer = new SparkMax(RobotMap.INDEX_MOTER_ID, SparkLowLevel.MotorType.kBrushless);
+        indexer = new SparkMax(RobotMap.INDEX_MOTOR_ID, SparkLowLevel.MotorType.kBrushless);
         neoPID = indexer.getClosedLoopController();
         indexerEncoder = indexer.getEncoder();
         indexerConfig = new SparkMaxConfig();
 
         indexerConfig.closedLoop
                 .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
-                .pid(Kp, Ki, Kd);
+                .pid(kP, kI, kD);
 
         indexerConfig.idleMode(SparkMaxConfig.IdleMode.kBrake); //or replace kBrake with kCoast
         indexerConfig.inverted(true); //true or false

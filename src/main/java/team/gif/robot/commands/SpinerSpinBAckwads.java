@@ -1,6 +1,7 @@
 package team.gif.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import team.gif.robot.Constants;
 import team.gif.robot.Robot;
 
 public class SpinerSpinBAckwads extends Command {
@@ -18,8 +19,8 @@ public class SpinerSpinBAckwads extends Command {
     @Override
     public void execute() {
         System.out.println("asldflskadjflksjdfl");
-        Robot.neoSpinDexer.setRPM(1000);
-        Robot.indexerWheels.turn(-.3);
+        Robot.neoSpinDexer.setRPM(Constants.Commands.SPIN_DEXER_FORWARD_RPM);
+        Robot.indexerWheels.turn(Constants.Commands.INDEXER_WHEELS_REVERSE_SPEED);
     }
 
     // Return true when the command should end, false if it should continue. Runs every ~20ms.

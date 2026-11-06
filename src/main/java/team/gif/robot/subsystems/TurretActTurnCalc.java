@@ -32,11 +32,10 @@ public class TurretActTurnCalc extends SubsystemBase {
 
 
     }
+
     public static double turnPlace() {
-    return distanceMap.get(Robot.driveTrain.turnAmount());
-}
-
-
+        return distanceMap.get(Robot.driveTrain.turnAmount());
+    }
 }
 
 
