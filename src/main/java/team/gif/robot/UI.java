@@ -2,56 +2,52 @@ package team.gif.robot;
 
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import team.gif.robot.commands.ZeroEncoder;
 
-import java.security.PublicKey;
-
+/**
+ * Dashboard output for the outreach robot.
+ *
+ * <p>Two audiences:
+ * <ul>
+ *   <li>Drivers: tag lock, aim error, shooter ready.</li>
+ *   <li>Mentors: turret zero and pigeon reset, kept off the controller on purpose.</li>
+ * </ul>
+ */
 public class UI {
 
-    /**
-     *  Widgets (e.g. gyro, text, True/False flags),
-     *  buttons (e.g. SmartDashboard.putData("Reset", new ResetHeading()); ),
-     *  and Chooser options (e.g. auto mode, auto delay)
-     *
-     *  Placed in SmartDashboard network table
-     *  After dashboard loads for the first time, manually move items from network table onto respective dashboard tab
-     *  and save file as "YYYY elastic-layout.json"
-     */
     public UI() {
-        ShuffleboardTab shuffleboardTab = Shuffleboard.getTab("FRC 2026");
-        shuffleboardTab.addDouble("GetPositon", Robot.turret::getPos);
-        shuffleboardTab.addBoolean("is at stop", Robot.turret::isAtStop);
-        shuffleboardTab.addDouble("pigion heading", Robot.pigeon::get360Heading);
-        shuffleboardTab.addBoolean("IS at 0 stop", Robot.turret::isAt0Stop);
-//        shuffleboardTab.addDouble("turret rots", Robot.turret::);
-        SmartDashboard.putNumber("P", 0);
-        SmartDashboard.putBoolean("RED allience", true);
-        SmartDashboard.putBoolean("LL3 HasTarget", LimelightHelpers.getTV("Limelight-side"));
-        SmartDashboard.putNumber("speed", 0);
-        //SmartDashboard.putNumber("distance", Robot.driveTrain.distance());
+        ShuffleboardTab tab = Shuffleboard.getTab("Outreach");
 
+        tab.addDouble("Turret Position", Robot.turret::getPos);
+        tab.addBoolean("Turret At Stop", Robot.turret::isAtStop);
+        tab.addBoolean("Turret At Zero", Robot.turret::isAt0Stop);
+        tab.addDouble("Pigeon Heading", Robot.pigeon::get360Heading);
+
+        // Mentor-only setup buttons. ignoringDisable(true) lets them be used in the pit
+        // with the robot disabled, which is when you actually zero mechanisms.
+        SmartDashboard.putData("Zero Turret", new ZeroEncoder().ignoringDisable(true));
+        SmartDashboard.putData("Reset Pigeon 0",
+                new InstantCommand(() -> Robot.pigeon.resetPigeonPosition(0)).ignoringDisable(true));
     }
 
-    /**
-     * Widgets which are updated periodically should be placed here
-     *
-     * Convenient way to format a number is to use putString w/ format:
-     *     SmartDashboard.putString("Elevator", String.format("%11.2f", Elevator.getPosition());
-     */
+    /** Called every robot loop from {@link Robot#robotPeriodic()}. */
     public void update() {
-        //Example
-        //SmartDashboard.putNumber("Climber Position", Robot.elevator.getPosition())
-        SmartDashboard.putNumber("M1 RPM", Robot.shooter.getRPMOne());
-        SmartDashboard.putNumber("M2 RPM", Robot.shooter.getRPMTwo());
-        SmartDashboard.putNumber("HEADING", Robot.pigeon.getRotation2d().getDegrees());
-        SmartDashboard.putNumber("right motor", Robot.driveTrain.getVelocityRight());
-        SmartDashboard.putNumber("left motor", Robot.driveTrain.getVelocityLeft());
-        SmartDashboard.putBoolean("hub aim?", Robot.driveTrain.scoreing);
-        SmartDashboard.putNumber("distance",Robot.driveTrain.distance());
-        SmartDashboard.putNumber("offset", Robot.turret.offset);
-        SmartDashboard.putString("ShiftTime", String.format("%11.1f", Robot.shiftTime));
-        SmartDashboard.putString("Shift",Robot.matchShift);
+        // Vision / aiming
+        SmartDashboard.putString("Limelight Name", Constants.Vision.LIMELIGHT_NAME);
+        SmartDashboard.putBoolean("Tag Locked",
+                Robot.limelight.hasTargetForId(Constants.Vision.TARGET_TAG_ID));
+        SmartDashboard.putNumber("Tag ID", Robot.limelight.getTargetID());
+        SmartDashboard.putNumber("Aim Error", Robot.limelight.getXOffset());
 
+        // Shooter
+        SmartDashboard.putNumber("Shooter RPM", Robot.shooter.getRPM());
+        SmartDashboard.putBoolean("Shooter Ready", Robot.shooter.isReady());
+
+        // Drivetrain
+        SmartDashboard.putNumber("HEADING", Robot.pigeon.getRotation2d().getDegrees());
+        SmartDashboard.putNumber("left motor", Robot.driveTrain.getVelocityLeft());
+        SmartDashboard.putNumber("right motor", Robot.driveTrain.getVelocityRight());
     }
 }

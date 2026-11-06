@@ -4,49 +4,38 @@
 
 package team.gif.robot;
 
-import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.auto.NamedCommands;
-import com.pathplanner.lib.commands.PathPlannerAuto;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
-import team.gif.robot.commands.*;
+import edu.wpi.first.wpilibj2.command.Commands;
 
 /**
- * This class is where the bulk of the robot should be declared. Since Command-based is a
- * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
- * periodic methods (other than the scheduler calls). Instead, the structure of the robot (including
- * subsystems, commands, and trigger mappings) should be declared here.
+ * Robot-wide setup: autonomous selection and (empty) trigger bindings.
+ *
+ * <p>This robot has no autonomous modes, and all driver buttons live in {@link OI}.
+ * The class is kept because {@link Robot} expects it and because it is the natural
+ * place to add bindings later.
  */
 public class RobotContainer {
 
-
-    /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {
-        NamedCommands.registerCommand("Shoot",new Shoot());
-        NamedCommands.registerCommand("Spin", new SpinerSpin());
-        NamedCommands.registerCommand("Intake", new Intake());
-        NamedCommands.registerCommand("Collect", new Collect());
-        NamedCommands.registerCommand("CollectDown", new CollectDown());
-        // Configure the trigger bindings
+        // Configure the trigger bindings.
         configureBindings();
-
     }
 
     /**
-     * Use this method to define your trigger->command mappings. Triggers can be created via the
-     * {@link Trigger#Trigger(java.util.function.BooleanSupplier)} constructor with an arbitrary
-     * predicate, or via the named factories in {@link
-     * edu.wpi.first.wpilibj2.command.button.CommandGenericHID}'s subclasses for {@link
-     * CommandXboxController Xbox}/{@link edu.wpi.first.wpilibj2.command.button.CommandPS4Controller
-     * PS4} controllers or {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
-     * joysticks}.
+     * Trigger -> command mappings.
+     *
+     * <p>Intentionally empty: {@link OI} owns every binding on this robot.
      */
     private void configureBindings() {
     }
-    public Command getAutonomousCommand(){
-        AutoBuilder.buildAuto("Center to Depot");
-        return new PathPlannerAuto("Center to Depot");
 
+    /**
+     * Autonomous command.
+     *
+     * <p>Outreach robot: there are no autonomous modes, so this returns a command
+     * that does nothing and finishes immediately.
+     */
+    public Command getAutonomousCommand() {
+        return Commands.none();
     }
 }

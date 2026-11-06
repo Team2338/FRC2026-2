@@ -4,274 +4,139 @@
 
 package team.gif.robot;
 
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
+import team.gif.robot.commands.AimTurret;
 import team.gif.robot.commands.ArcadeDrive;
-import team.gif.robot.commands.turnetPosTurn;
 import team.gif.robot.subsystems.Collector;
 import team.gif.robot.subsystems.CollectorPivot;
 import team.gif.robot.subsystems.DriveTrain;
 import team.gif.robot.subsystems.IndexerWheels;
 import team.gif.robot.subsystems.NeoSpinDexer;
 import team.gif.robot.subsystems.Shooter;
-import team.gif.robot.subsystems.SpinDexer;
 import team.gif.robot.subsystems.Turret;
-import team.gif.robot.subsystems.TurretActTurnCalc;
-import team.gif.robot.subsystems.TurretTurnCalc;
 import team.gif.robot.subsystems.drivers.Limelight;
 import team.gif.robot.subsystems.drivers.Pigeon2_0;
 
-import static team.gif.robot.Constants.MatchTimes;
-
-
 /**
- * The VM is configured to automatically run this class, and to call the functions corresponding to
- * each mode, as described in the TimedRobot documentation. If you change the name of this class or
- * the package after creating this project, you must also update the build.gradle file in the
- * project.
+ * Outreach version of the 2026 robot.
+ *
+ * <p>What changed from the competition robot:
+ * <ul>
+ *   <li>One Limelight 2+ on the turret; the old side camera is gone.</li>
+ *   <li>Turret auto-aims at a single AprilTag; no field-heading math.</li>
+ *   <li>One Xbox controller, slower drivetrain, no autonomous modes.</li>
+ *   <li>Collector pivot and reverse collector are no longer used by anything.</li>
+ * </ul>
  */
 public class Robot extends TimedRobot {
+
     private static Command autonomousCommand;
+
     public static OI oi;
+    public static UI ui;
+
     public static CollectorPivot collectorPivot;
     public static Collector collector;
-    public static Limelight limelight;
-    public static Limelight limelight3;
     public static IndexerWheels indexerWheels;
     public static NeoSpinDexer neoSpinDexer;
     public static Shooter shooter;
-    public static Pigeon2_0 pigeon; // change from Pigeon2_0 to Pigeon
+    public static Pigeon2_0 pigeon;
     public static Turret turret;
-    public static SpinDexer spinDexer;
     public static DriveTrain driveTrain;
-    public static TurretTurnCalc turretTurnCalc;
-    public static TurretActTurnCalc turretActTurnCalc;
+    public static Limelight limelight;
+
     private final CommandScheduler commandScheduler = CommandScheduler.getInstance();
-    /*  public static SwerveConfiguration swerveConfig;
-    public static SwerveDrivetrain swerveDrive;*/
-    static Rotation2d flip = Rotation2d.fromDegrees(180);
-    public static UI ui;
     private RobotContainer robotContainer;
-    private static final Pose2d RED_POSE =
-            new Pose2d(16.541 - 3.56, 8.07 - 4.09, new Rotation2d());
-    private static final Pose2d BLUE_POSE =
-            new Pose2d(16.541-12.981, 8.07-4.09 , new Rotation2d().plus(flip));
 
-   // public static final boolean enableSwerveDebug = true;
-  //  public static final boolean fullDashboard = true;
-
-    public static boolean manualMode = false;
-    boolean isRedAllience = true;
-
-    public static String matchShift = "N/A";
-    public static double shiftTime = 0;
-    public static  boolean winAutoShiftTwoShiftFour;
-
-
-
-    /**
-     * This function is run when the robot is first started up and should be used for any
-     * initialization code.
-     */
     public Robot() {
-        // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
-        // autonomous chooser on the dashboard.
+        // The camera is now on the turret, so there is exactly one Limelight object.
+        limelight = new Limelight(Constants.Vision.LIMELIGHT_NAME);
+        limelight.setupAprilTag(Constants.Vision.PIPELINE, Constants.Vision.TARGET_TAG_ID);
 
-        limelight = new Limelight("limelight-turret");
-        limelight3 = new Limelight("limelight-side");
-        pigeon = new Pigeon2_0(RobotMap.PIGEON_ID);// change from Pigeon2_0 to Pigeon
+        pigeon = new Pigeon2_0(RobotMap.PIGEON_ID);
         turret = new Turret();
-        spinDexer = new SpinDexer();
+
+        // Kept instantiated even though nothing commands it: the pivot motor is still
+        // wired, and leaving the object alive is safer than deleting hardware support.
         collectorPivot = new CollectorPivot();
+
         neoSpinDexer = new NeoSpinDexer();
         shooter = new Shooter();
         indexerWheels = new IndexerWheels();
         driveTrain = new DriveTrain();
         collector = new Collector();
-        turretTurnCalc = new TurretTurnCalc();
-        turretActTurnCalc = new TurretActTurnCalc();
 
-        //turret.setDefaultCommand(new ManualTurn());
-        Robot.limelight.setDistanceEstimatorParams(Constants.turret.limelightMountAngleDegrees,Constants.turret.limelightLensHeightInches,Constants.turret.goalHeightInches,0);
-        //Robot.turret.setDefaultCommand(new TurretTurn());
-
+        // Default commands run whenever nothing else owns the subsystem.
         Robot.driveTrain.setDefaultCommand(new ArcadeDrive());
-        Robot.turret.setDefaultCommand(new turnetPosTurn());
-        //Robot.turret.setDefaultCommand(new TurretRight());
-       /* swerveConfig = new SwerveConfiguration(new RobotMap.Mk4Map(), new Constants.Mk4Constants(), TalonFXDriveMotor::new, TalonFXTurnMotor::new, CANCoderEncoder::new);
-        swerveConfig = new SwerveConfiguration(new RobotMap.Mk3Map(), new Constants.Mk3Constants(), SparkMaxDriveMotor::new, TalonSRXTurnMotorEncoder::new, null);
-        swerveDrive = new SwerveDrivetrain(swerveConfig);
-        swerveDrive.setDefaultCommand(new DriveSwerve());
+        Robot.turret.setDefaultCommand(new AimTurret());
 
-        swerveDrive.enableDebugMode();
-        swerveDrive.addLimelight("limelight-front");*/
-
-        //These should be at or near the bottom
+        // These should be at or near the bottom: they read the subsystems above.
         robotContainer = new RobotContainer();
-
-
         oi = new OI();
         ui = new UI();
-
-        winAutoShiftTwoShiftFour = false;
-
     }
 
-    /**
-     * This function is called every 20 ms, no matter the mode. Use this for items like diagnostics
-     * that you want ran during disabled, autonomous, teleoperated and test.
-     *
-     * <p>This runs after the mode specific periodic functions, but before LiveWindow and
-     * SmartDashboard integrated updating.
-     */
     @Override
     public void robotPeriodic() {
-
-        // Runs the Scheduler.  This is responsible for polling buttons, adding newly-scheduled
-        // commands, running already-scheduled commands, removing finished or interrupted commands,
-        // and running subsystem periodic() methods.  This must be called from the robot's periodic
-        // block in order for anything in the Command-based framework to work.
+        // Runs scheduled commands and every subsystem's periodic().
         commandScheduler.run();
-        //System.out.println(driveTrain.distance());
-        //System.out.println("angle" + driveTrain.getAngleHub());
-        //System.out.println("error" + driveTrain.headingErrorHub());
-        //System.out.println(pigeon.getRotation2d()+"-----");
-
-        SmartDashboard.putNumber("Match Time", DriverStation.getMatchTime());
-
-
-
-
-
         ui.update();
-
     }
 
-    /** This function is called once each time the robot enters Disabled mode. */
     @Override
-    public void disabledInit() {}
+    public void disabledInit() {
+        // Never leave a mechanism running while the robot is disabled. A demo robot
+        // sits disabled a lot, and a spinning shooter on the field is a hazard.
+        driveTrain.stop();
+        shooter.stopMotors();
+        collector.turn(0);
+        indexerWheels.turn(0);
+        neoSpinDexer.turn(0);
+        turret.PerTurn(0);
+    }
 
     @Override
     public void disabledPeriodic() {}
 
-    /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
     @Override
     public void autonomousInit() {
-        boolean RedAlliance = SmartDashboard.getBoolean("RED allience", true);
-        if(isRedAllience != RedAlliance){
-            if(RedAlliance){
-                driveTrain.resetPose(RED_POSE);
-            }
-            else{
-                driveTrain.resetPose(BLUE_POSE);
-            }
-        }
-        isRedAllience = RedAlliance;
-
+        // There are no autonomous modes. The container returns Commands.none().
         autonomousCommand = robotContainer.getAutonomousCommand();
-        commandScheduler.schedule(autonomousCommand);
-
-        matchShift = "Go Rock!";
-
+        if (autonomousCommand != null) {
+            commandScheduler.schedule(autonomousCommand);
+        }
     }
 
-    /** This function is called periodically during autonomous. */
     @Override
-    public void autonomousPeriodic() {
-        shiftTime = DriverStation.getMatchTime();
-    }
+    public void autonomousPeriodic() {}
 
     @Override
     public void teleopInit() {
-        // This makes sure that the autonomous stops running when
-        // teleop starts running. If you want the autonomous to
-        // continue until interrupted by another command, remove
-        // this line or comment it out.
+        // Cancel anything left over from autonomous, then clear the ramp limiters so
+        // teleop starts from a clean, slow state instead of a stale fast one.
         if (autonomousCommand != null) {
             autonomousCommand.cancel();
         }
-
-        winAutoShiftTwoShiftFour = false;
+        driveTrain.resetSlewLimiters();
     }
 
-    /** This function is called periodically during operator control. */
     @Override
-    public void teleopPeriodic() {
-        double matchTime = DriverStation.getMatchTime();
-
-        updateMatchInfo(matchTime);
-    }
-
+    public void teleopPeriodic() {}
 
     @Override
     public void testInit() {
-        // Cancels all running commands at the start of test mode.
         CommandScheduler.getInstance().cancelAll();
     }
 
-    /** This function is called periodically during test mode. */
     @Override
     public void testPeriodic() {}
 
-    /** This function is called once when the robot is first started up. */
     @Override
     public void simulationInit() {}
 
-    /** This function is called periodically whilst in simulation. */
     @Override
     public void simulationPeriodic() {}
-
-    public void setManualMode(boolean isManualMode) {
-        manualMode = isManualMode;
-    }
-
-    /**
-     * Updates the game data for match shift, remaining shift time, determines if
-     * alliance should be collecting/passing or scoring
-     * @param matchTime current match time from driver station
-     */
-    private void updateMatchInfo(double matchTime) {
-        String gameData = DriverStation.getGameSpecificMessage();
-
-        // if gamedata matches alliance color then we won auto and score in shifts 2 and 4
-        // need to make sure the data is there or it will crash
-        if (gameData != null && !gameData.isEmpty() && DriverStation.getAlliance().isPresent()) {
-            if (gameData.charAt(0) == (DriverStation.getAlliance().get() == DriverStation.Alliance.Red ? 'R' : 'B')) {
-                winAutoShiftTwoShiftFour = true;
-            }
-        }
-
-        // calculate which shift is active, shoot or passing, and remaining time in current shift
-        if (matchTime > MatchTimes.END_OF_TRANSITION_PERIOD) {
-            matchShift = winAutoShiftTwoShiftFour ? "Trans->Pass" : "Trans->Shoot";
-            shiftTime = matchTime - MatchTimes.END_OF_TRANSITION_PERIOD;
-        } else if (matchTime < MatchTimes.END_OF_FOURTH_SHIFT) {
-            matchShift = "End Game";
-            shiftTime = matchTime;
-        } else {
-            matchShift = "N/A";
-            if (matchTime > MatchTimes.END_OF_FIRST_SHIFT) {
-                matchShift = (winAutoShiftTwoShiftFour ? "1 Pass" : "1 Shoot");
-            } else if (matchTime > MatchTimes.END_OF_SECOND_SHIFT) {
-                matchShift = (winAutoShiftTwoShiftFour ? "2 Shoot" : "2 Pass");
-            } else if (matchTime > MatchTimes.END_OF_THIRD_SHIFT) {
-                matchShift = (winAutoShiftTwoShiftFour ? "3 Pass" : "3 Shoot");
-            } else if (matchTime > MatchTimes.END_OF_FOURTH_SHIFT) {
-                matchShift = (winAutoShiftTwoShiftFour ? "4 Shoot" : "4 Pass");
-            }
-
-            shiftTime = (matchTime>MatchTimes.END_OF_FIRST_SHIFT) ? (matchTime - MatchTimes.END_OF_FIRST_SHIFT) :
-                    (matchTime>MatchTimes.END_OF_SECOND_SHIFT) ? (matchTime - MatchTimes.END_OF_SECOND_SHIFT) :
-                            (matchTime>MatchTimes.END_OF_THIRD_SHIFT) ? (matchTime - MatchTimes.END_OF_THIRD_SHIFT) :
-                                    matchTime - MatchTimes.END_OF_FOURTH_SHIFT;
-        }
-    }
-
 }

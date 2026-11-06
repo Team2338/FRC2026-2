@@ -128,6 +128,56 @@ public class Limelight {
     }
 
     /**
+     * Returns the AprilTag ID the Limelight is currently reporting.
+     *
+     * @return tag ID, or -1 when there is no target
+     */
+    public double getTargetID() {
+        return table.getEntry("tid").getDouble(-1);
+    }
+
+    /**
+     * Returns true only when a target exists AND it matches the requested ID.
+     *
+     * <p>Pass a negative ID to mean "any tag", which is what the outreach robot uses.
+     *
+     * @param id tag ID to require, or a negative value for any tag
+     */
+    public boolean hasTargetForId(int id) {
+        return hasTarget() && (id < 0 || (int) getTargetID() == id);
+    }
+
+    /**
+     * Pins the Limelight to one AprilTag ID using the "priorityid" NetworkTables entry.
+     *
+     * <p>Only written when a real ID is requested; -1 leaves the Limelight free to
+     * report whichever tag it sees first.
+     *
+     * @param id tag ID to prioritize, or a negative value to leave it alone
+     */
+    public void setPriorityTagID(int id) {
+        if (id >= 0) {
+            table.getEntry("priorityid").setNumber(id);
+        }
+    }
+
+    /**
+     * One-time configuration for AprilTag tracking.
+     *
+     * <p>AprilTags are passive, so the LEDs are turned off: they only add glare and
+     * waste power. Tracking mode is used so the camera does full vision processing.
+     *
+     * @param pipeline pipeline number configured for AprilTags
+     * @param tagId    tag to prioritize, or a negative value for any tag
+     */
+    public void setupAprilTag(int pipeline, int tagId) {
+        setPipeline(pipeline);
+        setCamMode(MODE_TRACKING);
+        setLEDOff();
+        setPriorityTagID(tagId);
+    }
+
+    /**
      *
      * @return true if does not have target, false if it does
      * Needed for autonomous to continue when a target is not found

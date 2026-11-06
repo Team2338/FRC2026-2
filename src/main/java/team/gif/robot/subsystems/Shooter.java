@@ -4,121 +4,86 @@
 
 package team.gif.robot.subsystems;
 
-import com.ctre.phoenix6.configs.TalonFXConfiguration;
-import com.ctre.phoenix6.controls.VelocityVoltage;
-import com.ctre.phoenix6.hardware.TalonFX;
-import com.ctre.phoenix6.signals.InvertedValue;
-import com.ctre.phoenix6.signals.NeutralModeValue;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import com.revrobotics.PersistMode;
+import com.revrobotics.RelativeEncoder;
+import com.revrobotics.ResetMode;
+import com.revrobotics.spark.FeedbackSensor;
+import com.revrobotics.spark.SparkBase;
+import com.revrobotics.spark.SparkClosedLoopController;
+import com.revrobotics.spark.SparkFlex;
+import com.revrobotics.spark.SparkLowLevel;
+import com.revrobotics.spark.config.SparkFlexConfig;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import team.gif.robot.Constants;
 import team.gif.robot.RobotMap;
 
+/**
+ * Single NEO Vortex shooter on a SPARK Flex.
+ *
+ * <p>This is the original single-motor shooter this robot was built with, restored
+ * now that the two Kraken flywheel motors are gone. The only real difference from
+ * that old version is the controller class: a NEO Vortex needs a SPARK Flex, not a
+ * SPARK Max.
+ *
+ * <p>The old P gain is kept as the starting point. It was tuned on a NEO, so expect
+ * to adjust it (or add a kV feedforward) once the Vortex is spinning on the robot.
+ */
 public class Shooter extends SubsystemBase {
-   /** public SparkMax shooter;
+
+    /** Cap the current so a jam cannot brown out the robot mid-demo. */
+    private static final int SMART_CURRENT_LIMIT_AMPS = 40;
+
+    public SparkFlex shooter;
     public SparkClosedLoopController neoPID;
     public RelativeEncoder shooterEncoder;
-    public SparkMaxConfig shooterConfig; **/
+    public SparkFlexConfig shooterConfig;
 
-    public TalonFX shooterMotorOne;
-    public TalonFX shooterMotorTwo;
-    public TalonFXConfiguration configurationOne;
-    public TalonFXConfiguration configurationTwo;
-    public VelocityVoltage velocityVoltage;
-    public double Kp = 0;
-        //0.00025;
+    /** Velocity gains carried over from the original single-motor setup. */
+    double Kp = 0.00125;
     double Ki = 0;
     double Kd = 0;
-    public double speed = 0;
 
     public Shooter() {
-        shooterMotorOne = new TalonFX(RobotMap.SHOOT_MOTOR_ID_ONE);
-        shooterMotorTwo = new TalonFX(RobotMap.SHOOT_MOTOR_ID_TWO);
-        configurationOne = new TalonFXConfiguration();
-        configurationTwo = new TalonFXConfiguration();
-        configurationOne.Slot0.kS = 0.12278;
-        configurationOne.Slot0.kV = 0.11522;
-        configurationOne.Slot0.kA = 0.0078728;
-        configurationTwo = configurationOne.clone();
-
-
-        setConfig(configurationOne, configurationTwo);
-
-        velocityVoltage = new VelocityVoltage(0);
-
-
-/**
-        shooter = new SparkMax(RobotMap.SHOOT_MOTOR_ID, SparkLowLevel.MotorType.kBrushless);
+        shooter = new SparkFlex(RobotMap.SHOOT_MOTOR_ID, SparkLowLevel.MotorType.kBrushless);
         neoPID = shooter.getClosedLoopController();
         shooterEncoder = shooter.getEncoder();
-        shooterConfig = new SparkMaxConfig();
+        shooterConfig = new SparkFlexConfig();
+
+        shooterConfig.smartCurrentLimit(SMART_CURRENT_LIMIT_AMPS);
 
         shooterConfig.closedLoop
                 .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
                 .pid(Kp, Ki, Kd);
 
-        shooterConfig.idleMode(SparkMaxConfig.IdleMode.kBrake); //or replace kBrake with kCoast
-        shooterConfig.inverted(true); //true or false
-        //turretConfig.softLimit.forwardSoftLimit(.5);
-        //turretConfig.softLimit.forwardSoftLimitEnabled(true);
-//        turretConfig.softLimit.reverseSoftLimit(-.5);
-//        turretConfig.softLimit.reverseSoftLimitEnabled(true);
+        shooterConfig.idleMode(SparkFlexConfig.IdleMode.kBrake);
+        // Flip if the flywheel spins the wrong way after the motor swap.
+        shooterConfig.inverted(true);
 
         shooter.configure(shooterConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
- **/
-
     }
 
-
-    public void periodic() {
-        double newP = SmartDashboard.getNumber("P", 0);
-        double newSpeed = SmartDashboard.getNumber("speed", 0);
-        double oldP = configurationOne.Slot0.kP;
-
-        if(newSpeed != speed){
-            speed = newSpeed;
-        }
-
-        if (newP!=oldP) {
-            configurationOne.Slot0.kP = newP;
-            configurationTwo.Slot0.kP = newP;
-
-            setConfig(configurationOne, configurationTwo);
-
-        }
-
-    }
-
-    public void turn(double voltage) {
-        shooterMotorOne.setVoltage(voltage);
-        shooterMotorTwo.setVoltage(voltage);
-    }
-
+    /** Closed-loop velocity setpoint, in RPM. */
     public void setRPM(double rpm) {
-        shooterMotorOne.setControl(velocityVoltage.withVelocity(rpm/60));
-        shooterMotorTwo.setControl(velocityVoltage.withVelocity(rpm/60));
+        neoPID.setSetpoint(rpm, SparkBase.ControlType.kVelocity);
+    }
+
+    /** Flywheel speed in RPM. The SPARK Flex reports velocity in RPM already. */
+    public double getRPM() {
+        return shooterEncoder.getVelocity();
     }
 
     public void stopMotors() {
-        shooterMotorOne.stopMotor();
-        shooterMotorTwo.stopMotor();
+        shooter.stopMotor();
     }
 
-    public double getRPMOne(){
-        return shooterMotorOne.getVelocity().getValueAsDouble() * 60;
-    }
-
-    public double getRPMTwo(){
-        return shooterMotorTwo.getVelocity().getValueAsDouble() * 60;
-    }
-
-    public void setConfig(TalonFXConfiguration configOne, TalonFXConfiguration configTwo) {
-        configOne.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
-        configOne.MotorOutput.NeutralMode = NeutralModeValue.Brake;
-
-        configTwo.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
-        configTwo.MotorOutput.NeutralMode = NeutralModeValue.Brake;
-
-        shooterMotorOne.getConfigurator().apply(configOne);
-        shooterMotorTwo.getConfigurator().apply(configTwo);
+    /**
+     * True when the flywheel is close enough to the fixed outreach speed to feed.
+     *
+     * <p>Uses the absolute value because the reported sign depends on the motor
+     * inversion. This only drives the dashboard "Shooter Ready" light; the feed
+     * timing in {@link team.gif.robot.commands.Shoot} is still time based.
+     */
+    public boolean isReady() {
+        return Math.abs(getRPM()) >= Constants.SHOOTER_RPM - Constants.SHOOTER_RPM_TOLERANCE;
     }
 }

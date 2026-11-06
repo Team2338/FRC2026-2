@@ -1,32 +1,35 @@
 package team.gif.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import team.gif.robot.Constants;
 import team.gif.robot.Robot;
 
+/**
+ * Forward-only collect command, bound to the left bumper.
+ *
+ * <p>Runs the collector only. The indexer is a separate mechanism and is driven
+ * by {@link Shoot}, not by collecting.
+ *
+ * <p>There is deliberately no reverse: young drivers should not be able to launch
+ * fuel back out of the robot.
+ */
 public class Collect extends Command {
 
     public Collect() {
         super();
-        addRequirements(Robot.collector); // uncomment
+        addRequirements(Robot.collector);
     }
 
-    // Called when the command is initially scheduled.
-    @Override
-    public void initialize() {}
-
-    // Called every time the scheduler runs (~20ms) while the command is scheduled
     @Override
     public void execute() {
-        Robot.collector.turn(-.75);
+        Robot.collector.turn(Constants.COLLECTOR_IN_PERCENT);
     }
 
-    // Return true when the command should end, false if it should continue. Runs every ~20ms.
     @Override
     public boolean isFinished() {
         return false;
     }
 
-    // Called when the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
         Robot.collector.turn(0);
